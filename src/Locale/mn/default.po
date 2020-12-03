@@ -1,0 +1,531 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-11-05 10:45+0000\n"
+"PO-Revision-Date: 2020-11-05 23:17+0900\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: mn\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#: Controller/NewsController.php:61 Controller/NewsController.php:84
+#, fuzzy
+msgid "The news has been saved."
+msgstr "Мэдээ хадгалагдлаа."
+
+#: Controller/NewsController.php:65 Controller/NewsController.php:88
+msgid "The news could not be saved. Please, try again."
+msgstr "Мэдээг хадгалах боломжгүй байна. Дахин оролдно уу."
+
+#: Controller/NewsController.php:104
+msgid "The news has been deleted."
+msgstr "Мэдээ устгагдлаа."
+
+#: Controller/NewsController.php:106
+msgid "The news could not be deleted. Please, try again."
+msgstr "Мэдээг устгах боломжгүй байна. Дахин оролдно уу."
+
+#: Controller/UsersController.php:54 Controller/UsersController.php:78
+#: Controller/UsersController.php:117
+msgid "The user has been saved."
+msgstr "Хэрэглэгч хадгалагдлаа."
+
+#: Controller/UsersController.php:58 Controller/UsersController.php:82
+#: Controller/UsersController.php:121
+msgid "The user could not be saved. Please, try again."
+msgstr "Хэрэглэгчийг хадгалах боломжгүй байна. Дахин оролдно уу."
+
+#: Controller/UsersController.php:99
+msgid "The user has been deleted."
+msgstr "Хэрэглэгчийн бүртгэл устгагдлаа."
+
+#: Controller/UsersController.php:101
+msgid "The user could not be deleted. Please, try again."
+msgstr "Хэрэглэгчийн бүртгэлийг устгаж чадсангүй. Дахин оролдоно уу."
+
+#: Template/Layout/error.ctp:36 Template/Error/error400.ctp:36
+#: Template/Error/error500.ctp:41
+msgid "Error"
+msgstr "Алдаа"
+
+#: Template/Layout/error.ctp:44
+msgid "Back"
+msgstr "Буцах"
+
+#: Template/News/add.ctp:17 Template/News/edit.ctp:18
+msgid "View news list"
+msgstr "Мэдээний жагсаалт харах"
+
+#: Template/News/add.ctp:49
+msgid "Add"
+msgstr "Нэмэх"
+
+#: Template/News/edit.ctp:16 Template/News/list.ctp:41
+#: Template/Users/edit.ctp:16 Template/Users/index.ctp:40
+#: Template/Users/view.ctp:13
+msgid "Are you sure you want to delete # {0}?"
+msgstr "Та # {0} -г устгахдаа итгэлтэй байна уу?"
+
+#: Template/News/edit.ctp:52
+msgid "Save"
+msgstr "Хадгалах"
+
+#: Template/News/list.ctp:11
+msgid "Add news"
+msgstr "Мэдээ нэмэх"
+
+#: Template/News/list.ctp:21 Template/Users/index.ctp:22
+#: Template/Users/view.ctp:11
+msgid "Actions"
+msgstr "Үйлдэл"
+
+#: Template/News/list.ctp:37 Template/Users/index.ctp:36
+#: View/Helper/PaginatorHelper.php:1273
+msgid "View"
+msgstr "Харах"
+
+#: Template/News/list.ctp:38 Template/Users/index.ctp:37
+msgid "Edit"
+msgstr "Засах"
+
+#: Template/News/list.ctp:50 Template/Users/index.ctp:49
+msgid "first"
+msgstr "эхний"
+
+#: Template/News/list.ctp:51 Template/Users/index.ctp:50
+msgid "previous"
+msgstr "өмнөх"
+
+#: Template/News/list.ctp:53 Template/Users/index.ctp:52
+msgid "next"
+msgstr "дараагийн"
+
+#: Template/News/list.ctp:54 Template/Users/index.ctp:53
+msgid "last"
+msgstr "сүүлчийн"
+
+#: Template/News/list.ctp:56 Template/Users/index.ctp:55
+msgid ""
+"Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} "
+"total"
+msgstr ""
+"Нийт {{count}} бичлэгээс {{current}} бичлэгийг харуулсан {{pages} хуудасны "
+"{{page}}"
+
+#: Template/Users/add.ctp:15 Template/Users/edit.ctp:17
+#: Template/Users/view.ctp:15
+msgid "List of users"
+msgstr "Хэрэглэгчдийн жагсаалт"
+
+#: Template/Users/add.ctp:16
+msgid "Sign in"
+msgstr "Нэвтрэх"
+
+#: Template/Users/add.ctp:22
+msgid "Add User"
+msgstr "Хэрэглэгч нэмэх"
+
+#: Template/Users/edit.ctp:15
+msgid "Delete"
+msgstr "Устгах"
+
+#: Template/Users/edit.ctp:23 Template/Users/view.ctp:12
+msgid "Edit User"
+msgstr "Хэрэглэгчийн мэдээлэл засах"
+
+#: Template/Users/signin.ctp:15
+msgid "Sign Up"
+msgstr "Хэрэглэгч нэмэх"
+
+#: Template/Users/view.ctp:13
+msgid "Delete User"
+msgstr "Хэрэглэгчийн мэдээлэл устгах"
+
+#: Template/Users/view.ctp:16
+msgid "New User"
+msgstr "Шинэ хэрэглэгч"
+
+#: Template/Users/view.ctp:23
+msgid "User Id"
+msgstr "Хэрэглэгчийн ID"
+
+#: Template/Users/view.ctp:27
+msgid "User Name"
+msgstr "Хэрэглэгчийн нэр"
+
+#: Template/Users/view.ctp:31
+msgid "Password"
+msgstr "Нууц үг"
+
+#: Template/Users/view.ctp:35
+msgid "Lastname"
+msgstr "Овог"
+
+#: Template/Users/view.ctp:39
+msgid "Firstname"
+msgstr "Нэр"
+
+#: Template/Users/view.ctp:43 Template/Users/view.ctp:112
+msgid "Birthday"
+msgstr "Төрсөн өдөр"
+
+#: Template/Users/view.ctp:47
+msgid "Country"
+msgstr "Улс"
+
+#: Template/Users/view.ctp:51
+msgid "Postal"
+msgstr "Шуудангийн дугаар"
+
+#: Template/Users/view.ctp:55
+msgid "Address"
+msgstr "Хаяг"
+
+#: Template/Users/view.ctp:59
+msgid "Address1"
+msgstr "Хаяг1"
+
+#: Template/Users/view.ctp:63
+msgid "Phone"
+msgstr "Утас"
+
+#: Template/Users/view.ctp:67
+msgid "Phone1"
+msgstr "Утас№"
+
+#: Template/Users/view.ctp:71
+msgid "Email"
+msgstr "И-мэйл"
+
+#: Template/Users/view.ctp:75
+msgid "Email1"
+msgstr "И-мэйл1"
+
+#: Template/Users/view.ctp:79 Template/Users/view.ctp:108
+msgid "Role"
+msgstr "Үүрэг"
+
+#: Template/Users/view.ctp:83
+msgid "Gender"
+msgstr "Хүйс"
+
+#: Template/Users/view.ctp:87
+msgid "Profile_photo"
+msgstr "Профайл зураг"
+
+#: Template/Users/view.ctp:91
+msgid "Status"
+msgstr "Төлөв"
+
+#: Template/Users/view.ctp:95
+msgid "Ins User Name"
+msgstr "Нэмсэн хэрэглэгчийн нэр"
+
+#: Template/Users/view.ctp:99
+msgid "Upd User Name"
+msgstr "Зассан хэрэглэгчийн нэр"
+
+#: Template/Users/view.ctp:103
+msgid "Operation"
+msgstr "Үйлдэл"
+
+#: Template/Users/view.ctp:116
+msgid "Ins Date"
+msgstr "Оруулсан огноо"
+
+#: Template/Users/view.ctp:120
+msgid "Upd Date"
+msgstr "Зассан огноо"
+
+#: Template/Error/error400.ctp:37
+msgid "The requested address {0} was not found on this server."
+msgstr "Хүсэлт илгээсэн {0} хаяг олдсонгүй."
+
+#: Template/Error/error500.ctp:39
+msgid "An Internal Error Has Occurred"
+msgstr "Дотоод алдаа гарлаа"
+
+#: Controller/Component/AuthComponent.php:502
+msgid "You are not authorized to access that location."
+msgstr "Та тэр байршилд нэвтрэх эрхгүй."
+
+#: Controller/Component/CsrfComponent.php:181
+#: Http/Middleware/CsrfProtectionMiddleware.php:228
+msgid "Missing CSRF token cookie"
+msgstr ""
+
+#: Controller/Component/CsrfComponent.php:185
+#: Http/Middleware/CsrfProtectionMiddleware.php:232
+msgid "CSRF token mismatch."
+msgstr "CSRF токен күүки алга байна."
+
+#: Error/ExceptionRenderer.php:301
+msgid "Not Found"
+msgstr "Олдсонгүй"
+
+#: Error/ExceptionRenderer.php:303
+msgid "An Internal Error Has Occurred."
+msgstr "Дотоод алдаа гарлаа."
+
+#: Http/Response.php:2677
+msgid "The requested file contains `..` and will not be read."
+msgstr "Хүссэн файл нь `..` агуулсан тул унших боломжгүй."
+
+#: Http/Response.php:2698
+msgid "The requested file was not found"
+msgstr "The requested file was not found"
+
+#: I18n/Number.php:106
+msgid "{0,number,#,###.##} KB"
+msgstr "{0,number,#,###.##} KB"
+
+#: I18n/Number.php:108
+msgid "{0,number,#,###.##} MB"
+msgstr "{0,number,#,###.##} MB"
+
+#: I18n/Number.php:110
+msgid "{0,number,#,###.##} GB"
+msgstr "{0,number,#,###.##} GB"
+
+#: I18n/Number.php:112
+msgid "{0,number,#,###.##} TB"
+msgstr "{0,number,#,###.##} TB"
+
+#: I18n/Number.php:104
+msgid "{0,number,integer} Byte"
+msgid_plural "{0,number,integer} Bytes"
+msgstr[0] "{0,number,integer} Byte"
+msgstr[1] "{0,number,integer} Bytes"
+
+#: I18n/RelativeTimeFormatter.php:80
+msgid "{0} from now"
+msgstr "одооноос {0}"
+
+#: I18n/RelativeTimeFormatter.php:80
+msgid "{0} ago"
+msgstr "{0} өмнө"
+
+#: I18n/RelativeTimeFormatter.php:83
+msgid "{0} after"
+msgstr "{0} дараа"
+
+#: I18n/RelativeTimeFormatter.php:83
+msgid "{0} before"
+msgstr "{0} өмнө"
+
+#: I18n/RelativeTimeFormatter.php:114
+msgid "just now"
+msgstr "яг одоо"
+
+#: I18n/RelativeTimeFormatter.php:151
+msgid "about a second ago"
+msgstr "хэдхэн секундын өмнө"
+
+#: I18n/RelativeTimeFormatter.php:152
+msgid "about a minute ago"
+msgstr "хэдхэн минутын өмнө"
+
+#: I18n/RelativeTimeFormatter.php:153
+msgid "about an hour ago"
+msgstr "цаг орчмын өмнө"
+
+#: I18n/RelativeTimeFormatter.php:154 I18n/RelativeTimeFormatter.php:332
+msgid "about a day ago"
+msgstr "нэг өдрийн өмнө"
+
+#: I18n/RelativeTimeFormatter.php:155 I18n/RelativeTimeFormatter.php:333
+msgid "about a week ago"
+msgstr "долоо хоногийн өмнө"
+
+#: I18n/RelativeTimeFormatter.php:156 I18n/RelativeTimeFormatter.php:334
+msgid "about a month ago"
+msgstr "сарын өмнө"
+
+#: I18n/RelativeTimeFormatter.php:157 I18n/RelativeTimeFormatter.php:335
+msgid "about a year ago"
+msgstr "жилийн өмнө"
+
+#: I18n/RelativeTimeFormatter.php:168
+msgid "in about a second"
+msgstr "нэг секундын дотор"
+
+#: I18n/RelativeTimeFormatter.php:169
+msgid "in about a minute"
+msgstr "нэг минутын дотор"
+
+#: I18n/RelativeTimeFormatter.php:170
+msgid "in about an hour"
+msgstr "нэг цагийн дотор"
+
+#: I18n/RelativeTimeFormatter.php:171 I18n/RelativeTimeFormatter.php:346
+msgid "in about a day"
+msgstr "ойролцоогоор нэг өдөрт"
+
+#: I18n/RelativeTimeFormatter.php:172 I18n/RelativeTimeFormatter.php:347
+msgid "in about a week"
+msgstr "долоо хонгийн дотор"
+
+#: I18n/RelativeTimeFormatter.php:173 I18n/RelativeTimeFormatter.php:348
+msgid "in about a month"
+msgstr "нэг сарын дотор"
+
+#: I18n/RelativeTimeFormatter.php:174 I18n/RelativeTimeFormatter.php:349
+msgid "in about a year"
+msgstr "нэг жилийн дотор"
+
+#: I18n/RelativeTimeFormatter.php:304
+msgid "today"
+msgstr "өнөөдөр"
+
+#: I18n/RelativeTimeFormatter.php:370
+msgid "%s ago"
+msgstr "%s өмнө"
+
+#: I18n/RelativeTimeFormatter.php:371
+msgid "on %s"
+msgstr "%s дээр"
+
+#: I18n/RelativeTimeFormatter.php:47 I18n/RelativeTimeFormatter.php:126
+#: I18n/RelativeTimeFormatter.php:316
+msgid "{0} year"
+msgid_plural "{0} years"
+msgstr[0] "{0} жил"
+msgstr[1] "{1} жил"
+
+#: I18n/RelativeTimeFormatter.php:51 I18n/RelativeTimeFormatter.php:129
+#: I18n/RelativeTimeFormatter.php:319
+msgid "{0} month"
+msgid_plural "{0} months"
+msgstr[0] "{0} сар"
+msgstr[1] "{1} сар"
+
+#: I18n/RelativeTimeFormatter.php:57 I18n/RelativeTimeFormatter.php:132
+#: I18n/RelativeTimeFormatter.php:322
+msgid "{0} week"
+msgid_plural "{0} weeks"
+msgstr[0] "{0} долоо хоног"
+msgstr[1] "{1} долоо хоног"
+
+#: I18n/RelativeTimeFormatter.php:59 I18n/RelativeTimeFormatter.php:135
+#: I18n/RelativeTimeFormatter.php:325
+msgid "{0} day"
+msgid_plural "{0} days"
+msgstr[0] "{0} өдөр"
+msgstr[1] "{1} өдөр"
+
+#: I18n/RelativeTimeFormatter.php:64 I18n/RelativeTimeFormatter.php:138
+msgid "{0} hour"
+msgid_plural "{0} hours"
+msgstr[0] "{0} цаг"
+msgstr[1] "{1} цаг"
+
+#: I18n/RelativeTimeFormatter.php:68 I18n/RelativeTimeFormatter.php:141
+msgid "{0} minute"
+msgid_plural "{0} minutes"
+msgstr[0] "{0} минут"
+msgstr[1] "{1} минут"
+
+#: I18n/RelativeTimeFormatter.php:72 I18n/RelativeTimeFormatter.php:144
+msgid "{0} second"
+msgid_plural "{0} seconds"
+msgstr[0] "{0} секунд"
+msgstr[1] "{1} секунд"
+
+#: ORM/RulesChecker.php:56
+msgid "This value is already in use"
+msgstr "Энэ утга ашиглагдаж байна"
+
+#: ORM/RulesChecker.php:103
+msgid "This value does not exist"
+msgstr "Энэ утга байхгүй байна"
+
+#: ORM/RulesChecker.php:127
+msgid "The count does not match {0}{1}"
+msgstr "Тооллого таарахгүй байна {0} {1}"
+
+#: Utility/Text.php:933
+msgid "and"
+msgstr "ба"
+
+#: Validation/Validator.php:2510 View/Form/ArrayContext.php:226
+msgid "This field is required"
+msgstr "Заавал оруулах талбар"
+
+#: Validation/Validator.php:2532
+msgid "This field cannot be left empty"
+msgstr "Хоосон орхих боломжгүй талбар"
+
+#: Validation/Validator.php:2691
+msgid "The provided value is invalid"
+msgstr "Өгөгдсөн утга буруу байна"
+
+#: View/Helper/FormHelper.php:1114
+msgid "Edit {0}"
+msgstr "Засах {0}"
+
+#: View/Helper/FormHelper.php:1116
+msgid "New {0}"
+msgstr "Шинэ {0}"
+
+#: View/Helper/FormHelper.php:2036
+msgid "Submit"
+msgstr "Илгээх"
+
+#: View/Helper/HtmlHelper.php:831
+msgid "Home"
+msgstr "Нүүр хуудас"
+
+#: View/Widget/DateTimeWidget.php:539
+msgid "January"
+msgstr "1-р сар"
+
+#: View/Widget/DateTimeWidget.php:540
+msgid "February"
+msgstr "2-р сар"
+
+#: View/Widget/DateTimeWidget.php:541
+msgid "March"
+msgstr "3-р сар"
+
+#: View/Widget/DateTimeWidget.php:542
+msgid "April"
+msgstr "4-р сар"
+
+#: View/Widget/DateTimeWidget.php:543
+msgid "May"
+msgstr "5-р сар"
+
+#: View/Widget/DateTimeWidget.php:544
+msgid "June"
+msgstr "6-р сар"
+
+#: View/Widget/DateTimeWidget.php:545
+msgid "July"
+msgstr "7-р сар"
+
+#: View/Widget/DateTimeWidget.php:546
+msgid "August"
+msgstr "8-р сар"
+
+#: View/Widget/DateTimeWidget.php:547
+msgid "September"
+msgstr "9-р сар"
+
+#: View/Widget/DateTimeWidget.php:548
+msgid "October"
+msgstr "10-р сар"
+
+#: View/Widget/DateTimeWidget.php:549
+msgid "November"
+msgstr "11-р сар"
+
+#: View/Widget/DateTimeWidget.php:550
+msgid "December"
+msgstr "12-р сар"
