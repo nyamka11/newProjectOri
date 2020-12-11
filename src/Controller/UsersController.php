@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Utility\Security;
 use Cake\ORM\TableRegistry;
+use Cake\View\ViewBuilder;
 
 /**
  * Users Controller
@@ -13,7 +14,6 @@ use Cake\ORM\TableRegistry;
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController  {
-
     public function login()  {
         if($this->request->is('post'))  {
             $user = $this->Auth->identify();
@@ -54,8 +54,7 @@ class UsersController extends AppController  {
             'contain' => [],
         ];
         $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
+        $this->set(['users' => $users, '_serialize' => true]);
     }
 
     /**
@@ -69,8 +68,7 @@ class UsersController extends AppController  {
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
-
-        $this->set('user', $user);
+        $this->set(['user' => $user, '_serialize' => true]);
     }
 
     /**
@@ -143,5 +141,11 @@ class UsersController extends AppController  {
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function data()  {
+        $Table = TableRegistry::getTableLocator()->get('population');
+        $data = $Table ->find('all')->limit(100);
+        $this->set(['data' => $data, '_serialize' => true]);
     }
 }

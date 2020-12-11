@@ -6,7 +6,7 @@ use Cake\ORM\TableRegistry;
 
 
 class HomeController extends AppController  {
-    public function index()  {
+    public function display()  {
 
     }
 

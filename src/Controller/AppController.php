@@ -55,7 +55,7 @@ class AppController extends Controller
             ],
             'loginRedirect' => [
                 'controller' => 'Home',
-                'action' => 'index'
+                'action' => 'display'
             ],
             'logoutRedirect' => [
                 'controller' => 'Users',
@@ -74,7 +74,7 @@ class AppController extends Controller
 
     public function beforeFilter(event $event)  {
           $this->Auth->allow([
-            // 'verification', 
+        //     'login', 
             'register', 
             // 'logout', 
             // 'forgotpassword',
@@ -87,8 +87,13 @@ class AppController extends Controller
     public function beforeRender(Event $event)  {
         parent::beforeFilter($event);
         $this->set('userData', $this->Auth->user());
+
+        // $this->RequestHandler->renderAs($this, 'json');
+        // $this->response->type('application/json');
+        // $this->set('_serialize', true);
     }
     
+
 
     // public function isAuthorized($user)  {
     //    //admin full akses
