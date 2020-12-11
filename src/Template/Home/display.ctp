@@ -54,15 +54,27 @@
    <?= $this->Html->script('hamamatsuJson.js') ?>
 
    <script>
-    function chart()  {
+
+    var myChart;
+    function chart(data)  {
+        var countData = [];
+
+        for(const property in data) {
+            countData.push(data[property]);
+        }
+
+        if(myChart!=null)  {
+            myChart.destroy();
+        }
+
         var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
+        myChart = new Chart(ctx, {
+            type: 'bar',
             data: {
                 labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100', '100-110' , '111-120'], //12 row
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3,12, 19, 3, 5, 2, 3],
+                    label: 'Nenrei',
+                    data: countData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -106,8 +118,6 @@
         });
     }
 
-    console.log(jsonData);
-
     function map()  {
         var map = new L.Map('map', {zoom: 10, center: new L.latLng(34.79181436843145, 137.7239227294922) });	//set center from first location
         map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
@@ -135,7 +145,7 @@
             }
         })
         .bindPopup(function (layer) {
-            console.log(layer.feature);
+            chart(layer.feature.properties.nenrei);
             return "<div><b>"+ layer.feature.properties.Level2_Name +"</b></div>";
         })
         .addTo(map);
@@ -155,8 +165,6 @@
         .then(data => data1 = data);
         return response;
     }
-
-
     var nakaku=[];
     var higashiku=[];
     var nishiku=[];
@@ -178,7 +186,7 @@
             if(obj[key]['区'] === "天竜区") tenryuoku.push(obj[key]);
 
         }
-        chart();
+     
         map();
 
         console.log(nakaku);
