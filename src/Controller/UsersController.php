@@ -143,9 +143,9 @@ class UsersController extends AppController  {
         return $this->redirect(['action' => 'index']);
     }
 
-    public function data()  {
+    public function getData()  {
         $Table = TableRegistry::getTableLocator()->get('population');
-        $data = $Table ->find('all')->limit(100);
+        $data = $Table ->find('all')->limit(3);
         $this->set(['data' => $data, '_serialize' => true]);
     }
 }

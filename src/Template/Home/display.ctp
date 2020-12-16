@@ -53,8 +53,8 @@
    <?= $this->Html->script('leaflet-search.js') ?>
    <?= $this->Html->script('hamamatsuJson.js') ?>
 
-   <script>
-
+<script>
+    /** チャートを描くする機能です。*/
     var myChart;
     function chart(data)  {
         var countData = [];
@@ -69,7 +69,7 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
                 labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100', '100-110' , '111-120'], //12 row
                 datasets: [{
@@ -116,86 +116,76 @@
                 }
             }
         });
-    }
+    };
 
+    /** マップを描くする機能です */
     function map()  {
         var map = new L.Map('map', {zoom: 10, center: new L.latLng(34.79181436843145, 137.7239227294922) });	//set center from first location
         map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
-
-        var markersLayer = new L.LayerGroup();	//layer contain searched elements
-        map.addLayer(markersLayer);
-
-        // map.addControl( new L.Control.Search({
-        //     container: 'findbox',
-        //     layer: markersLayer,
-        //     initial: false,
-        //     collapsed: false
-        // }));
+        var prevLayerClicked = null;
 
         geojson = L.geoJson(jsonData, {
-            style: function (feature) {
+            style: function (feature)  {
                 return {
                     fillColor: "#cacaca",
                     weight: 2,
                     opacity: 0.5,
                     color: 'black',
-                    // dashArray: '3',
                     fillOpacity: 0.4
                 };
+            },
+            pointToLayer: function(geoJsonPoint, latlng) {
+                return L.marker(latlng).bindPopup(
+                    "<div class='p-2'><h3>"+geoJsonPoint.properties.Name+"</h3></div>"+
+                    "<div>"+geoJsonPoint.properties.Name+"</div>"+
+                    "<div>"+geoJsonPoint.properties.Name+"</div>"
+                );
+            },
+            onEachFeature: function(feature, layer)  {
+                layer.on({
+                    click: function(e)  {
+                        chart(feature.properties.nenrei);
+                        map.fitBounds(e.target.getBounds());
+                    }
+                });
             }
-        })
-        .bindPopup(function (layer) {
-            chart(layer.feature.properties.nenrei);
-            return "<div><b>"+ layer.feature.properties.Level2_Name +"</b></div>";
-        })
-        .addTo(map);
-     
-        // var title = data[i].title,	//value searched
-        //     loc = data[i].loc,		//position found
-        //     marker = new L.Marker(new L.latLng(loc), {title: title} );//se property searched
-        //     marker.bindPopup('title: '+ title );
-        //     markersLayer.addLayer(marker);
-        // }
-    }
+        }).addTo(map);
 
+        map.on('zoomend', function()  {
+            var currentZoom = map.getZoom();
+            if (currentZoom >= 12)  {
+                console.log("odoo garga");
+            }
+            else {
+                console.log("odoo nuu");
+            }
+        });
+    };
+
+    /** データベースから情報を取得します。 */
     async function postData(url = '') {
-        console.log("pending...");
-        const response = await fetch(url)
-        .then(response => response.json())
-        .then(data => data1 = data);
-        return response;
-    }
-    var nakaku=[];
-    var higashiku=[];
-    var nishiku=[];
-    var minamiku=[];
-    var kitaku=[];
-    var hamakitaku=[];
-    var tenryuoku=[];
+        // console.log("pending...");
+        // const response = await fetch(url)
+        // .then(response => response.json())
+        // .then(data => data1 = data);
+        // return response;
+    };
 
-    postData('http://localhost/webOri/users/data.json')
-    .then(data =>  {
-        let obj = data.data;
-        for (const [key, value] of Object.entries(obj)) {
-            if(obj[key]['区'] === "中区") nakaku.push(obj[key]);
-            if(obj[key]['区'] === "東区") higashiku.push(obj[key]);
-            if(obj[key]['区'] === "西区") nishiku.push(obj[key]);
-            if(obj[key]['区'] === "南区") minamiku.push(obj[key]);
-            if(obj[key]['区'] === "北区") kitaku.push(obj[key]);
-            if(obj[key]['区'] === "浜北区") hamakitaku.push(obj[key]);
-            if(obj[key]['区'] === "天竜区") tenryuoku.push(obj[key]);
+    // postData('http://localhost/webOri/users/data.json')
+    // .then(data =>  {
+        // let obj = data.data;
+        // for (const [key, value] of Object.entries(obj)) {
+        //     if(obj[key]['区'] === "中区") nakaku.push(obj[key]);
+        //     if(obj[key]['区'] === "東区") higashiku.push(obj[key]);
+        //     if(obj[key]['区'] === "西区") nishiku.push(obj[key]);
+        //     if(obj[key]['区'] === "南区") minamiku.push(obj[key]);
+        //     if(obj[key]['区'] === "北区") kitaku.push(obj[key]);
+        //     if(obj[key]['区'] === "浜北区") hamakitaku.push(obj[key]);
+        //     if(obj[key]['区'] === "天竜区") tenryuoku.push(obj[key]);
 
-        }
-     
+        // }
+ 
         map();
+    // });
 
-        console.log(nakaku);
-        console.log(higashiku);
-        console.log(nishiku);
-        console.log(minamiku);
-        console.log(kitaku);
-        console.log(hamakitaku);
-        console.log(tenryuoku);
-     });
-
-   </script>
+</script>
