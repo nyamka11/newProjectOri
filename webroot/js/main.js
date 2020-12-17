@@ -1,7 +1,7 @@
 
     // Database name
     const ownDB = "FKC"; //FKC : ORI 
-    const url = "http://localhost/webOri/users/getData.json";
+    const ownServerUrl = "http://localhost/webOri/users/getdata.json";
 
     // const ownDB = "ORI";  
     // const url = "https://ori-project.smartcity-open-platform.jp/orion/v2.0/entities";
@@ -15,17 +15,32 @@
 
 
     //* Example POST method implementation:
-    async function postData(url = '', data = {}, method = "POST")  {
+    async function postData(url = '', dataObj = {})  {
         // Default options are marked with *
         console.log(ownDB+" DB pending...");
 
         var response = null;
         if(ownDB === "FKC")  {
-            response = await fetch(url)
-            .then(response => response.json())
-            .then(data => data)
-            .catch((error) => { console.error('Error:', error); });
+            response = axios({
+                url,
+                method: 'GET',
+                params  : dataObj
+            })
+            .then(response =>response.data)
+            .catch(error => console.log(error));
             return response;
+
+            // response = await fetch(url, {
+            //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            //     headers: {
+            //     'Content-Type': 'application/json'
+            //     },
+            //     body:JSON.stringify(dataObj)
+            // })
+            // .then(response => response.json())
+            // .then(data => data)
+            // .catch((error) => { console.error('Error:', error); });
+            // return response;
         }
 
         if(ownDB === "ORI")  {
@@ -46,7 +61,7 @@
         }
     }
 
-    postData(url, { answer: 42 }, "GET")
-    .then(data => {
-        console.log(data); // JSON data parsed by `data.json()` call
-    });
+    // postData(ownServerUrl, { answer: 42 }, "GET")
+    // .then(data => {
+    //     console.log(data); // JSON data parsed by `data.json()` call
+    // });

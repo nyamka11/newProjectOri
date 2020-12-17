@@ -45,21 +45,30 @@
       <div class="col-4">
         <!-- <div id="findbox"></div> -->
         <div style="width:100%; height:50%; border:1px solid red;">
-          <canvas id="myChart" width="" height=""></canvas>
+            
+            <h3 class="text-center" id="chosedPlaceName">浜松市</h3>
+            <h5 class="text-center">年齢</h5>
+            <canvas id="myChart" width="" height=""></canvas>
         </div>
       </div>
     </div>
-    
+    <?= $this->Html->script('main.js') ?> 
    <?= $this->Html->script('leaflet-search.js') ?>
-   <?= $this->Html->script('hamamatsuJson.js') ?>
+   <?= $this->Html->script('cityBorderJson.js') ?>
+   <?= $this->Html->script('bigZonePointJson.js') ?>
+   <?= $this->Html->script('smallZonePointJson.js') ?>
+
 
 <script>
     /** チャートを描くする機能です。*/
+
+    var bigData = null;
     var myChart;
     function chart(data)  {
         var countData = [];
 
         for(const property in data) {
+            console.log(property);
             countData.push(data[property]);
         }
 
@@ -69,11 +78,11 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         myChart = new Chart(ctx, {
-            type: 'pie',
+            type: 'line',
             data: {
-                labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100', '100-110' , '111-120'], //12 row
+                labels: ['0-10歳', '11-20歳', '21-30歳', '31-40歳', '41-50歳', '51-60歳', '61-70歳', '71-80歳', '81-90歳', '91-100歳', '100-110歳' , '111-120歳'], //12 row
                 datasets: [{
-                    label: 'Nenrei',
+                    label: '年齢',
                     data: countData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -122,70 +131,113 @@
     function map()  {
         var map = new L.Map('map', {zoom: 10, center: new L.latLng(34.79181436843145, 137.7239227294922) });	//set center from first location
         map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
-        var prevLayerClicked = null;
-
-        geojson = L.geoJson(jsonData, {
+        
+    /** border zone start */
+        var cityBorder = L.geoJson(cityBorderJson, {
             style: function (feature)  {
                 return {
                     fillColor: "#cacaca",
                     weight: 2,
-                    opacity: 0.5,
+                    // opacity: 0.5,
                     color: 'black',
-                    fillOpacity: 0.4
+                    fillOpacity: 0
                 };
-            },
-            pointToLayer: function(geoJsonPoint, latlng) {
-                return L.marker(latlng).bindPopup(
-                    "<div class='p-2'><h3>"+geoJsonPoint.properties.Name+"</h3></div>"+
-                    "<div>"+geoJsonPoint.properties.Name+"</div>"+
-                    "<div>"+geoJsonPoint.properties.Name+"</div>"
-                );
             },
             onEachFeature: function(feature, layer)  {
                 layer.on({
                     click: function(e)  {
-                        chart(feature.properties.nenrei);
+                        
                         map.fitBounds(e.target.getBounds());
                     }
                 });
             }
-        }).addTo(map);
+        });
 
-        map.on('zoomend', function()  {
-            var currentZoom = map.getZoom();
-            if (currentZoom >= 12)  {
-                console.log("odoo garga");
-            }
-            else {
-                console.log("odoo nuu");
+        cityBorder.addTo(map);
+    /** border zone end */
+
+    /** big point zone start */
+        var bigZonePoint = L.geoJson(bigZonePointJson, {
+            pointToLayer: function (geoJsonPoint, latlng) {
+                return L.marker(latlng).on('click', function(e)  {
+                    var own = this;
+                
+                    postData(ownServerUrl, { streetName: geoJsonPoint.properties.Name })
+                    .then(data => {
+                        document.getElementById("chosedPlaceName").innerText = "浜松市 - "+geoJsonPoint.properties.Name;
+                        this.bindPopup("<div class='p-1'><h4>"+ geoJsonPoint.properties.Name +"</h4></div>");
+
+                        chart({
+                            '0-10': parseInt(data['data_0_10'][0]['Male']) + parseInt(data['data_0_10'][0]['Female']),
+                            '11-20': parseInt(data['data_11_20'][0]['Male']) + parseInt(data['data_11_20'][0]['Female']), 
+                            '21-30': parseInt(data['data_21_30'][0]['Male']) + parseInt(data['data_21_30'][0]['Female']),
+                            '31-40': parseInt(data['data_31_40'][0]['Male']) + parseInt(data['data_31_40'][0]['Female']),
+                            '41-50': parseInt(data['data_41_50'][0]['Male']) + parseInt(data['data_41_50'][0]['Female']), 
+                            '51-60': parseInt(data['data_51_60'][0]['Male']) + parseInt(data['data_51_60'][0]['Female']),
+                            '61-70': parseInt(data['data_61_70'][0]['Male']) + parseInt(data['data_61_70'][0]['Female']),
+                            '71-80': parseInt(data['data_71_80'][0]['Male']) + parseInt(data['data_71_80'][0]['Female']),
+                            '81-90': parseInt(data['data_81_90'][0]['Male']) + parseInt(data['data_81_90'][0]['Female']),
+                            '91-100': parseInt(data['data_91_100'][0]['Male']) + parseInt(data['data_91_100'][0]['Female']),
+                            '101-110': parseInt(data['data_101_110'][0]['Male']) + parseInt(data['data_101_110'][0]['Female']),
+                            '111-120': parseInt(data['data_111_120'][0]['Male']) + parseInt(data['data_111_120'][0]['Female'])
+                        });
+                    });
+                })
+                .bindPopup(
+                    '<div class="spinner-border" role="status">'+
+                        '<span class="sr-only">Loading...</span>'+
+                    '</div>'
+                );
             }
         });
+        bigZonePoint.addTo(map);
+    /** big point zone end */
+
+    /** small point zone start */
+        var smallZonePoint = L.geoJson(smallZonePointJson, {
+            pointToLayer: function (geoJsonPoint, latlng) {
+                return L.marker(latlng).on('click', function(e)  {
+                    chart(geoJsonPoint.properties.nenrei);
+                }).bindPopup("<div class='p-1'><h4>"+geoJsonPoint.properties.Name+"</h4></div>");
+            }
+        });
+        // smallZonePoint.addTo(map);
+    /** small point zone end */
+
+    /** zoom start */
+        map.on('zoomend', function()  {
+            var currentZoom = map.getZoom();
+            if(currentZoom >= 12)  {
+                smallZonePoint.addTo(map);
+                bigZonePoint.remove();
+            }
+            else {
+                smallZonePoint.remove();
+                bigZonePoint.addTo(map);
+            }
+        });
+    /** zoom end */
     };
 
-    /** データベースから情報を取得します。 */
-    async function postData(url = '') {
-        // console.log("pending...");
-        // const response = await fetch(url)
-        // .then(response => response.json())
-        // .then(data => data1 = data);
-        // return response;
-    };
-
-    // postData('http://localhost/webOri/users/data.json')
-    // .then(data =>  {
-        // let obj = data.data;
-        // for (const [key, value] of Object.entries(obj)) {
-        //     if(obj[key]['区'] === "中区") nakaku.push(obj[key]);
-        //     if(obj[key]['区'] === "東区") higashiku.push(obj[key]);
-        //     if(obj[key]['区'] === "西区") nishiku.push(obj[key]);
-        //     if(obj[key]['区'] === "南区") minamiku.push(obj[key]);
-        //     if(obj[key]['区'] === "北区") kitaku.push(obj[key]);
-        //     if(obj[key]['区'] === "浜北区") hamakitaku.push(obj[key]);
-        //     if(obj[key]['区'] === "天竜区") tenryuoku.push(obj[key]);
-
-        // }
- 
+    postData(ownServerUrl, { streetName: "init" })
+    .then(data => {
+        bigData = data;
+        chart({
+                '0-10': parseInt(data['data_0_10'][0]['Male']) + parseInt(data['data_0_10'][0]['Female']),
+                '11-20': parseInt(data['data_11_20'][0]['Male']) + parseInt(data['data_11_20'][0]['Female']), 
+                '21-30': parseInt(data['data_21_30'][0]['Male']) + parseInt(data['data_21_30'][0]['Female']),
+                '31-40': parseInt(data['data_31_40'][0]['Male']) + parseInt(data['data_31_40'][0]['Female']),
+                '41-50': parseInt(data['data_41_50'][0]['Male']) + parseInt(data['data_41_50'][0]['Female']), 
+                '51-60': parseInt(data['data_51_60'][0]['Male']) + parseInt(data['data_51_60'][0]['Female']),
+                '61-70': parseInt(data['data_61_70'][0]['Male']) + parseInt(data['data_61_70'][0]['Female']),
+                '71-80': parseInt(data['data_71_80'][0]['Male']) + parseInt(data['data_71_80'][0]['Female']),
+                '81-90': parseInt(data['data_81_90'][0]['Male']) + parseInt(data['data_81_90'][0]['Female']),
+                '91-100': parseInt(data['data_91_100'][0]['Male']) + parseInt(data['data_91_100'][0]['Female']),
+                '101-110': parseInt(data['data_101_110'][0]['Male']) + parseInt(data['data_101_110'][0]['Female']),
+                '111-120': parseInt(data['data_111_120'][0]['Male']) + parseInt(data['data_111_120'][0]['Female'])
+        });
         map();
-    // });
+        console.log(bigData);
+    });
 
 </script>
