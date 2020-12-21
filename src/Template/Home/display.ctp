@@ -14,67 +14,122 @@
 
    
    <style>
-      #map {
-        height: 700px; 
-        width: 100%; 
-      }
-      #findbox {
-        height:20px;
-        margin-top:10px;
-      }
-      .search-input  {
-        width:80%;
-      }
-      .search-tooltip {
-        width: 200px;
-      }
-      .leaflet-control-search .search-cancel {
-        position: static;
-        float: left;
-        margin-left: -22px;
-      }
+        #map {
+            height: 700px; 
+            width: 100%; 
+        }
+        #findbox {
+            height:20px;
+            margin-top:10px;
+        }
+        .search-input  {
+            width:80%;
+        }
+        .search-tooltip {
+            width: 200px;
+        }
+        .leaflet-control-search .search-cancel {
+            position: static;
+            float: left;
+            margin-left: -22px;
+        }
+        .textBox {
+            border: 1px solid black;
+            float: left;
+            padding: 6px 67px 5px 66px;
+            text-align: center;
+            background-color: #cacaca;
+        }
    </style>
 
-    <div class="row mt-1 container m-auto border">
-        <div class="col-12 p-3">
-            <button id="backBtn" class="btn btn-secondary float-left">戻る</button>
-            <button type="button" class="btn btn-outline-dark float-left ml-2 w-25">浜松市</button>
-            <select name="" id="" class="btn btn-outline-dark ml-2 w-25">
-                <option value="">住民</option>
-                <option value="">asdfasdf</option>
-                <option value="">asdfasdf</option>
-            </select>
+    <div id="mainContainer">
+        <div id="basicDisplay">
+            <div class="row container mt-1  m-auto border">
+                <div class="col-12 p-3">
+                    <!-- <button id="backBtnAction" class="btn btn-secondary float-left">戻る</button> -->
+                    <div id="townName"  class="textBox font-weight-bold w-25">浜松市</div>
+                    <select name="" id="" class="btn btn-outline-dark ml-2 w-25">
+                        <option value="">住民</option>
+                        <option value="">大規模事業者</option>
+                    </select>
 
-            <select name="" id="" class="btn btn-outline-dark ml-2 w-25">
-                <option class="p-3" value="">時間帯</option>
-                <option class="p-3" value="">asdfasdf</option>
-                <option class="p-3" value="">asdfasdf</option>
-            </select>
+                    <select name="" id="" class="btn btn-outline-dark ml-2 w-25">
+                        <option class="p-3" value="">時間帯</option>
+                        <option class="p-3" value="">9:00~16:00</option>
+                        <option class="p-3" value="">15:00~23:00</option>
+                        <option class="p-3" value="">22:00~5:00</option>
+                    </select>
+                </div>
+                <div class="col-9" style>
+                    <div id="map"></div>
+                </div>
+                <div class="col-3">
+                    <!-- <div id="findbox"></div> -->
+                    <div style="width:100%; height:100%;">
+                        <br/>
+                        <button id="chartShow" type="button" class="btn btn-outline-dark float-left w-100">人口構成</button>
+                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要栄養素</button>
+                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数1</button>
+                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数2</button>
+                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数3</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      <div class="col-9" style>
-        <div id="map"></div>
-      </div>
-      <div class="col-3">
-        <!-- <div id="findbox"></div> -->
-        <div style="width:100%; height:100%;">
-            <br/>
-            
-            <!-- <h3 class="text-center" id="chosedPlaceName">浜松市</h3> -->
-            <!-- <h5 class="text-center">年齢</h5> -->
-            <!-- <canvas id="myChart" width="" height=""></canvas> -->
-            <button type="button" class="btn btn-outline-dark float-left w-100">人口構成</button>
-            <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要栄養素</button>
-            <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数1</button>
-            <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数2</button>
-            <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">必要需要数3</button>
+        <div id="chartDisplay" class="container mt-1 m-auto d-none">
+            <div class="row container mt-1  m-auto border">
+                <div class="col-12 p-3">
+                    <div class="textBox font-weight-bold">人口構成</div>
+                    <div id="townNameChart" class="textBox font-weight-bold ml-2">浜松市</div>
+                </div> 
+                <div class="col-12">
+                    <canvas id="myChart" width="" height=""></canvas>
+                </div>
+                <div class="col-12">
+                    <br/><button id="backBtnDisplay" class="btn btn-secondary float-right">初期画面に戻る</button>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
+            </div>   
         </div>
-      </div>
+        <div id="nutrientsDisplay">
+            <div class="row container mt-1 m-auto border">
+                <div class="col-12 p-3">
+                    <div class="textBox font-weight-bold">必要栄養素</div>
+                    <div id="townNameNutrients" class="textBox font-weight-bold ml-2">浜松市</div>
+                    <select name="" id="" class="btn btn-outline-dark ml-2">
+                        <option value="">一般成人</option>
+                        <option value="">乳幼児</option>
+                        <option value="">高齢者</option>
+                    </select>
+                    <select name="" id="" class="btn btn-outline-dark ml-2">
+                        <option value="">日</option>
+                        <option value="">週</option>
+                        <option value="">月</option>
+                    </select>
+                    <select name="" id="" class="btn btn-outline-dark ml-2">
+                        <option value="">1日</option>
+                        <option value="">大規模事業者</option>
+                    </select>
+                    <button id="backBtnNutrients" class="btn btn-secondary float-right">初期画面に戻る</button>
+                </div> 
+                <div class="col-12">
+                    <div id="tableBody">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <?= $this->Html->script('main.js') ?> 
-   <?= $this->Html->script('leaflet-search.js') ?>
-   <?= $this->Html->script('cityBorderJson.js') ?>
-   <?= $this->Html->script('bigZonePointJson.js') ?>
-   <?= $this->Html->script('smallZonePointJson.js') ?>
+    <?= $this->Html->script('leaflet-search.js') ?>
+    <?= $this->Html->script('cityBorderJson.js') ?>
+    <?= $this->Html->script('bigZonePointJson.js') ?>
+    <?= $this->Html->script('smallZonePointJson.js') ?>
 
 
 <script>
@@ -94,25 +149,25 @@
 
         var ctx = document.getElementById('myChart').getContext('2d');
         myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'pie',
             data: {
                 labels: ['0-10歳', '11-20歳', '21-30歳', '31-40歳', '41-50歳', '51-60歳', '61-70歳', '71-80歳', '81-90歳', '91-100歳', '100-110歳' , '111-120歳'], //12 row
                 datasets: [{
                     label: '年齢',
                     data: countData,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -177,8 +232,9 @@
                     map.setView(latlng, 14);
                     postData(ownServerUrl, { district: geoJsonPoint.properties.Name, type: "big" })
                     .then(data => {
-                        document.getElementById("chosedPlaceName").innerText = "浜松市 - "+geoJsonPoint.properties.Name;
+                        // document.getElementById("chosedPlaceName").innerText = "浜松市 - "+geoJsonPoint.properties.Name;
                         this.bindPopup("<div class='p-1'><h4>"+ geoJsonPoint.properties.Name +"</h4></div>");
+                        setTownName("浜松市"+geoJsonPoint.properties.Name);
 
                         chart({
                             '0-10': parseInt(data['data_0_10'][0]['Male']) + parseInt(data['data_0_10'][0]['Female']),
@@ -207,7 +263,7 @@
     /** big point zone end */
 
     /** small point zone start */
-        var smallZonePoint = L.geoJson(smallZonePointJson, {
+        var smallZonePoint = L.geoJson(smallZonePointJson,  {
             pointToLayer: function (geoJsonPoint, latlng) {
                 return L.marker(latlng).on('click', function(e)  {
                     var own = this;
@@ -215,8 +271,7 @@
                     postData(ownServerUrl, { town: geoJsonPoint.properties.name, type: "small" })
                     .then(data => {
                         console.log(data);
-
-                        document.getElementById("chosedPlaceName").innerText = "浜松市 - "+geoJsonPoint.properties.name;
+                        // document.getElementById("chosedPlaceName").innerText = "浜松市 - "+geoJsonPoint.properties.name;
                         this.bindPopup(
                             "<div class='p-1'>"+
                                 "<h6>"+ data['data_0_10'][0]['市'] + data['data_0_10'][0]['区'] + data['data_0_10'][0]['町'] +"<br/>"+
@@ -224,6 +279,7 @@
                                 "</h6>"+
                             "</div>"
                         );
+                        setTownName(data['data_0_10'][0]['市'] + data['data_0_10'][0]['区'] + data['data_0_10'][0]['町']);
 
                         chart({
                             '0-10': parseInt(data['data_0_10'][0]['Male']) + parseInt(data['data_0_10'][0]['Female']),
@@ -265,11 +321,26 @@
         });
     /** zoom end */
 
-    /** backBtn start */    
-        document.querySelector("#backBtn").addEventListener("click", function() {
-            map.setView([34.75181436841190, 137.7239227294922], 12);
+    /** backBtnAction start */    
+        // document.querySelector("#backBtnAction").addEventListener("click", function() {
+        //     map.setView([34.75181436841190, 137.7239227294922], 12);
+        // });
+    /** backBtnAction end */
+
+    /** chartShow Btn start */
+        document.querySelector("#chartShow").addEventListener("click", function() {
+            $("#chartDisplay").removeClass("d-none").addClass("d-block");
+            $("#basicDisplay").removeClass("d-block").addClass("d-none");
         });
-    /** backBtn end */            
+    /** chartShow Btn end */
+
+    /** backBtnDisplay start */    
+        document.querySelector("#backBtnDisplay").addEventListener("click", function() {
+            $("#chartDisplay").removeClass("d-block").addClass("d-none");
+            $("#basicDisplay").removeClass("d-none").addClass("d-block");
+        });
+    /** backBtnAction end */
+    
     };
 
     /** Data load start */
@@ -291,5 +362,20 @@
         });
     /** Data load end */
 
+    /** Display name change fn start */
+        function setTownName(name)  {
+            document.getElementById('townName').innerHTML = name;
+            document.getElementById('townNameChart').innerHTML = name;
+        }  
+    /** Display name change fn end */
+
+
+    /** getNutrients data loading start */
+        postData("http://localhost/webOri/users/getNutrients.json", { district: "init", type: "big" }).then(data => {
+            $("#tableBody").html(data.nutrients);
+        });
+    /** getNutrients data loading end*/
+
     map();
+
 </script>

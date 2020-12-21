@@ -72,18 +72,12 @@ class UsersController extends AppController  {
         $this->set(['user' => $user, '_serialize' => true]);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-
     function getLastQuery() {
         $dbo = $this->getDatasource();
         $logs = $dbo->getLog();
         $lastLog = end($logs['log']);
         return $lastLog['query'];
-      }
+    }
 
     public function add()  {
         $user = $this->Users->newEntity();
@@ -101,13 +95,6 @@ class UsersController extends AppController  {
         $this->set(compact('user',));
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function edit($id = null)  {
         $user = $this->Users->get($id, [
             'contain' => [],
@@ -124,13 +111,6 @@ class UsersController extends AppController  {
         $this->set(compact('user'));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -225,5 +205,399 @@ class UsersController extends AppController  {
                 ]);
             }
         }
+    }
+
+    public function getNutrients()  {
+        // $town = $this->request->getQuery("town");
+        // $type = $this->request->getQuery("type");
+
+        $Table = TableRegistry::getTableLocator()->get('nutrients');
+        $nutrients = $Table ->find('all')->where(['SpecialAgeName'=>'乳幼児']);
+
+        $dbData = [];
+        foreach ($nutrients as $item)  {
+            $dbData['protein_'.$item->GENDER.$item->SECTION] = $item->protein;
+            $dbData['Lipid_'.$item->GENDER.$item->SECTION] = $item->Lipid;
+            $dbData['carbohydrate_'.$item->GENDER.$item->SECTION] = $item->carbohydrate;
+            $dbData['ENERC_KCAL_'.$item->GENDER.$item->SECTION] = $item->ENERC_KCAL;
+            $dbData['WATER_'.$item->GENDER.$item->SECTION] = $item->WATER;
+            $dbData['NACL_EQ_'.$item->GENDER.$item->SECTION] = $item->NACL_EQ;
+            $dbData['NA_'.$item->GENDER.$item->SECTION] = $item->NA;
+            $dbData['K_'.$item->GENDER.$item->SECTION] = $item->K;
+            $dbData['CA_'.$item->GENDER.$item->SECTION] = $item->CA;
+            $dbData['P_'.$item->GENDER.$item->SECTION] = $item->P;
+            $dbData['FE_'.$item->GENDER.$item->SECTION] = $item->FE;
+            $dbData['Iodine_'.$item->GENDER.$item->SECTION] = $item->Iodine;
+            $dbData['RETOL_'.$item->GENDER.$item->SECTION] = $item->RETOL;
+            $dbData['CARTBEQ_'.$item->GENDER.$item->SECTION] = $item->CARTBEQ;
+            $dbData['VITA_RAE_'.$item->GENDER.$item->SECTION] = $item->VITA_RAE;
+
+            
+        }
+
+        // debug($dbData);
+
+        $table = '
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">たんぱく質</th>
+                            <td>'.$dbData['protein_F1'].'g</td>
+                            <td>'.$dbData['protein_F2'].'g</td>
+                            <td>'.$dbData['protein_F3'].'g</td>
+                            <td>'.$dbData['protein_M1'].'g</td>
+                            <td>'.$dbData['protein_M2'].'g</td>
+                            <td>'.$dbData['protein_M3'].'g</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">脂質</th>
+                            <td>'.$dbData['Lipid_F1'].'g</td>
+                            <td>'.$dbData['Lipid_F2'].'g</td>
+                            <td>'.$dbData['Lipid_F3'].'g</td>
+                            <td>'.$dbData['Lipid_M1'].'g</td>
+                            <td>'.$dbData['Lipid_M2'].'g</td>
+                            <td>'.$dbData['Lipid_M3'].'g</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">炭水化物</th>
+                            <td>'.$dbData['carbohydrate_F1'].'g</td>
+                            <td>'.$dbData['carbohydrate_F2'].'g</td>
+                            <td>'.$dbData['carbohydrate_F3'].'g</td>
+                            <td>'.$dbData['carbohydrate_M1'].'g</td>
+                            <td>'.$dbData['carbohydrate_M2'].'g</td>
+                            <td>'.$dbData['carbohydrate_M3'].'g</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">エネルギー</th>
+                            <td>'.$dbData['ENERC_KCAL_F1'].'kcal</td>
+                            <td>'.$dbData['ENERC_KCAL_F2'].'kcal</td>
+                            <td>'.$dbData['ENERC_KCAL_F3'].'kcal</td>
+                            <td>'.$dbData['ENERC_KCAL_M1'].'kcal</td>
+                            <td>'.$dbData['ENERC_KCAL_M2'].'kcal</td>
+                            <td>'.$dbData['ENERC_KCAL_M3'].'kcal</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">水分</th>
+                            <td>'.$dbData['WATER_F1'].'g</td>
+                            <td>'.$dbData['WATER_F2'].'g</td>
+                            <td>'.$dbData['WATER_F3'].'g</td>
+                            <td>'.$dbData['WATER_M1'].'g</td>
+                            <td>'.$dbData['WATER_M2'].'g</td>
+                            <td>'.$dbData['WATER_M3'].'g</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">食塩相当量</th>
+                            <td>'.$dbData['NACL_EQ_F1'].'g</td>
+                            <td>'.$dbData['NACL_EQ_F2'].'g</td>
+                            <td>'.$dbData['NACL_EQ_F3'].'g</td>
+                            <td>'.$dbData['NACL_EQ_M1'].'g</td>
+                            <td>'.$dbData['NACL_EQ_M2'].'g</td>
+                            <td>'.$dbData['NACL_EQ_M3'].'g</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">無機質</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">ナトリウム</th>
+                            <td>'.$dbData['NA_F1'].'mg</td>
+                            <td>'.$dbData['NA_F2'].'mg</td>
+                            <td>'.$dbData['NA_F3'].'mg</td>
+                            <td>'.$dbData['NA_M1'].'mg</td>
+                            <td>'.$dbData['NA_M2'].'mg</td>
+                            <td>'.$dbData['NA_M3'].'mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">カリウム</th>
+                            <td>'.$dbData['K_F1'].'mg</td>
+                            <td>'.$dbData['K_F2'].'mg</td>
+                            <td>'.$dbData['K_F3'].'mg</td>
+                            <td>'.$dbData['K_M1'].'mg</td>
+                            <td>'.$dbData['K_M2'].'mg</td>
+                            <td>'.$dbData['K_M3'].'mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">カルシウム</th>
+                            <td>'.$dbData['CA_F1'].'mg</td>
+                            <td>'.$dbData['CA_F2'].'mg</td>
+                            <td>'.$dbData['CA_F3'].'mg</td>
+                            <td>'.$dbData['CA_M1'].'mg</td>
+                            <td>'.$dbData['CA_M2'].'mg</td>
+                            <td>'.$dbData['CA_M3'].'mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">リン</th>
+                            <td>'.$dbData['P_F1'].'mg</td>
+                            <td>'.$dbData['P_F2'].'mg</td>
+                            <td>'.$dbData['P_F3'].'mg</td>
+                            <td>'.$dbData['P_M1'].'mg</td>
+                            <td>'.$dbData['P_M2'].'mg</td>
+                            <td>'.$dbData['P_M3'].'mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">鉄</th>
+                            <td>'.$dbData['FE_M1'].'mg</td>
+                            <td>'.$dbData['FE_F2'].'mg</td>
+                            <td>'.$dbData['FE_F3'].'mg</td>
+                            <td>'.$dbData['FE_M1'].'mg</td>
+                            <td>'.$dbData['FE_M2'].'mg</td>
+                            <td>'.$dbData['FE_M3'].'mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ヨウ素</th>
+                            <td>'.$dbData['Iodine_M1'].'μg</td>
+                            <td>'.$dbData['Iodine_F2'].'μg</td>
+                            <td>'.$dbData['Iodine_F3'].'μg</td>
+                            <td>'.$dbData['Iodine_M1'].'μg</td>
+                            <td>'.$dbData['Iodine_M2'].'μg</td>
+                            <td>'.$dbData['Iodine_M3'].'μg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminA -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンA</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">レチノール</th>
+                            <td>'.$dbData['RETOL_M1'].'μg</td>
+                            <td>'.$dbData['RETOL_F2'].'μg</td>
+                            <td>'.$dbData['RETOL_F3'].'μg</td>
+                            <td>'.$dbData['RETOL_M1'].'μg</td>
+                            <td>'.$dbData['RETOL_M2'].'μg</td>
+                            <td>'.$dbData['RETOL_M3'].'μg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">β-カロテン当量</th>
+                            <td>'.$dbData['CARTBEQ_M1'].'μg</td>
+                            <td>'.$dbData['CARTBEQ_F2'].'μg</td>
+                            <td>'.$dbData['CARTBEQ_F3'].'μg</td>
+                            <td>'.$dbData['CARTBEQ_M1'].'μg</td>
+                            <td>'.$dbData['CARTBEQ_M2'].'μg</td>
+                            <td>'.$dbData['CARTBEQ_M3'].'μg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">レチノール活性当量</th>
+                            <td>'.$dbData['VITA_RAE_M1'].'μg</td>
+                            <td>'.$dbData['VITA_RAE_F2'].'μg</td>
+                            <td>'.$dbData['VITA_RAE_F3'].'μg</td>
+                            <td>'.$dbData['VITA_RAE_M1'].'μg</td>
+                            <td>'.$dbData['VITA_RAE_M2'].'μg</td>
+                            <td>'.$dbData['VITA_RAE_M3'].'μg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminB -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンB</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">ビタミンB1</th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ビタミンB2</th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ナイアシン</th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminC -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンC</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminD -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンD</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>μg</td>
+                            <td>μg</td>
+                            <td>μg</td>
+                            <td>μg</td>
+                            <td>μg</td>
+                            <td>μg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminE -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンE</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">α-トコフェロール</th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">γ-トコフェロール</th>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                            <td>mg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>';
+
+        $this->set(['nutrients' => $table, '_serialize' => true]);
     }
 }
