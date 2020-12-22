@@ -208,34 +208,53 @@ class UsersController extends AppController  {
     }
 
     public function getNutrients()  {
-        // $town = $this->request->getQuery("town");
-        // $type = $this->request->getQuery("type");
+        $SpecialAgeName = $this->request->getQuery("SpecialAgeName");
+        $dayWeekMonth = $this->request->getQuery("dayWeekMonth");
+        $subOption = (int) $this->request->getQuery("subOption");
 
-        $Table = TableRegistry::getTableLocator()->get('nutrients');
-        $nutrients = $Table ->find('all')->where(['SpecialAgeName'=>'乳幼児']);
+        $optionPlus = 1;
+        if($dayWeekMonth == "day")  $optionPlus = $subOption * 1;
+        if($dayWeekMonth == "week")  $optionPlus = $subOption * 7;
+        if($dayWeekMonth == "month")  $optionPlus = $subOption * 30;
 
-        $dbData = [];
-        foreach ($nutrients as $item)  {
-            $dbData['protein_'.$item->GENDER.$item->SECTION] = $item->protein;
-            $dbData['Lipid_'.$item->GENDER.$item->SECTION] = $item->Lipid;
-            $dbData['carbohydrate_'.$item->GENDER.$item->SECTION] = $item->carbohydrate;
-            $dbData['ENERC_KCAL_'.$item->GENDER.$item->SECTION] = $item->ENERC_KCAL;
-            $dbData['WATER_'.$item->GENDER.$item->SECTION] = $item->WATER;
-            $dbData['NACL_EQ_'.$item->GENDER.$item->SECTION] = $item->NACL_EQ;
-            $dbData['NA_'.$item->GENDER.$item->SECTION] = $item->NA;
-            $dbData['K_'.$item->GENDER.$item->SECTION] = $item->K;
-            $dbData['CA_'.$item->GENDER.$item->SECTION] = $item->CA;
-            $dbData['P_'.$item->GENDER.$item->SECTION] = $item->P;
-            $dbData['FE_'.$item->GENDER.$item->SECTION] = $item->FE;
-            $dbData['Iodine_'.$item->GENDER.$item->SECTION] = $item->Iodine;
-            $dbData['RETOL_'.$item->GENDER.$item->SECTION] = $item->RETOL;
-            $dbData['CARTBEQ_'.$item->GENDER.$item->SECTION] = $item->CARTBEQ;
-            $dbData['VITA_RAE_'.$item->GENDER.$item->SECTION] = $item->VITA_RAE;
 
-            
-        }
+        // echo $optionPlus;
+        // exit();
 
-        // debug($dbData);
+        $selectArr = array(
+            'SpecialAgeName','SECTION','GENDER',
+            'ENERC_KCAL'=> 'sum(ENERC_KCAL)',
+            'WATER'=>'sum(`WATER`)',
+            'protein'=>'sum(`protein`)',
+            'Lipid'=>'sum(`Lipid`)',
+            'carbohydrate'=>'sum(`carbohydrate`)',
+            'NA'=>'sum(`NA`)',
+            'K'=>'sum(`K`)',
+            'CA'=>'sum(`CA`)',
+            'P'=>'sum(`P`)',
+            'FE'=>'sum(`FE`)',
+            'Iodine'=>'sum(`Iodine`)',
+            'RETOL'=>'sum(`RETOL`)',
+            'CARTBEQ'=>'sum(`CARTBEQ`)',
+            'VITA_RAE'=>'sum(`VITA_RAE`)',
+            'VITD'=>'sum(`VITD`)',
+            'TOCPHA'=>'sum(`TOCPHA`)',
+            'TOCPHG'=>'sum(`TOCPHG`)',
+            'THIAHCL'=>'sum(`THIAHCL`)',
+            'RIBF'=>'sum(`RIBF`)',
+            'NIA'=>'sum(`NIA`)',
+            'VITC'=>'sum(`VITC`)',
+            'NACL_EQ'=>'sum(`NACL_EQ`)'
+        );
+
+        $Table = TableRegistry::getTableLocator()->get('nutrients_data');
+        $SECTION1F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 1])->first();
+        $SECTION2F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 2])->first();
+        $SECTION3F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 3])->first();
+
+        $SECTION1M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 1])->first();
+        $SECTION2M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 2])->first();
+        $SECTION3M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 3])->first();
 
         $table = '
         <div class="card">
@@ -256,30 +275,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">たんぱく質</th>
-                            <td>'.$dbData['protein_F1'].'g</td>
-                            <td>'.$dbData['protein_F2'].'g</td>
-                            <td>'.$dbData['protein_F3'].'g</td>
-                            <td>'.$dbData['protein_M1'].'g</td>
-                            <td>'.$dbData['protein_M2'].'g</td>
-                            <td>'.$dbData['protein_M3'].'g</td>
+                            <td>'.$SECTION1F->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->protein * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">脂質</th>
-                            <td>'.$dbData['Lipid_F1'].'g</td>
-                            <td>'.$dbData['Lipid_F2'].'g</td>
-                            <td>'.$dbData['Lipid_F3'].'g</td>
-                            <td>'.$dbData['Lipid_M1'].'g</td>
-                            <td>'.$dbData['Lipid_M2'].'g</td>
-                            <td>'.$dbData['Lipid_M3'].'g</td>
+                            <td>'.$SECTION1F->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->Lipid * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">炭水化物</th>
-                            <td>'.$dbData['carbohydrate_F1'].'g</td>
-                            <td>'.$dbData['carbohydrate_F2'].'g</td>
-                            <td>'.$dbData['carbohydrate_F3'].'g</td>
-                            <td>'.$dbData['carbohydrate_M1'].'g</td>
-                            <td>'.$dbData['carbohydrate_M2'].'g</td>
-                            <td>'.$dbData['carbohydrate_M3'].'g</td>
+                            <td>'.$SECTION1F->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->carbohydrate * $optionPlus.'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -303,30 +322,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">エネルギー</th>
-                            <td>'.$dbData['ENERC_KCAL_F1'].'kcal</td>
-                            <td>'.$dbData['ENERC_KCAL_F2'].'kcal</td>
-                            <td>'.$dbData['ENERC_KCAL_F3'].'kcal</td>
-                            <td>'.$dbData['ENERC_KCAL_M1'].'kcal</td>
-                            <td>'.$dbData['ENERC_KCAL_M2'].'kcal</td>
-                            <td>'.$dbData['ENERC_KCAL_M3'].'kcal</td>
+                            <td>'.$SECTION1F->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->ENERC_KCAL * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">水分</th>
-                            <td>'.$dbData['WATER_F1'].'g</td>
-                            <td>'.$dbData['WATER_F2'].'g</td>
-                            <td>'.$dbData['WATER_F3'].'g</td>
-                            <td>'.$dbData['WATER_M1'].'g</td>
-                            <td>'.$dbData['WATER_M2'].'g</td>
-                            <td>'.$dbData['WATER_M3'].'g</td>
+                            <td>'.$SECTION1F->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->WATER * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">食塩相当量</th>
-                            <td>'.$dbData['NACL_EQ_F1'].'g</td>
-                            <td>'.$dbData['NACL_EQ_F2'].'g</td>
-                            <td>'.$dbData['NACL_EQ_F3'].'g</td>
-                            <td>'.$dbData['NACL_EQ_M1'].'g</td>
-                            <td>'.$dbData['NACL_EQ_M2'].'g</td>
-                            <td>'.$dbData['NACL_EQ_M3'].'g</td>
+                            <td>'.$SECTION1F->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->NACL_EQ * $optionPlus.'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -351,57 +370,57 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ナトリウム</th>
-                            <td>'.$dbData['NA_F1'].'mg</td>
-                            <td>'.$dbData['NA_F2'].'mg</td>
-                            <td>'.$dbData['NA_F3'].'mg</td>
-                            <td>'.$dbData['NA_M1'].'mg</td>
-                            <td>'.$dbData['NA_M2'].'mg</td>
-                            <td>'.$dbData['NA_M3'].'mg</td>
+                            <td>'.$SECTION1F->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->NA * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">カリウム</th>
-                            <td>'.$dbData['K_F1'].'mg</td>
-                            <td>'.$dbData['K_F2'].'mg</td>
-                            <td>'.$dbData['K_F3'].'mg</td>
-                            <td>'.$dbData['K_M1'].'mg</td>
-                            <td>'.$dbData['K_M2'].'mg</td>
-                            <td>'.$dbData['K_M3'].'mg</td>
+                            <td>'.$SECTION1F->K * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->K * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->K * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->K * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->K * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->K * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">カルシウム</th>
-                            <td>'.$dbData['CA_F1'].'mg</td>
-                            <td>'.$dbData['CA_F2'].'mg</td>
-                            <td>'.$dbData['CA_F3'].'mg</td>
-                            <td>'.$dbData['CA_M1'].'mg</td>
-                            <td>'.$dbData['CA_M2'].'mg</td>
-                            <td>'.$dbData['CA_M3'].'mg</td>
+                            <td>'.$SECTION1F->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->CA * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">リン</th>
-                            <td>'.$dbData['P_F1'].'mg</td>
-                            <td>'.$dbData['P_F2'].'mg</td>
-                            <td>'.$dbData['P_F3'].'mg</td>
-                            <td>'.$dbData['P_M1'].'mg</td>
-                            <td>'.$dbData['P_M2'].'mg</td>
-                            <td>'.$dbData['P_M3'].'mg</td>
+                            <td>'.$SECTION1F->P * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->P * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->P * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->P * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->P * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->P * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">鉄</th>
-                            <td>'.$dbData['FE_M1'].'mg</td>
-                            <td>'.$dbData['FE_F2'].'mg</td>
-                            <td>'.$dbData['FE_F3'].'mg</td>
-                            <td>'.$dbData['FE_M1'].'mg</td>
-                            <td>'.$dbData['FE_M2'].'mg</td>
-                            <td>'.$dbData['FE_M3'].'mg</td>
+                            <td>'.$SECTION1F->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->FE * $optionPlus.'g</td>
                         </tr>
                         <tr>
                             <th scope="row">ヨウ素</th>
-                            <td>'.$dbData['Iodine_M1'].'μg</td>
-                            <td>'.$dbData['Iodine_F2'].'μg</td>
-                            <td>'.$dbData['Iodine_F3'].'μg</td>
-                            <td>'.$dbData['Iodine_M1'].'μg</td>
-                            <td>'.$dbData['Iodine_M2'].'μg</td>
-                            <td>'.$dbData['Iodine_M3'].'μg</td>
+                            <td>'.$SECTION1F->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION2F->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION3F->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION1M->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION2M->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION3M->Iodine * $optionPlus.'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -425,30 +444,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">レチノール</th>
-                            <td>'.$dbData['RETOL_M1'].'μg</td>
-                            <td>'.$dbData['RETOL_F2'].'μg</td>
-                            <td>'.$dbData['RETOL_F3'].'μg</td>
-                            <td>'.$dbData['RETOL_M1'].'μg</td>
-                            <td>'.$dbData['RETOL_M2'].'μg</td>
-                            <td>'.$dbData['RETOL_M3'].'μg</td>
+                            <td>'.$SECTION1F->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->RETOL * $optionPlus.'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">β-カロテン当量</th>
-                            <td>'.$dbData['CARTBEQ_M1'].'μg</td>
-                            <td>'.$dbData['CARTBEQ_F2'].'μg</td>
-                            <td>'.$dbData['CARTBEQ_F3'].'μg</td>
-                            <td>'.$dbData['CARTBEQ_M1'].'μg</td>
-                            <td>'.$dbData['CARTBEQ_M2'].'μg</td>
-                            <td>'.$dbData['CARTBEQ_M3'].'μg</td>
+                            <td>'.$SECTION1F->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->CARTBEQ * $optionPlus.'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">レチノール活性当量</th>
-                            <td>'.$dbData['VITA_RAE_M1'].'μg</td>
-                            <td>'.$dbData['VITA_RAE_F2'].'μg</td>
-                            <td>'.$dbData['VITA_RAE_F3'].'μg</td>
-                            <td>'.$dbData['VITA_RAE_M1'].'μg</td>
-                            <td>'.$dbData['VITA_RAE_M2'].'μg</td>
-                            <td>'.$dbData['VITA_RAE_M3'].'μg</td>
+                            <td>'.$SECTION1F->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->VITA_RAE * $optionPlus.'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -472,31 +491,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ビタミンB1</th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
+                            <td>'.$SECTION1F->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->THIAHCL * $optionPlus.'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">ビタミンB2</th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
+                            <td>'.$SECTION1F->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->RIBF * $optionPlus.'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">ナイアシン</th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                        </tr>
+                            <td>'.$SECTION1F->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->NIA * $optionPlus.'μg</td>
                     </tbody>
                 </table>
             </div>
@@ -519,12 +537,12 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
+                            <td>'.$SECTION1F->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->VITC * $optionPlus.'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -548,12 +566,12 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>μg</td>
-                            <td>μg</td>
-                            <td>μg</td>
-                            <td>μg</td>
-                            <td>μg</td>
-                            <td>μg</td>
+                            <td>'.$SECTION1F->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->VITD * $optionPlus.'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -577,27 +595,32 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">α-トコフェロール</th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
+                            <td>'.$SECTION1F->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->TOCPHA * $optionPlus.'μg</td>
+                        </tr>
                         </tr>
                         <tr>
                             <th scope="row">γ-トコフェロール</th>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
-                            <td>mg</td>
+                            <td>'.$SECTION1F->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION2F->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION3F->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION1M->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION2M->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION3M->TOCPHG * $optionPlus.'μg</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>';
+        </div><br/>';
 
-        $this->set(['nutrients' => $table, '_serialize' => true]);
+
+        $this->set([
+            'nutrients' => trim($table), 
+            '_serialize' => true
+        ]);
     }
 }
