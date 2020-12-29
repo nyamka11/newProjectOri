@@ -134,35 +134,37 @@ class UsersController extends AppController  {
         if($type == "big")  {
             if($district == "init")  {
                 $this->set([
-                    'data_0_10' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 0, '年齢 <=' => 10]),
-                    'data_11_20' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 11, '年齢 <=' => 20]), 
-                    'data_21_30' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 21, '年齢 <=' => 30]), 
-                    'data_31_40' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 31, '年齢 <=' => 40]), 
-                    'data_41_50' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 41, '年齢 <=' => 50]), 
-                    'data_51_60' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 51, '年齢 <=' => 60]),
-                    'data_61_70' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 61, '年齢 <=' => 70]),
-                    'data_71_80' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 71, '年齢 <=' => 80]),
-                    'data_81_90' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 81, '年齢 <=' => 90]),
-                    'data_91_100' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 91, '年齢 <=' => 100]),
-                    'data_101_110' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 101, '年齢 <=' => 110]),
-                    'data_111_120' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 111, '年齢 <=' => 120]),
+                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 =' => 0]),
+                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 1, '年齢 <=' => 2]), 
+                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 3, '年齢 <=' => 5]), 
+                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 6, '年齢 <=' => 7]), 
+                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 8, '年齢 <=' => 9]), 
+                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 10, '年齢 <=' => 11]),
+                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 12, '年齢 <=' => 14]),
+                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 15, '年齢 <=' => 17]),
+                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 18, '年齢 <=' => 29]),
+                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 30, '年齢 <=' => 49]),
+                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 50, '年齢 <=' => 64]),
+                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 65, '年齢 <=' => 74]),
+                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 75]),
                     '_serialize' => true
                 ]);
             }
             else  {
                 $this->set([
-                    'data_0_10' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 0, '年齢 <=' => 10]),
-                    'data_11_20' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 11, '年齢 <=' => 20]), 
-                    'data_21_30' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 21, '年齢 <=' => 30]), 
-                    'data_31_40' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 31, '年齢 <=' => 40]), 
-                    'data_41_50' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 41, '年齢 <=' => 50]), 
-                    'data_51_60' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 51, '年齢 <=' => 60]),
-                    'data_61_70' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 61, '年齢 <=' => 70]),
-                    'data_71_80' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 71, '年齢 <=' => 80]),
-                    'data_81_90' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 81, '年齢 <=' => 90]),
-                    'data_91_100' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 91, '年齢 <=' => 100]),
-                    'data_101_110' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 101, '年齢 <=' => 110]),
-                    'data_111_120' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['区'=>$district, '年齢 >=' => 111, '年齢 <=' => 120]),
+                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district,'年齢 =' => 0]),
+                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district,'年齢 >=' => 1, '年齢 <=' => 2]), 
+                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 3, '年齢 <=' => 5]), 
+                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 6, '年齢 <=' => 7]), 
+                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 8, '年齢 <=' => 9]), 
+                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 10, '年齢 <=' => 11]),
+                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 12, '年齢 <=' => 14]),
+                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 15, '年齢 <=' => 17]),
+                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 18, '年齢 <=' => 29]),
+                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 30, '年齢 <=' => 49]),
+                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 50, '年齢 <=' => 64]),
+                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 65, '年齢 <=' => 74]),
+                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$district,'年齢 >=' => 75]),
                     '_serialize' => true
                 ]);
             }
@@ -170,37 +172,23 @@ class UsersController extends AppController  {
         /** big zone end */
 
         if($type == "small")  {
-            if($district == "init")  {
-                $this->set([
-                    'data_0_10' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 0, '年齢 <=' => 10]),
-                    'data_11_20' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 11, '年齢 <=' => 20]), 
-                    'data_21_30' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 21, '年齢 <=' => 30]), 
-                    'data_31_40' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 31, '年齢 <=' => 40]), 
-                    'data_41_50' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 41, '年齢 <=' => 50]), 
-                    'data_51_60' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 51, '年齢 <=' => 60]),
-                    'data_61_70' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 61, '年齢 <=' => 70]),
-                    'data_71_80' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 71, '年齢 <=' => 80]),
-                    'data_81_90' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 81, '年齢 <=' => 90]),
-                    'data_91_100' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 91, '年齢 <=' => 100]),
-                    'data_101_110' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 101, '年齢 <=' => 110]),
-                    'data_111_120' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)'])->where(['年齢 >=' => 111, '年齢 <=' => 120]),
-                    '_serialize' => true
-                ]);
+            if($district == "init")  { // tur hereglehgui small vyd yu ch songoogui bol
             }
             else  {
                 $this->set([
-                    'data_0_10' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 0, '年齢 <=' => 10]),
-                    'data_11_20' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 11, '年齢 <=' => 20]), 
-                    'data_21_30' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 21, '年齢 <=' => 30]), 
-                    'data_31_40' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 31, '年齢 <=' => 40]), 
-                    'data_41_50' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 41, '年齢 <=' => 50]), 
-                    'data_51_60' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 51, '年齢 <=' => 60]),
-                    'data_61_70' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 61, '年齢 <=' => 70]),
-                    'data_71_80' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 71, '年齢 <=' => 80]),
-                    'data_81_90' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 81, '年齢 <=' => 90]),
-                    'data_91_100' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 91, '年齢 <=' => 100]),
-                    'data_101_110' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 101, '年齢 <=' => 110]),
-                    'data_111_120' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 111, '年齢 <=' => 120]),
+                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town,'年齢 =' => 0]),
+                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town,'年齢 >=' => 1, '年齢 <=' => 2]), 
+                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 3, '年齢 <=' => 5]), 
+                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 6, '年齢 <=' => 7]), 
+                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 8, '年齢 <=' => 9]), 
+                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 10, '年齢 <=' => 11]),
+                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 12, '年齢 <=' => 14]),
+                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 15, '年齢 <=' => 17]),
+                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 18, '年齢 <=' => 29]),
+                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 30, '年齢 <=' => 49]),
+                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 50, '年齢 <=' => 64]),
+                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 65, '年齢 <=' => 74]),
+                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['町'=>$town,'年齢 >=' => 75]),
                     '_serialize' => true
                 ]);
             }
@@ -211,15 +199,78 @@ class UsersController extends AppController  {
         $SpecialAgeName = $this->request->getQuery("SpecialAgeName");
         $dayWeekMonth = $this->request->getQuery("dayWeekMonth");
         $subOption = (int) $this->request->getQuery("subOption");
+        $jinkoInfo = json_decode($this->request->getQuery("jinkoInfo"));
 
         $optionPlus = 1;
         if($dayWeekMonth == "day")  $optionPlus = $subOption * 1;
         if($dayWeekMonth == "week")  $optionPlus = $subOption * 7;
         if($dayWeekMonth == "month")  $optionPlus = $subOption * 30;
 
+        $group = array(
+            "乳幼児" => array('M'=>0, 'F'=>0),
+            "小児" => array('M'=>0, 'F'=>0),
+            "一般成人" => array('M'=>0, 'F'=>0),
+            "特別老人" => array('M'=>0, 'F'=>0)
+        );
 
-        // echo $optionPlus;
-        // exit();
+        foreach($jinkoInfo as $key => $value)  {
+            $age = $jinkoInfo[$key]->name;
+
+            switch ($age) {
+                case "0歳": 
+                    $group["乳幼児"]['M'] = (int) $jinkoInfo[$key]->Male;  
+                    $group["乳幼児"]['F'] = (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "1-2歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "3-5歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "6-7歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "8-9歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "10-11歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "12-14歳": 
+                    $group["小児"]['M'] = (int) $group["小児"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["小児"]['F'] = (int) $group["小児"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "15-17歳": 
+                    $group["一般成人"]['M'] = (int) $group["一般成人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["一般成人"]['F'] = (int) $group["一般成人"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "18-29歳": 
+                    $group["一般成人"]['M'] = (int) $group["一般成人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["一般成人"]['F'] = (int) $group["一般成人"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "30-49歳": 
+                    $group["一般成人"]['M'] = (int) $group["一般成人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["一般成人"]['F'] = (int) $group["一般成人"]['F'] + (int) $jinkoInfo[$key]->Female;  
+                break;
+                case "50-64歳": 
+                    $group["一般成人"]['M'] = (int) $group["一般成人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["一般成人"]['F'] = (int) $group["一般成人"]['F'] + (int) $jinkoInfo[$key]->Female;
+                break;
+                case "65-74歳": 
+                    $group["一般成人"]['M'] = (int) $group["一般成人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["一般成人"]['F'] = (int) $group["一般成人"]['F'] + (int) $jinkoInfo[$key]->Female;
+                break;
+                case "75歳から以上": 
+                    $group["特別老人"]['M'] = (int) $group["特別老人"]['M'] + (int) $jinkoInfo[$key]->Male;  
+                    $group["特別老人"]['F'] = (int) $group["特別老人"]['F'] + (int) $jinkoInfo[$key]->Female;
+                break;
+            }
+        }
 
         $selectArr = array(
             'SpecialAgeName','SECTION','GENDER',
@@ -266,7 +317,6 @@ class UsersController extends AppController  {
                             <th scope="col">F最低</th>
                             <th scope="col">F推奨</th>
                             <th scope="col">F目標量</th>
-
                             <th scope="col">M最低</th>
                             <th scope="col">M推奨</th>
                             <th scope="col">M目標量</th>
@@ -275,30 +325,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">たんぱく質</th>
-                            <td>'.$SECTION1F->protein * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->protein * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->protein * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->protein * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->protein * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->protein * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->protein * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->protein * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->protein * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->protein * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->protein * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->protein * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">脂質</th>
-                            <td>'.$SECTION1F->Lipid * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->Lipid * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->Lipid * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->Lipid * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->Lipid * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->Lipid * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->Lipid * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->Lipid * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->Lipid * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->Lipid * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->Lipid * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->Lipid * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">炭水化物</th>
-                            <td>'.$SECTION1F->carbohydrate * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->carbohydrate * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->carbohydrate * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->carbohydrate * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->carbohydrate * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->carbohydrate * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->carbohydrate * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->carbohydrate * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->carbohydrate * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->carbohydrate * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->carbohydrate * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->carbohydrate * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -322,30 +372,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">エネルギー</th>
-                            <td>'.$SECTION1F->ENERC_KCAL * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->ENERC_KCAL * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->ENERC_KCAL * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->ENERC_KCAL * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->ENERC_KCAL * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->ENERC_KCAL * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->ENERC_KCAL * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">水分</th>
-                            <td>'.$SECTION1F->WATER * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->WATER * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->WATER * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->WATER * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->WATER * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->WATER * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->WATER * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->WATER * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->WATER * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->WATER * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->WATER * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->WATER * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">食塩相当量</th>
-                            <td>'.$SECTION1F->NACL_EQ * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->NACL_EQ * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->NACL_EQ * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->NACL_EQ * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->NACL_EQ * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->NACL_EQ * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->NACL_EQ * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -370,57 +420,57 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ナトリウム</th>
-                            <td>'.$SECTION1F->NA * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->NA * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->NA * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->NA * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->NA * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->NA * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->NA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->NA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->NA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->NA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->NA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->NA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">カリウム</th>
-                            <td>'.$SECTION1F->K * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->K * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->K * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->K * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->K * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->K * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->K * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->K * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->K * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->K * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->K * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->K * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">カルシウム</th>
-                            <td>'.$SECTION1F->CA * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->CA * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->CA * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->CA * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->CA * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->CA * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->CA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->CA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->CA * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->CA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->CA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->CA * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">リン</th>
-                            <td>'.$SECTION1F->P * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->P * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->P * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->P * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->P * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->P * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->P * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->P * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->P * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->P * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->P * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->P * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">鉄</th>
-                            <td>'.$SECTION1F->FE * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->FE * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->FE * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->FE * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->FE * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->FE * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->FE * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->FE * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->FE * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->FE * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->FE * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->FE * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                         <tr>
                             <th scope="row">ヨウ素</th>
-                            <td>'.$SECTION1F->Iodine * $optionPlus.'g</td>
-                            <td>'.$SECTION2F->Iodine * $optionPlus.'g</td>
-                            <td>'.$SECTION3F->Iodine * $optionPlus.'g</td>
-                            <td>'.$SECTION1M->Iodine * $optionPlus.'g</td>
-                            <td>'.$SECTION2M->Iodine * $optionPlus.'g</td>
-                            <td>'.$SECTION3M->Iodine * $optionPlus.'g</td>
+                            <td>'.$SECTION1F->Iodine * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION2F->Iodine * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION3F->Iodine * $optionPlus * $group[$SpecialAgeName]['F'].'g</td>
+                            <td>'.$SECTION1M->Iodine * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION2M->Iodine * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
+                            <td>'.$SECTION3M->Iodine * $optionPlus * $group[$SpecialAgeName]['M'].'g</td>
                         </tr>
                     </tbody>
                 </table>
@@ -444,30 +494,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">レチノール</th>
-                            <td>'.$SECTION1F->RETOL * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->RETOL * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->RETOL * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->RETOL * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->RETOL * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->RETOL * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->RETOL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->RETOL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->RETOL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->RETOL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->RETOL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->RETOL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">β-カロテン当量</th>
-                            <td>'.$SECTION1F->CARTBEQ * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->CARTBEQ * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->CARTBEQ * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->CARTBEQ * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->CARTBEQ * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->CARTBEQ * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->CARTBEQ * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">レチノール活性当量</th>
-                            <td>'.$SECTION1F->VITA_RAE * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->VITA_RAE * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->VITA_RAE * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->VITA_RAE * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->VITA_RAE * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->VITA_RAE * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->VITA_RAE * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -491,30 +541,30 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ビタミンB1</th>
-                            <td>'.$SECTION1F->THIAHCL * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->THIAHCL * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->THIAHCL * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->THIAHCL * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->THIAHCL * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->THIAHCL * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->THIAHCL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->THIAHCL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->THIAHCL * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->THIAHCL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->THIAHCL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->THIAHCL * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">ビタミンB2</th>
-                            <td>'.$SECTION1F->RIBF * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->RIBF * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->RIBF * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->RIBF * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->RIBF * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->RIBF * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->RIBF * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->RIBF * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->RIBF * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->RIBF * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->RIBF * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->RIBF * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                         <tr>
                             <th scope="row">ナイアシン</th>
-                            <td>'.$SECTION1F->NIA * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->NIA * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->NIA * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->NIA * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->NIA * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->NIA * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->NIA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->NIA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->NIA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->NIA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->NIA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->NIA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                     </tbody>
                 </table>
             </div>
@@ -537,12 +587,12 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>'.$SECTION1F->VITC * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->VITC * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->VITC * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->VITC * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->VITC * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->VITC * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->VITC * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->VITC * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->VITC * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->VITC * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->VITC * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->VITC * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -566,12 +616,12 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>'.$SECTION1F->VITD * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->VITD * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->VITD * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->VITD * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->VITD * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->VITD * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->VITD * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->VITD * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->VITD * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->VITD * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->VITD * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->VITD * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                     </tbody>
                 </table>
@@ -595,31 +645,488 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">α-トコフェロール</th>
-                            <td>'.$SECTION1F->TOCPHA * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->TOCPHA * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->TOCPHA * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->TOCPHA * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->TOCPHA * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->TOCPHA * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->TOCPHA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->TOCPHA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->TOCPHA * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->TOCPHA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->TOCPHA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->TOCPHA * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                         </tr>
                         <tr>
                             <th scope="row">γ-トコフェロール</th>
-                            <td>'.$SECTION1F->TOCPHG * $optionPlus.'μg</td>
-                            <td>'.$SECTION2F->TOCPHG * $optionPlus.'μg</td>
-                            <td>'.$SECTION3F->TOCPHG * $optionPlus.'μg</td>
-                            <td>'.$SECTION1M->TOCPHG * $optionPlus.'μg</td>
-                            <td>'.$SECTION2M->TOCPHG * $optionPlus.'μg</td>
-                            <td>'.$SECTION3M->TOCPHG * $optionPlus.'μg</td>
+                            <td>'.$SECTION1F->TOCPHG * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION2F->TOCPHG * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION3F->TOCPHG * $optionPlus * $group[$SpecialAgeName]['F'].'μg</td>
+                            <td>'.$SECTION1M->TOCPHG * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION2M->TOCPHG * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
+                            <td>'.$SECTION3M->TOCPHG * $optionPlus * $group[$SpecialAgeName]['M'].'μg</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div><br/>';
 
-
         $this->set([
             'nutrients' => trim($table), 
+            '_serialize' => true
+        ]);
+    }
+
+    public function getMenu()  {
+        $menuName = $this->request->getQuery("menuName");
+        $connect = ConnectionManager::get('default');
+        $menuRows = $connect->query("
+            SELECT foodName FROM menu INNER JOIN foodmaster
+            ON menu.foodNumber=foodmaster.foodNumber 
+            WHERE menu.name ='{$menuName}'" 
+        )->fetchAll('assoc');
+
+        $this->set([
+            'getMenu' => $menuRows,
+            '_serialize' => true
+        ]);
+    }
+
+    public function getReqNutrientList()  {
+        $menuName = $this->request->getQuery("menuName");
+        $SpecialAgeName = $this->request->getQuery("SpecialAgeName");
+        $dayWeekMonth = $this->request->getQuery("dayWeekMonth");
+        $subOption = (int) $this->request->getQuery("subOption");
+        $jinkoInfo = json_decode($this->request->getQuery("jinkoInfo"));
+
+        $optionPlus = 1;
+        if($dayWeekMonth == "day")  $optionPlus = $subOption * 1;
+        if($dayWeekMonth == "week")  $optionPlus = $subOption * 7;
+        if($dayWeekMonth == "month")  $optionPlus = $subOption * 30;
+
+        $connect = ConnectionManager::get('default');
+        $kCalSum = $connect->query("
+            SELECT 
+               SUM(ENERC_KCAL) ENERC_KCAL, SUM(WATER) WATER, SUM(protein) protein, SUM(Lipid) Lipid,
+               SUM(carbohydrate) carbohydrate, SUM(NA) NA, SUM(K) K, SUM(CA) CA, SUM(P) P, SUM(FE) FE,
+               SUM(Iodine) Iodine, SUM(RETOL) RETOL, SUM(CARTBEQ) CARTBEQ, SUM(VITA_RAE) VITA_RAE,
+               SUM(VITD) VITD, SUM(TOCPHA) TOCPHA, SUM(TOCPHG) TOCPHG, SUM(THIAHCL) THIAHCL,
+               SUM(RIBF) RIBF, SUM(NIA) NIA, SUM(VITC) VITC, SUM(NACL_EQ) NACL_EQ
+            FROM menu INNER JOIN foodmaster
+            ON menu.foodNumber=foodmaster.foodNumber 
+            WHERE menu.name ='{$menuName}'" 
+        )->fetchAll('assoc');
+
+        $selectArr = array(
+            'SpecialAgeName','SECTION','GENDER','ENERC_KCAL'=>'AVG(ENERC_KCAL)','WATER'=>'AVG(`WATER`)','protein'=>'AVG(`protein`)',
+            'Lipid'=>'AVG(`Lipid`)','carbohydrate'=>'AVG(`carbohydrate`)','NA'=>'AVG(`NA`)','K'=>'AVG(`K`)','CA'=>'AVG(`CA`)',
+            'P'=>'AVG(`P`)','FE'=>'AVG(`FE`)','Iodine'=>'AVG(`Iodine`)','RETOL'=>'AVG(`RETOL`)','CARTBEQ'=>'AVG(`CARTBEQ`)',
+            'VITA_RAE'=>'AVG(`VITA_RAE`)', 'VITD'=>'AVG(`VITD`)', 'TOCPHA'=>'AVG(`TOCPHA`)','TOCPHG'=>'AVG(`TOCPHG`)',
+            'THIAHCL'=>'AVG(`THIAHCL`)','RIBF'=>'AVG(`RIBF`)','NIA'=>'AVG(`NIA`)','VITC'=>'AVG(`VITC`)','NACL_EQ'=>'AVG(`NACL_EQ`)'
+        );
+
+        $Table = TableRegistry::getTableLocator()->get('nutrients_data');
+        $SECTION1F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 1])->first();
+        $SECTION2F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 2])->first();
+        $SECTION3F = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'F', 'SECTION'=> 3])->first();
+
+        $SECTION1M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 1])->first();
+        $SECTION2M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 2])->first();
+        $SECTION3M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 3])->first();
+
+        function calcOfnutrients($arg1, $arg2) {
+            if($arg2 == 0) $arg2 = 1; // tur zuur
+            return round(($arg1/$arg2)*100, 1);
+        }
+
+        $htmlTable ='
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">たんぱく質</th>
+                            <td>'.round($kCalSum[0]['protein']).'g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION1F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION2F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION3F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION1M->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION2M->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION3M->protein) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">脂質</th>
+                            <td>'.round($kCalSum[0]['Lipid']).'g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION1F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION2F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION3F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION1M->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION2M->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION3M->Lipid) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">炭水化物</th>
+                            <td>'.round($kCalSum[0]['carbohydrate']).'g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION1F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION2F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION3F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION1M->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION2M->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION3M->carbohydrate) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">エネルギー</th>
+                            <td>'.round($kCalSum[0]['ENERC_KCAL']).'kcal</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION1F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION2F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION3F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION1M->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION2M->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION3M->ENERC_KCAL) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">水分</th>
+                            <td>'.round($kCalSum[0]['WATER']).'g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION1F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION2F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION3F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION1M->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION2M->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION3M->WATER) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">食塩相当量</th>
+                            <td>'.round($kCalSum[0]['NACL_EQ']).'g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION1F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION2F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION3F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION1M->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION2M->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION3M->NACL_EQ) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">無機質</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">ナトリウム</th>
+                            <td>'.round($kCalSum[0]['NA']).'mg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION1F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION2F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION3F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION1M->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION2M->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION3M->NA) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">カリウム</th>
+                            <td>'.round($kCalSum[0]['K']).'mg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION1F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION2F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION3F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION1M->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION2M->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION3M->K) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">カルシウム</th>
+                            <td>'.round($kCalSum[0]['CA']).'mg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION1F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION2F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION3F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION1M->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION2M->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION3M->CA) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">リン</th>
+                            <td>'.round($kCalSum[0]['P']).'mg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION1F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION2F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION3F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION1M->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION2M->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION3M->P) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">鉄</th>
+                            <td>'.round($kCalSum[0]['FE']).'mg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION1F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION2F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION3F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION1M->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION2M->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION3M->FE) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ヨウ素</th>
+                            <td>'.round($kCalSum[0]['Iodine']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION1F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION2F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION3F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION1M->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION2M->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION3M->Iodine) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminA -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンA</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">レチノール</th>
+                            <td>'.round($kCalSum[0]['RETOL']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION1F->RETOL) * $optionPlus.'%g</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION2F->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION3F->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION1M->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION2M->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION3M->RETOL) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">β-カロテン当量</th>
+                            <td>'.round($kCalSum[0]['CARTBEQ']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION1F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION2F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION3F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION1M->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION2M->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION3M->CARTBEQ) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">レチノール活性当量</th>
+                            <td>'.round($kCalSum[0]['VITA_RAE']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION1F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION2F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION3F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION1M->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION2M->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION3M->VITA_RAE) * $optionPlus.'%</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminB -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンB</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">ビタミンB1</th>
+                            <td>'.round($kCalSum[0]['THIAHCL']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION1F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION2F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION3F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION1M->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION2M->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION3M->THIAHCL) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ビタミンB2</th>
+                            <td>'.round($kCalSum[0]['RIBF']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION1F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION2F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION3F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION1M->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION2M->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION3M->RIBF) * $optionPlus.'%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">ナイアシン</th>
+                            <td>'.round($kCalSum[0]['NIA']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION1F->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION2F->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION3F->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION1M->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION2M->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION3M->NIA) * $optionPlus.'%</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminC -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンC</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>'.round($kCalSum[0]['VITC']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION1F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION2F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION3F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION1M->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION2M->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION3M->VITC) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminD -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンD</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>'.round($kCalSum[0]['VITD']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION1F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION2F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION3F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION1M->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION2M->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION3M->VITD) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3"> <!-- vitaminE -->
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">ビタミンE</th>
+                            <th scope="col">合計</th>
+                            <th scope="col">F最低</th>
+                            <th scope="col">F推奨</th>
+                            <th scope="col">F目標量</th>
+                            <th scope="col">M最低</th>
+                            <th scope="col">M推奨</th>
+                            <th scope="col">M目標量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">α-トコフェロール</th>
+                            <td>'.round($kCalSum[0]['TOCPHA']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION1F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION2F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION3F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION1M->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION2M->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION3M->TOCPHA) * $optionPlus.'%</td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <th scope="row">γ-トコフェロール</th>
+                            <td>'.round($kCalSum[0]['TOCPHG']).'μg</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION1F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION2F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION3F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION1M->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION2M->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION3M->TOCPHG) * $optionPlus.'%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div><br/>';
+
+        $this->set([
+            'htmlTable' => $htmlTable,
             '_serialize' => true
         ]);
     }

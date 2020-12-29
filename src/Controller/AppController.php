@@ -65,11 +65,11 @@ class AppController extends Controller
             ]
         );
 
-        /*
-         * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
+    //     /*
+    //      * Enable the following component for recommended CakePHP security settings.
+    //      * see https://book.cakephp.org/3/en/controllers/components/security.html
+    //      */
+    //     //$this->loadComponent('Security');
     }
 
     public function beforeFilter(event $event)  {
