@@ -165,6 +165,7 @@
         </div>
     </div>
 
+    <?= $this->Html->script('constant.js') ?> 
     <?= $this->Html->script('main.js') ?> 
     <?= $this->Html->script('leaflet-search.js') ?>
     <?= $this->Html->script('cityBorderJson.js') ?>
