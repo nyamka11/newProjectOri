@@ -1,4 +1,3 @@
-    /** チャートを描くする機能です。*/
 
     var myChart;
     var jinkoInfo = [];
@@ -169,7 +168,7 @@
     
             var ctx = document.getElementById('myChart').getContext('2d');
             myChart = new Chart(ctx, {
-                type: 'pie',
+                type: 'bar',
                 data: {
                     labels: ChartObj.labelDatas,
                     datasets: [{
@@ -202,17 +201,20 @@
 
     //*** RequiredDemand event start ***/
         $("#menuNameCombo").change(function()  {
-            postData("http://localhost/webOri/users/getMenu.json", {
+            postData("http://192.168.120.3/webOri/users/getMenu.json", {
                 menuName: $("option:selected", this).text()
             }).then(dataMenu => {
                 $("#foodNameList").html("");
                 $("#townNameNutrientsReq").text(getPlaceName(jinkoInfo[0]));
 
+                console.log(dataMenu);
+
                 dataMenu.getMenu.forEach(element => {
                     $("#foodNameList").append(
-                        '<button type="button" class="list-group-item list-group-item-action">'
-                            + (element.foodName) +
-                        '</button>'
+                        '<li class="list-group-item d-flex justify-content-between align-items-center">'
+                            + (element.foodName.replace(/\s/g, '')) +"<b>"+ (element.oneServingCoefficient)+ "</b>"+
+                            // '<span class="badge badge-primary badge-pill">asdfasd</span>'+
+                        '</li>'
                     );
                 });
 
@@ -296,7 +298,7 @@
         }
 
         function getNutrientsData()  {  // getNutrients data loading fn start
-            postData("http://localhost/webOri/users/getNutrients.json", 
+            postData("http://192.168.120.3/webOri/users/getNutrients.json", 
             {
                 SpecialAgeName: $("#SpecialAgeName option:selected").val(),
                 dayWeekMonth: $("#dayWeekMonth option:selected").val(),
@@ -317,7 +319,7 @@
                 jinkoInfo: JSON.stringify(jinkoInfo),
             };
 
-            postData("http://localhost/webOri/users/getReqNutrientList.json", param).then(data => {
+            postData("http://192.168.120.3/webOri/users/getReqNutrientList.json", param).then(data => {
                 $("#tableBodyReq1").html("").html(data.htmlTable);
             });
         }

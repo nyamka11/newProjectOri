@@ -1,0 +1,31 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+          "name": "池町"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          137.7301025390625,
+          34.70946234336282
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+          "name": "田町"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          137.73160994052887,
+          34.70798063060042
+        ]
+      }
+    }
+  ]
+}

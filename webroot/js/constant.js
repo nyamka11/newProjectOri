@@ -29,3 +29,5 @@ const CHART_BORDER_COLORS = [
     'rgba(255, 159, 64, 1)',
     '#28a745'
 ];
+
+const SERVER_PATH = "http://192.168.120.3/webOri/"; 

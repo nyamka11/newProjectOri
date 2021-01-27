@@ -65,35 +65,29 @@ class AppController extends Controller
             ]
         );
 
-    //     /*
-    //      * Enable the following component for recommended CakePHP security settings.
-    //      * see https://book.cakephp.org/3/en/controllers/components/security.html
-    //      */
-    //     //$this->loadComponent('Security');
+        /*
+         * Enable the following component for recommended CakePHP security settings.
+         * see https://book.cakephp.org/3/en/controllers/components/security.html
+         */
+        $this->loadComponent('Security');
     }
 
     public function beforeFilter(event $event)  {
           $this->Auth->allow([
-        //     'login', 
+            'login', 
             'register', 
-            // 'logout', 
-            // 'forgotpassword',
-            // 'resetpassword',
-            // 'index',
-            // 'view'
+            'logout', 
+            'forgotpassword',
+            'resetpassword',
+            'index',
+            'view'
         ]);
     }
 
     public function beforeRender(Event $event)  {
         parent::beforeFilter($event);
         $this->set('userData', $this->Auth->user());
-
-        // $this->RequestHandler->renderAs($this, 'json');
-        // $this->response->type('application/json');
-        // $this->set('_serialize', true);
     }
-    
-
 
     // public function isAuthorized($user)  {
     //    //admin full akses

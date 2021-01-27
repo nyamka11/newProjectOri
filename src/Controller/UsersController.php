@@ -45,11 +45,6 @@ class UsersController extends AppController  {
         $this->set(compact('user',));
     }
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null
-     */
     public function index()  {
         $this->paginate = [
             'contain' => [],
@@ -58,13 +53,6 @@ class UsersController extends AppController  {
         $this->set(['users' => $users, '_serialize' => true]);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function view($id = null)  {
         $user = $this->Users->get($id, [
             'contain' => [],
@@ -111,8 +99,7 @@ class UsersController extends AppController  {
         $this->set(compact('user'));
     }
 
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
@@ -309,7 +296,7 @@ class UsersController extends AppController  {
 
         $table = '
         <div class="card">
-            <div class="card-body">
+            <div class="card-body listYellowColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -356,7 +343,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3">
-            <div class="card-body">
+            <div class="card-body listPinkColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -403,7 +390,7 @@ class UsersController extends AppController  {
         </div>
         
         <div class="card mt-3">
-            <div class="card-body">
+            <div class="card-body listBlueColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -478,7 +465,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminA -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -525,7 +512,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminB -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -571,7 +558,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminC -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -600,7 +587,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminD -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -629,7 +616,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminE -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -677,7 +664,7 @@ class UsersController extends AppController  {
         $menuName = $this->request->getQuery("menuName");
         $connect = ConnectionManager::get('default');
         $menuRows = $connect->query("
-            SELECT foodName FROM menu INNER JOIN foodmaster
+            SELECT foodName, oneServingCoefficient FROM menu INNER JOIN foodmaster
             ON menu.foodNumber=foodmaster.foodNumber 
             WHERE menu.name ='{$menuName}'" 
         )->fetchAll('assoc');
@@ -701,7 +688,7 @@ class UsersController extends AppController  {
         if($dayWeekMonth == "month")  $optionPlus = $subOption * 30;
 
         $connect = ConnectionManager::get('default');
-        $kCalSum = $connect->query("
+        $foodMaster = $connect->query("
             SELECT 
                SUM(ENERC_KCAL) ENERC_KCAL, SUM(WATER) WATER, SUM(protein) protein, SUM(Lipid) Lipid,
                SUM(carbohydrate) carbohydrate, SUM(NA) NA, SUM(K) K, SUM(CA) CA, SUM(P) P, SUM(FE) FE,
@@ -730,14 +717,14 @@ class UsersController extends AppController  {
         $SECTION2M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 2])->first();
         $SECTION3M = $Table ->find('all')->select($selectArr)->where(['SpecialAgeName'=>$SpecialAgeName, 'GENDER'=>'M', 'SECTION'=> 3])->first();
 
-        function calcOfnutrients($arg1, $arg2) {
+        function calcOfnutrients(float $arg1, float $arg2) {
             if($arg2 == 0) $arg2 = 1; // tur zuur
             return round(($arg1/$arg2)*100, 1);
         }
 
         $htmlTable ='
         <div class="card">
-            <div class="card-body">
+            <div class="card-body listYellowColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -754,33 +741,33 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">たんぱく質</th>
-                            <td>'.round($kCalSum[0]['protein']).'g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION1F->protein) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION2F->protein) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION3F->protein) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION1M->protein) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION2M->protein) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['protein'], $SECTION3M->protein) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['protein'], 1).'g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION1F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION2F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION3F->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION1M->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION2M->protein) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['protein'], $SECTION3M->protein) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">脂質</th>
-                            <td>'.round($kCalSum[0]['Lipid']).'g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION1F->Lipid) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION2F->Lipid) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION3F->Lipid) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION1M->Lipid) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION2M->Lipid) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Lipid'], $SECTION3M->Lipid) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['Lipid'], 1).'g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION1F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION2F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION3F->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION1M->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION2M->Lipid) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Lipid'], $SECTION3M->Lipid) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">炭水化物</th>
-                            <td>'.round($kCalSum[0]['carbohydrate']).'g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION1F->carbohydrate) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION2F->carbohydrate) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION3F->carbohydrate) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION1M->carbohydrate) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION2M->carbohydrate) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['carbohydrate'], $SECTION3M->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['carbohydrate'], 1).'g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION1F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION2F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION3F->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION1M->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION2M->carbohydrate) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['carbohydrate'], $SECTION3M->carbohydrate) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -788,7 +775,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3">
-            <div class="card-body">
+            <div class="card-body listPinkColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -805,33 +792,33 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">エネルギー</th>
-                            <td>'.round($kCalSum[0]['ENERC_KCAL']).'kcal</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION1F->ENERC_KCAL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION2F->ENERC_KCAL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION3F->ENERC_KCAL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION1M->ENERC_KCAL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION2M->ENERC_KCAL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['ENERC_KCAL'], $SECTION3M->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['ENERC_KCAL'], 1).'kcal</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION1F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION2F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION3F->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION1M->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION2M->ENERC_KCAL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['ENERC_KCAL'], $SECTION3M->ENERC_KCAL) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">水分</th>
-                            <td>'.round($kCalSum[0]['WATER']).'g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION1F->WATER) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION2F->WATER) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION3F->WATER) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION1M->WATER) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION2M->WATER) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['WATER'], $SECTION3M->WATER) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['WATER'], 1).'g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION1F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION2F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION3F->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION1M->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION2M->WATER) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['WATER'], $SECTION3M->WATER) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">食塩相当量</th>
-                            <td>'.round($kCalSum[0]['NACL_EQ']).'g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION1F->NACL_EQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION2F->NACL_EQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION3F->NACL_EQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION1M->NACL_EQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION2M->NACL_EQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NACL_EQ'], $SECTION3M->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['NACL_EQ'], 1).'g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION1F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION2F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION3F->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION1M->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION2M->NACL_EQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NACL_EQ'], $SECTION3M->NACL_EQ) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -839,7 +826,7 @@ class UsersController extends AppController  {
         </div>
         
         <div class="card mt-3">
-            <div class="card-body">
+            <div class="card-body listBlueColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -856,63 +843,63 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ナトリウム</th>
-                            <td>'.round($kCalSum[0]['NA']).'mg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION1F->NA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION2F->NA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION3F->NA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION1M->NA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION2M->NA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NA'], $SECTION3M->NA) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['NA'], 1).'mg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION1F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION2F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION3F->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION1M->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION2M->NA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NA'], $SECTION3M->NA) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">カリウム</th>
-                            <td>'.round($kCalSum[0]['K']).'mg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION1F->K) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION2F->K) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION3F->K) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION1M->K) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION2M->K) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['K'], $SECTION3M->K) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['K'], 1).'mg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION1F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION2F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION3F->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION1M->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION2M->K) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['K'], $SECTION3M->K) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">カルシウム</th>
-                            <td>'.round($kCalSum[0]['CA']).'mg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION1F->CA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION2F->CA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION3F->CA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION1M->CA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION2M->CA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CA'], $SECTION3M->CA) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['CA'], 1).'mg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION1F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION2F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION3F->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION1M->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION2M->CA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CA'], $SECTION3M->CA) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">リン</th>
-                            <td>'.round($kCalSum[0]['P']).'mg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION1F->P) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION2F->P) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION3F->P) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION1M->P) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION2M->P) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['P'], $SECTION3M->P) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['P'], 1).'mg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION1F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION2F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION3F->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION1M->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION2M->P) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['P'], $SECTION3M->P) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">鉄</th>
-                            <td>'.round($kCalSum[0]['FE']).'mg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION1F->FE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION2F->FE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION3F->FE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION1M->FE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION2M->FE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['FE'], $SECTION3M->FE) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['FE'], 1).'mg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION1F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION2F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION3F->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION1M->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION2M->FE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['FE'], $SECTION3M->FE) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">ヨウ素</th>
-                            <td>'.round($kCalSum[0]['Iodine']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION1F->Iodine) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION2F->Iodine) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION3F->Iodine) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION1M->Iodine) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION2M->Iodine) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['Iodine'], $SECTION3M->Iodine) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['Iodine'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION1F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION2F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION3F->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION1M->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION2M->Iodine) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['Iodine'], $SECTION3M->Iodine) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -920,7 +907,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminA -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -937,33 +924,33 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">レチノール</th>
-                            <td>'.round($kCalSum[0]['RETOL']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION1F->RETOL) * $optionPlus.'%g</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION2F->RETOL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION3F->RETOL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION1M->RETOL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION2M->RETOL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RETOL'], $SECTION3M->RETOL) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['RETOL'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION1F->RETOL) * $optionPlus.'%g</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION2F->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION3F->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION1M->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION2M->RETOL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RETOL'], $SECTION3M->RETOL) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">β-カロテン当量</th>
-                            <td>'.round($kCalSum[0]['CARTBEQ']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION1F->CARTBEQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION2F->CARTBEQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION3F->CARTBEQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION1M->CARTBEQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION2M->CARTBEQ) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['CARTBEQ'], $SECTION3M->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['CARTBEQ'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION1F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION2F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION3F->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION1M->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION2M->CARTBEQ) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['CARTBEQ'], $SECTION3M->CARTBEQ) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">レチノール活性当量</th>
-                            <td>'.round($kCalSum[0]['VITA_RAE']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION1F->VITA_RAE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION2F->VITA_RAE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION3F->VITA_RAE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION1M->VITA_RAE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION2M->VITA_RAE) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITA_RAE'], $SECTION3M->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['VITA_RAE'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION1F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION2F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION3F->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION1M->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION2M->VITA_RAE) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITA_RAE'], $SECTION3M->VITA_RAE) * $optionPlus.'%</td>
 
                         </tr>
                     </tbody>
@@ -972,7 +959,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminB -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -989,40 +976,40 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">ビタミンB1</th>
-                            <td>'.round($kCalSum[0]['THIAHCL']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION1F->THIAHCL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION2F->THIAHCL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION3F->THIAHCL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION1M->THIAHCL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION2M->THIAHCL) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['THIAHCL'], $SECTION3M->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['THIAHCL'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION1F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION2F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION3F->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION1M->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION2M->THIAHCL) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['THIAHCL'], $SECTION3M->THIAHCL) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">ビタミンB2</th>
-                            <td>'.round($kCalSum[0]['RIBF']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION1F->RIBF) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION2F->RIBF) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION3F->RIBF) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION1M->RIBF) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION2M->RIBF) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['RIBF'], $SECTION3M->RIBF) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['RIBF'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION1F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION2F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION3F->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION1M->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION2M->RIBF) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['RIBF'], $SECTION3M->RIBF) * $optionPlus.'%</td>
                         </tr>
                         <tr>
                             <th scope="row">ナイアシン</th>
-                            <td>'.round($kCalSum[0]['NIA']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION1F->NIA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION2F->NIA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION3F->NIA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION1M->NIA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION2M->NIA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['NIA'], $SECTION3M->NIA) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['NIA'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION1F->NIA).'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION2F->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION3F->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION1M->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION2M->NIA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['NIA'], $SECTION3M->NIA) * $optionPlus.'%</td>
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="card mt-3"> <!-- vitaminC -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -1039,13 +1026,13 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>'.round($kCalSum[0]['VITC']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION1F->VITC) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION2F->VITC) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION3F->VITC) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION1M->VITC) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION2M->VITC) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITC'], $SECTION3M->VITC) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['VITC'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION1F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION2F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION3F->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION1M->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION2M->VITC) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITC'], $SECTION3M->VITC) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1053,7 +1040,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminD -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -1070,13 +1057,13 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row"></th>
-                            <td>'.round($kCalSum[0]['VITD']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION1F->VITD) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION2F->VITD) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION3F->VITD) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION1M->VITD) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION2M->VITD) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['VITD'], $SECTION3M->VITD) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['VITD'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION1F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION2F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION3F->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION1M->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION2M->VITD) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['VITD'], $SECTION3M->VITD) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1084,7 +1071,7 @@ class UsersController extends AppController  {
         </div>
 
         <div class="card mt-3"> <!-- vitaminE -->
-            <div class="card-body">
+            <div class="card-body listGreenColor">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -1101,24 +1088,24 @@ class UsersController extends AppController  {
                     <tbody>
                         <tr>
                             <th scope="row">α-トコフェロール</th>
-                            <td>'.round($kCalSum[0]['TOCPHA']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION1F->TOCPHA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION2F->TOCPHA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION3F->TOCPHA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION1M->TOCPHA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION2M->TOCPHA) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHA'], $SECTION3M->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['TOCPHA'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION1F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION2F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION3F->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION1M->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION2M->TOCPHA) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHA'], $SECTION3M->TOCPHA) * $optionPlus.'%</td>
                         </tr>
                         </tr>
                         <tr>
                             <th scope="row">γ-トコフェロール</th>
-                            <td>'.round($kCalSum[0]['TOCPHG']).'μg</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION1F->TOCPHG) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION2F->TOCPHG) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION3F->TOCPHG) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION1M->TOCPHG) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION2M->TOCPHG) * $optionPlus.'%</td>
-                            <td>'.calcOfnutrients($kCalSum[0]['TOCPHG'], $SECTION3M->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.round($foodMaster[0]['TOCPHG'], 1).'μg</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION1F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION2F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION3F->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION1M->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION2M->TOCPHG) * $optionPlus.'%</td>
+                            <td>'.calcOfnutrients($foodMaster[0]['TOCPHG'], $SECTION3M->TOCPHG) * $optionPlus.'%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1130,4 +1117,44 @@ class UsersController extends AppController  {
             '_serialize' => true
         ]);
     }
+
+    // tools
+    public function nutrientsdata()  {
+        $Table = TableRegistry::getTableLocator()->get('nutrients_data');
+        $Items = $Table->find('all');
+
+        $this->set([
+            'Items' => $Items,
+            '_serialize' => true
+        ]);
+    }
+
+    public function bigdata()  {
+        $Table = TableRegistry::getTableLocator()->get('population');
+        $Items = $Table->find('all')->limit(1);
+
+        $this->set([
+            'Items' => $Items,
+            '_serialize' => true
+        ]);
+    }
+
+    public function xyupdate()  {
+        $placeName = $this->request->getQuery("placeName"); 
+        $long = $this->request->getQuery("long");
+        $lat = $this->request->getQuery("lat");
+
+        $connect = ConnectionManager::get('default');
+        $query = $connect->query("UPDATE `population` SET `latitude`='$lat', `longitude`='$long' WHERE `町`='$placeName'")->fetchAll('assoc');
+        // $query = $connect->query("SELECT * FROM population WHERE  `町`='$placeName' AND `latitude`=$lat")->fetchAll('assoc');
+
+        $this->set([
+            'query' => $query,
+            'data' => $placeName,
+            'long' => $long,
+            'lat' => $lat,
+            '_serialize' => true
+        ]);
+    }
+
 }

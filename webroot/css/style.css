@@ -12,3 +12,73 @@
 .btn  {
     border-radius: 0px;
 }
+
+.basicBackground  {
+    background-color: #eeece1;
+}
+
+.sysGreenColor {
+    background-color:#ccffcc;
+}
+
+.sysYellowColor {
+    background-color:#ffff99;
+}
+
+.sysPinkColor {
+    background-color:#ff99cc;
+}
+
+.sysWhiteColor {
+    background-color:#ffffff;
+}
+
+.sysBackBtn  {
+    background-color:#fac090;
+    color: black;
+}
+
+.listYellowColor  {
+    background-color:#ffff99;
+}
+
+.listPinkColor  {
+    background-color:#ffccff;
+}
+
+.listBlueColor  {
+    background-color:#b7dee8;
+}
+
+.listGreenColor  {
+    background-color:#ccff99;
+}
+
+
+/* home  */
+#map {
+    height: 700px; 
+    width: 100%; 
+}
+#findbox {
+    height:20px;
+    margin-top:10px;
+}
+.search-input  {
+    width:80%;
+}
+.search-tooltip {
+    width: 200px;
+}
+.leaflet-control-search .search-cancel {
+    position: static;
+    float: left;
+    margin-left: -22px;
+}
+.textBox {
+    border: 1px solid black;
+    float: left;
+    padding: 6px 67px 5px 66px;
+    text-align: center;
+    /* background-color: #cacaca; */
+}

@@ -1,4 +1,4 @@
-const smallZonePointJson =  {
+{
   "type": "FeatureCollection",
   "features": [
     {
