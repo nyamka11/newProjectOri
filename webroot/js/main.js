@@ -7,7 +7,15 @@
     const oriUrl = "https://ori-project.smartcity-open-platform.jp/orion/v2.0/entities";
 
     //ORI Access token 
-    const Authorization = "Bearer 98a2b6a2-beaa-39bc-83f9-c5a6c0873b41";
+    const token = "1db3e157-1b75-32dd-bc98-e3e32ecbfe7e";
+    const Authorization = "Bearer " + token;
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': Authorization,
+        'Accept': 'application/json',
+        'Fiware-Service': 'ori005',
+        'Fiware-ServicePath': '/'
+    };
 
     // navbar space constant value
     document.querySelector("body").setAttribute("style", "padding-top:52px;");
@@ -52,100 +60,46 @@
             url,
             method: 'POST',
             data  : data,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': Authorization,
-                'Accept': 'application/json',
-                'Fiware-Service': 'ori005',
-                'Fiware-ServicePath': '/'
-            }
+            headers: headers
         })
-        .then(response =>response.data)
+        .then(response => response.data)
         .catch(error => console.log(error));
     }
 
-    async function dataSelect(url = '', data = {}) {
+    async function dataSelect(url = '', params = {})  {
         return await axios({
             url,
             method: 'GET',
-            params  : data,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': Authorization,
-                'Accept': 'application/json',
-                'Fiware-Service': 'ori005',
-                'Fiware-ServicePath': '/'
-            }
+            params  : params,
+            headers: headers
         })
-        .then(response =>response.data)
+        .then(response => response.data)
         .catch(error => console.log(error));
     }
 
-    // dataInsert(oriUrl, { 
+    async function dataDelete(url = '', params = {})  {
+        return await axios({
+            url,
+            method: 'DELETE',
+            params  : params,
+            headers: headers
+        })
+        .then(response => response.data)
+        .catch(error => console.log(error));
+    }
+
+    // dataDelete(oriUrl, {
+    //     "id": "1",
+    //     "type": "typeText" 
+    // }).then(data => { console.log(data); });
+    
+
+    // dataInsert(oriUrl, {
     //     "id": "PF_111113",
     //     "type": "testData" 
     // }).then(data => { console.log(data); });
-
+    
     // dataSelect(oriUrl)
     // .then(data => {
     //     console.log(data); // JSON data parsed by `data.json()` call
-    // });
-
-    //ene shuud zvgeer ajilnna.
-    // postData("http://192.168.120.3/webOri/users/bigdata.json", {  }, "GET")
-    // .then(data => {
-    //     console.log(data.Items);
-    //     data.Items.forEach(function(item)  {
-    //         var dataRow = {
-    //             "type": "populationDataTest1", 
-    //             "id": `PDTest1_${item['id']}`, 
-    //             "prefecture": {
-    //                 "type": "varchar",
-    //                 "value": item["県名"],
-    //             },
-    //             "city": {
-    //                 "type": "varchar",
-    //                 "value": item["市"]
-    //             },
-    //             "ward": {
-    //                 "type": "varchar",
-    //                 "value": item["区"]
-    //             },
-    //             "town": {
-    //                 "type": "varchar",
-    //                 "value": item["町"]
-    //             },
-    //             "chome": {
-    //                 "type": "varchar",
-    //                 "value": item["丁目"]
-    //             },
-    //             "postcode": {
-    //                 "type": "varchar",
-    //                 "value": item["郵便番号"]
-    //             },
-    //             "age": {
-    //                 "type": "int",
-    //                 "value": item["年齢"]
-    //             },
-    //             "male": {
-    //                 "type": "varchar",
-    //                 "value": item["男"]
-    //             },
-    //             "female": {
-    //                 "type": "varchar",
-    //                 "value": item["female"]
-    //             },
-    //             "shikibetsu": {
-    //                 "type": "int",
-    //                 "value": item["識別"]
-    //             },
-    //             "location": {
-    //                 "type": "geo:point",
-    //                 "value": item["longitude"]+", "+ item["latitude"]
-    //             }
-    //         };
-
-    //         console.log(dataRow);
-    //         dataInsert(oriUrl, dataRow).then(data => { console.log(data); });
-    //     });        
     // });

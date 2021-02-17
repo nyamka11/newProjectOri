@@ -1,5 +1,5 @@
 
-/** 
+/** ORi serverluu nutrientsdata - aag amjilttai ilgeesen tool
     postData("http://192.168.120.3/webOri/users/nutrientsdata.json", { answer: 42 }, "GET")
     .then(data => {
         console.log(data);
@@ -21,13 +21,6 @@
         });        
     });
 */
-
-
-
-
-
-
-
 
 // UPDATE `population` p INNER JOIN `xypos` xy ON `p`.machi = `xy`.`COL 2` SET `p`.latitude = xy.`COL 4`, `p`.longitude = xy.`COL 5` WHERE 1=1
 
@@ -55,74 +48,87 @@ async function postDataLocal(url = '', data = {}) {
     return response.json(); // parses JSON response into native JavaScript objects
 }
 
-// postDataLocal('http://192.168.120.3/webOri/users/xyupdate.json', { data: smallZonePointJson  })
-// .then(data => console.log(data));
 
-// console.log(smallZonePointJson);
+    /*
+    async function dataDelete(url = '', data = {})  {
 
-// postDataLocal('http://192.168.120.3/webOri/users/bigdata.json', { answer: 42 })
-// .then(data => {
+        return await axios({
+            url,
+            method: 'DELETE',
+            data  : data,
+            headers: headers
+        })
+        .then(response => response.data)
+        .catch(error => console.log(error));
 
-//     for(let i=0; i<=0; i++)  {
-//         data.Items[i];
-//     }
+        return await axios.delete(url, {
+            headers: headers,
+            data: data
+        });
+    }
 
-//     data.Items.forEach(item => {
-//         let rowData = {
-//             "type": "populationInfoData", 
-//             "id": `PF_${item['id']}`, 
-//             "prefecture": {
-//                 "type": "varchar",
-//                 "value": item["県名"],
-//             },
-//             "city": {
-//                 "type": "varchar",
-//                 "value": item["市"]
-//             },
-//             "ward": {
-//                 "type": "varchar",
-//                 "value": item["区"]
-//             },
-//             "town": {
-//                 "type": "varchar",
-//                 "value": item["町"]
-//             },
-//             "chome": {
-//                 "type": "varchar",
-//                 "value": item["丁目"]
-//             },
-//             "postcode": {
-//                 "type": "varchar",
-//                 "value": item["郵便番号"]
-//             },
-//             "age": {
-//                 "type": "int",
-//                 "value": item["年齢"]
-//             },
-//             "male": {
-//                 "type": "varchar",
-//                 "value": item["男"]
-//             },
-//             "female": {
-//                 "type": "varchar",
-//                 "value": item["female"]
-//             },
-//             "shikibetsu": {
-//                 "type": "int",
-//                 "value": item["識別"]
-//             }
-//         };
+    dataDelete(oriUrl, { "id": 1 }); */
 
-//         console.log(rowData);
 
-//         postDataFiware('https://ori-project.smartcity-open-platform.jp/orion/v2.0/entities', rowData)
-//         .then(data => {
-//             console.log(data); // JSON data parsed by `data.json()` call
-//         });
-        
-//     });
-// });
+    
+    //ene shuud zvgeer ajilnna.
+    /*postData("http://192.168.120.3/webOri/users/bigdata.json", {  }, "GET")
+    .then(data => {
+        // console.log(data.Items);
+        data.Items.forEach(function(item)  {
+            var dataRow = {
+                "type": "populationData", 
+                "id": `PD_ID${item['id']}`, 
+                "prefecture": {
+                    "type": "varchar",
+                    "value": item["県名"],
+                },
+                "city": {
+                    "type": "varchar",
+                    "value": item["市"]
+                },
+                "ward": {
+                    "type": "varchar",
+                    "value": item["区"]
+                },
+                "town": {
+                    "type": "varchar",
+                    "value": item["町"]
+                },
+                "chome": {
+                    "type": "varchar",
+                    "value": item["丁目"]
+                },
+                "postcode": {
+                    "type": "varchar",
+                    "value": item["郵便番号"]
+                },
+                "age": {
+                    "type": "int",
+                    "value": item["年齢"]
+                },
+                "male": {
+                    "type": "varchar",
+                    "value": item["男"]
+                },
+                "female": {
+                    "type": "varchar",
+                    "value": item["女"]
+                },
+                "shikibetsu": {
+                    "type": "int",
+                    "value": item["識別"]
+                },
+                "location": {
+                    "type": "geo:point",
+                    "value": item["longitude"]+", "+ item["latitude"]
+                }
+            };
 
+            console.log(dataRow);
+            dataInsert(oriUrl, dataRow).then(data => { console.log(data); });
+        });        
+    });*/
 
  // "id": `PF_${item['id']}`, 
 // "type": "populationInfo", 

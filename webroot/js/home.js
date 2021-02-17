@@ -4,9 +4,120 @@
     var bigZoneMarkerLayer;
     var smallZoneMarkerLayer;
 
+    var type = "big";
+    var timeOption;
+
+    var selectedKenName = null,
+        selectedShiName = null,
+        selectedKuName = null,
+        selectedTownName = null,
+        selectedPlaceFullName = null;
+
+    var selectedTownAllPeoplesCount = 0;
+    var smallZonePointJson1 = null;
+    var bigZonePointJson1 = null;
+    
+    //map init
+    postData("http://192.168.120.3/webOri/users/getLocations.json")
+    .then(data => {
+        smallZonePointJson1 = {
+            "type": "FeatureCollection",
+            "features": []
+        };
+
+        bigZonePointJson1 = {
+            "type": "FeatureCollection",
+            "features": []
+        };
+
+        $.each(data.locations, function(i,v)  {
+            if(this.map_layer_level === 1) {
+                bigZonePointJson1.features.push({
+                    "type":"Feature",
+                    "properties":{
+                        "kenName" : this.県名,
+                        "shiName" : this.市,
+                        "kuName": this.区
+                    },
+                    "geometry":{
+                        "type":"Point",
+                        "coordinates":[
+                            this.latitude,
+                            this.longitude
+                        ]
+                    }
+                });
+            }
+
+            if(this.map_layer_level === 2)  {
+                smallZonePointJson1.features.push({
+                    "type":"Feature",
+                    "properties":{
+                        "kenName" : this.県名,
+                        "shiName" : this.市,
+                        "kuName": this.区,
+                        "townName" : this.町
+                    },
+                    "geometry":{
+                        "type":"Point",
+                        "coordinates":[
+                            this.latitude,
+                            this.longitude
+                        ]
+                    }
+                });
+            }
+        });
+
+        console.log(bigZonePointJson1);
+
+        Map.init();
+    });
+
+    $("#timeOption").change(function()  {
+        timeOption = $("option:selected",this).text();
+    }).change();
+
+    
+
     document.querySelector("#chartShow").addEventListener("click", function() {
         $("#chartDisplay").show();
         $("#basicDisplay").hide();
+
+        $("#chartLoader").show();
+        $("#myChart").hide();
+
+        console.log({ 
+            kenName: selectedKenName,
+            shiName: selectedShiName,  
+            kuName: selectedKuName,
+            townName: selectedTownName, 
+            type: type,
+            timeOption: timeOption
+        });
+
+        postData(ownServerUrl, { 
+            kenName: selectedKenName,
+            shiName: selectedShiName,  
+            kuName: selectedKuName,
+            townName: selectedTownName, 
+            type: type,
+            timeOption: timeOption
+        })
+        .then(data => {
+            console.log(data);
+            setTownName(getPlaceName(data['0歳'][0]));
+            ChartObj.bodyDraw(data);
+            $("#selectTownAllPeopleCnt cnt").text(selectedTownAllPeoplesCount);
+            $("#chartLoader").hide();
+            $("#myChart").show();
+        });
+    });
+
+    document.querySelector("#backBtnDisplay").addEventListener("click", function() {
+        $("#basicDisplay").show();
+        $("#chartDisplay").hide();
+        myChart.destroy();
     });
 
     document.querySelector("#backBtnRequiredDemand").addEventListener("click", function() {
@@ -18,11 +129,6 @@
         $("#basicDisplay").hide();
         $("#requiredDemandDisplay").show();
         $("#menuNameCombo").change();
-    });
-
-    document.querySelector("#backBtnDisplay").addEventListener("click", function() {
-        $("#basicDisplay").show();
-        $("#chartDisplay").hide();
     });
 
     document.querySelector("#nutrientsShowBtn").addEventListener("click", function() {
@@ -74,49 +180,40 @@
             }).addTo(Map.mapObj);
         },
         bigZoneMarkerDraw: function()  {  //big zone marker
-            bigZoneMarkerLayer = L.geoJson(bigZonePointJson, {
+            bigZoneMarkerLayer = L.geoJson(bigZonePointJson1, {
                 pointToLayer: function(geoJsonPoint, latlng)  {
                     return L.marker(latlng).on('click', function(e)  {
+                        type = "big";
+                        var p = geoJsonPoint.properties;
+                        selectedPlaceFullName = p.shiName + p.kuName;
+                        selectedKenName = p.kenName;
+                        selectedShiName = p.shiName
+                        selectedKuName =  p.kuName;
+                        
+                        this.bindPopup("<div class='p-1'><h4>"+ p.kuName +"</h4></div>");
                         Map.mapObj.setView(latlng, 14);
-                        postData(ownServerUrl, { district: geoJsonPoint.properties.Name, type: "big" })
-                        .then(data => {
-                            this.bindPopup("<div class='p-1'><h4>"+ geoJsonPoint.properties.Name +"</h4></div>");
-                            setTownName("浜松市"+geoJsonPoint.properties.Name);
-                            ChartObj.bodyDraw(data);
-                        });
-                    }).bindPopup(
-                        '<div class="spinner-border" role="status">'+
-                            '<span class="sr-only">Loading...</span>'+
-                        '</div>'
-                    );
+                        setTownName(selectedPlaceFullName);
+                    }).bindPopup();
                 }
             }).addTo(Map.mapObj);
         },
+
         smallZoneMarkerDraw: function()  {
-            smallZoneMarkerLayer =  L.geoJson(smallZonePointJson,  {
+            smallZoneMarkerLayer =  L.geoJson(smallZonePointJson1,  {
                 pointToLayer: function (geoJsonPoint, latlng) {
                     return L.marker(latlng).on('click', function(e)  {
+                        type = "small";
+                        var p = geoJsonPoint.properties;
+                        selectedPlaceFullName = p.shiName + p.kuName + p.townName;
+                        selectedKenName = p.kenName;
+                        selectedShiName = p.shiName
+                        selectedKuName =  p.kuName;
+                        selectedTownName = p.townName;
+
                         Map.mapObj.setView(latlng, 16);
-
-                        postData(ownServerUrl, { town: geoJsonPoint.properties.name, type: "small" })
-                        .then(data => {
-                            this.bindPopup(
-                                "<div class='p-1'>"+
-                                    "<h6>"+ getPlaceName(data['0歳'][0]) +"<br/>"+
-                                        "郵便番号 : "+ data['0歳'][0]['郵便番号'] +
-                                    "</h6>"+
-                                "</div>"
-                            );
-
-                            setTownName(getPlaceName(data['0歳'][0]));
-                            ChartObj.bodyDraw(data);
-                        });
-                    })
-                    .bindPopup(
-                        '<div class="spinner-border" role="status">'+
-                            '<span class="sr-only">Loading...</span>'+
-                        '</div>'
-                    );
+                        this.bindPopup("<div class='p-1'>"+"<h6>"+ selectedPlaceFullName +"</h6>"+"</div>");
+                        setTownName(selectedPlaceFullName);
+                    }).bindPopup();
                 }
             });
         },
@@ -138,11 +235,6 @@
     var ChartObj = {
         countDatas: [],
         labelDatas: [],
-        init: function()  {
-            postData(ownServerUrl, { district: "init", type: "big" }).then(data => {
-                ChartObj.bodyDraw(data);
-            });
-        },
         bodyDraw: function(data)  {
             ChartObj.countDatas = [];
             ChartObj.labelDatas = [];
@@ -159,12 +251,14 @@
                 ChartObj.labelDatas.push(jinkoInfo[index].name);
                 ChartObj.countDatas.push(jinkoInfo[index].gTotal);
             }
+
+            selectedTownAllPeoplesCount  = ChartObj.countDatas.reduce((a, b) => a + b, 0);
+
+            console.log(ChartObj);
     
             if(myChart!=null)  {
                 myChart.destroy();
             }
-
-            console.log(ChartObj);
     
             var ctx = document.getElementById('myChart').getContext('2d');
             myChart = new Chart(ctx, {
@@ -196,9 +290,6 @@
         }
     }
 
-    Map.init();
-    ChartObj.init();
-
     //*** RequiredDemand event start ***/
         $("#menuNameCombo").change(function()  {
             postData("http://192.168.120.3/webOri/users/getMenu.json", {
@@ -207,7 +298,7 @@
                 $("#foodNameList").html("");
                 $("#townNameNutrientsReq").text(getPlaceName(jinkoInfo[0]));
 
-                console.log(dataMenu);
+                // console.log(dataMenu);
 
                 dataMenu.getMenu.forEach(element => {
                     $("#foodNameList").append(

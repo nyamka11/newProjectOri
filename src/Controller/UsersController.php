@@ -60,13 +60,6 @@ class UsersController extends AppController  {
         $this->set(['user' => $user, '_serialize' => true]);
     }
 
-    function getLastQuery() {
-        $dbo = $this->getDatasource();
-        $logs = $dbo->getLog();
-        $lastLog = end($logs['log']);
-        return $lastLog['query'];
-    }
-
     public function add()  {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
@@ -111,15 +104,36 @@ class UsersController extends AppController  {
         return $this->redirect(['action' => 'index']);
     }
 
-    public function getdata()  {
-        $district = $this->request->getQuery("district");
-        $town = $this->request->getQuery("town");
-        $type = $this->request->getQuery("type");
+    public function getLocations()  {
         $Table = TableRegistry::getTableLocator()->get('population');
+        $locations = $Table->find()->select(['県名','市','区','町','latitude','longitude','map_layer_level'])->group(['県名','市','区','町']);
 
-        /** big zone start */
+        $this->set([
+            'locations' => $locations,
+            '_serialize' => true
+        ]);
+    }
+
+    public function getdata()  {
+        $kenName = $this->request->getQuery("kenName");
+        $shiName = $this->request->getQuery("shiName");
+        $kuName = $this->request->getQuery("kuName");
+        $town = $this->request->getQuery("townName");
+        $type = $this->request->getQuery("type");
+        $timeOption = $this->request->getQuery("timeOption");
+
+        $startTime = 0;
+        $endTime = 0;
+
+        if($timeOption !== '時間帯')  { //tsag songoson bol
+            $timeArr = explode("~", $timeOption);
+            $startTime = $timeArr[0];
+            $endTime = $timeArr[1];
+        }
+
+        $Table = TableRegistry::getTableLocator()->get('population');
         if($type == "big")  {
-            if($district == "init")  {
+            if($kuName == null)  {
                 $this->set([
                     '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 =' => 0]),
                     '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['年齢 >=' => 1, '年齢 <=' => 2]), 
@@ -139,46 +153,105 @@ class UsersController extends AppController  {
             }
             else  {
                 $this->set([
-                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district,'年齢 =' => 0]),
-                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district,'年齢 >=' => 1, '年齢 <=' => 2]), 
-                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 3, '年齢 <=' => 5]), 
-                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 6, '年齢 <=' => 7]), 
-                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 8, '年齢 <=' => 9]), 
-                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 10, '年齢 <=' => 11]),
-                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 12, '年齢 <=' => 14]),
-                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 15, '年齢 <=' => 17]),
-                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 18, '年齢 <=' => 29]),
-                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 30, '年齢 <=' => 49]),
-                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 50, '年齢 <=' => 64]),
-                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区"])->where(['区'=>$district, '年齢 >=' => 65, '年齢 <=' => 74]),
-                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$district,'年齢 >=' => 75]),
+                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 =' => 0])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 =' => 0]),
+
+                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 1, '年齢 <=' => 2])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime,  '年齢 >=' => 1, '年齢 <=' => 2]), 
+
+                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 3, '年齢 <=' => 5])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 3, '年齢 <=' => 5]), 
+
+                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 6, '年齢 <=' => 7])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 6, '年齢 <=' => 7]), 
+
+                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 8, '年齢 <=' => 9])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 8, '年齢 <=' => 9]), 
+
+                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 10, '年齢 <=' => 11])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 10, '年齢 <=' => 11]),
+
+                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 12, '年齢 <=' => 14])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 12, '年齢 <=' => 14]),
+
+                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 15, '年齢 <=' => 17])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 15, '年齢 <=' => 17]),
+
+                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 18, '年齢 <=' => 29])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 18, '年齢 <=' => 29]),
+
+                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 30, '年齢 <=' => 49])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 30, '年齢 <=' => 49]),
+
+                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 50, '年齢 <=' => 64])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 50, '年齢 <=' => 64]),
+
+                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 65, '年齢 <=' => 74])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 65, '年齢 <=' => 74]),
+
+                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['区'=>$kuName,'年齢 >=' => 75])
+                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 75]),
                     '_serialize' => true
                 ]);
             }
         }
-        /** big zone end */
 
         if($type == "small")  {
-            if($district == "init")  { // tur hereglehgui small vyd yu ch songoogui bol
-            }
-            else  {
-                $this->set([
-                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town,'年齢 =' => 0]),
-                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town,'年齢 >=' => 1, '年齢 <=' => 2]), 
-                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 3, '年齢 <=' => 5]), 
-                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 6, '年齢 <=' => 7]), 
-                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 8, '年齢 <=' => 9]), 
-                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 10, '年齢 <=' => 11]),
-                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 12, '年齢 <=' => 14]),
-                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 15, '年齢 <=' => 17]),
-                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 18, '年齢 <=' => 29]),
-                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 30, '年齢 <=' => 49]),
-                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 50, '年齢 <=' => 64]),
-                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])->where(['町'=>$town, '年齢 >=' => 65, '年齢 <=' => 74]),
-                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['町'=>$town,'年齢 >=' => 75]),
-                    '_serialize' => true
-                ]);
-            }
+            $this->set([
+                '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town,'年齢 =' => 0])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 =' => 0]),
+
+                '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town,'年齢 >=' => 1, '年齢 <=' => 2])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 1, '年齢 <=' => 2]), 
+
+                '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 3, '年齢 <=' => 5])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 3, '年齢 <=' => 5]), 
+
+                '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 6, '年齢 <=' => 7])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 6, '年齢 <=' => 7]), 
+
+                '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 8, '年齢 <=' => 9])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 8, '年齢 <=' => 9]), 
+
+                '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 10, '年齢 <=' => 11])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 10, '年齢 <=' => 11]),
+
+                '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 12, '年齢 <=' => 14])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 12, '年齢 <=' => 14]),
+
+                '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 15, '年齢 <=' => 17])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 15, '年齢 <=' => 17]),
+
+                '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 18, '年齢 <=' => 29])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 18, '年齢 <=' => 29]),
+
+                '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 30, '年齢 <=' => 49])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 30, '年齢 <=' => 49]),
+
+                '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 50, '年齢 <=' => 64])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 50, '年齢 <=' => 64]),
+
+                '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
+                ->where(['町'=>$town, '年齢 >=' => 65, '年齢 <=' => 74])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 65, '年齢 <=' => 74]),
+
+                '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
+                ->where(['町'=>$town,'年齢 >=' => 75])
+                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 75]),
+
+                '_serialize' => true
+            ]);
         }
     }
 
@@ -1118,7 +1191,7 @@ class UsersController extends AppController  {
         ]);
     }
 
-    // tools
+    // ------------ tools
     public function nutrientsdata()  {
         $Table = TableRegistry::getTableLocator()->get('nutrients_data');
         $Items = $Table->find('all');
@@ -1130,13 +1203,13 @@ class UsersController extends AppController  {
     }
 
     public function bigdata()  {
-        $Table = TableRegistry::getTableLocator()->get('population');
-        $Items = $Table->find('all')->limit(1);
+        // $Table = TableRegistry::getTableLocator()->get('population');
+        // $Items = $Table->find('all')->limit(1000)->offset(66000);
 
-        $this->set([
-            'Items' => $Items,
-            '_serialize' => true
-        ]);
+        // $this->set([
+        //     'Items' => $Items,
+        //     '_serialize' => true
+        // ]);
     }
 
     public function xyupdate()  {

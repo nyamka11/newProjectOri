@@ -68,8 +68,11 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
     $routes->connect('/home', ['controller' => 'Home', 'action' => 'display']);
    
-
-
+    $routes->connect('/{type}/{location1}/{location2}/{location3}',
+    ['controller' => 'Pages', 'action' => 'search'])
+    ->setPass(['location1', 'location2', 'location3'])
+    ->setPatterns(['type' => 'түрээс|худалдаa'])
+    ->setExtensions(['json']);
 
     /*
      * ...and connect the rest of 'Pages' controller's URLs.

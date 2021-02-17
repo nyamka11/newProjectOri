@@ -23,9 +23,9 @@
                         <option value="">大規模事業者</option>
                     </select>
 
-                    <select name="" id="" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
+                    <select name="" id="timeOption" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
                         <option class="p-3" value="">時間帯</option>
-                        <option class="p-3" value="">9:00~16:00</option>
+                        <option class="p-3" value="">09:00~16:00</option>
                         <option class="p-3" value="">15:00~23:00</option>
                         <option class="p-3" value="">22:00~5:00</option>
                     </select>
@@ -52,9 +52,13 @@
                 <div class="col-12 p-3">
                     <div class="textBox font-weight-bold">人口構成</div>
                     <div id="townNameChart" class="textBox font-weight-bold ml-2">浜松市</div>
+                    <div id="selectTownAllPeopleCnt" class="textBox font-weight-bold ml-2">全員数: <cnt>0</cnt></div>
                 </div> 
-                <div class="col-12 sysWhiteColor">
+                <div class="col-12 sysWhiteColor" style="display: flex; align-items: center; justify-content: center;">
                     <canvas id="myChart" width="" height=""></canvas>
+                    <div id="chartLoader" class="spinner-border" role="status" style="margin: 100px 0px 100px 0px">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
                 <div class="col-12">
                     <button id="backBtnDisplay" class="btn btn-secondary float-right sysBackBtn mt-4 mb-4">初期画面に戻る</button>
@@ -133,7 +137,4 @@
     <?= $this->Html->script('main.js') ?> 
     <?= $this->Html->script('leaflet-search.js') ?>
     <?= $this->Html->script('cityBorderJson.js') ?>
-    <?= $this->Html->script('bigZonePointJson.js') ?>
-    <?= $this->Html->script('smallZonePointJson.js') ?>
-    <?= $this->Html->script('otherSmallJson.js') ?>
     <?= $this->Html->script('home.js') ?>
