@@ -18,9 +18,9 @@
                 <div class="col-12 p-3">
                     <!-- <button id="backBtnAction" class="btn btn-secondary float-left">戻る</button> -->
                     <div id="townName"  class="textBox font-weight-bold w-25">浜松市</div>
-                    <select name="" id="" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
-                        <option value="">住民</option>
-                        <option value="">大規模事業者</option>
+                    <select name="" id="liveAndWork" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
+                        <option value="0">住民</option>
+                        <option value="1">大規模事業者</option>
                     </select>
 
                     <select name="" id="timeOption" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">

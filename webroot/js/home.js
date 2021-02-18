@@ -1,11 +1,14 @@
 
+
+    var myMap = null;
     var myChart;
     var jinkoInfo = [];
     var bigZoneMarkerLayer;
     var smallZoneMarkerLayer;
 
     var type = "big";
-    var timeOption;
+    var timeOption,
+        liveAndWork;
 
     var selectedKenName = null,
         selectedShiName = null,
@@ -16,69 +19,89 @@
     var selectedTownAllPeoplesCount = 0;
     var smallZonePointJson1 = null;
     var bigZonePointJson1 = null;
-    
-    //map init
-    postData("http://192.168.120.3/webOri/users/getLocations.json")
-    .then(data => {
-        smallZonePointJson1 = {
-            "type": "FeatureCollection",
-            "features": []
-        };
 
-        bigZonePointJson1 = {
-            "type": "FeatureCollection",
-            "features": []
-        };
+    var selectedMenuName = null;
 
-        $.each(data.locations, function(i,v)  {
-            if(this.map_layer_level === 1) {
-                bigZonePointJson1.features.push({
-                    "type":"Feature",
-                    "properties":{
-                        "kenName" : this.県名,
-                        "shiName" : this.市,
-                        "kuName": this.区
-                    },
-                    "geometry":{
-                        "type":"Point",
-                        "coordinates":[
-                            this.latitude,
-                            this.longitude
-                        ]
-                    }
-                });
-            }
+    var selectedSpecialAgeName = $("#SpecialAgeNameReq option:selected").text(), 
+        selectedDayWeekMonth =  $("#dayWeekMonthReq option:selected").val(),
+        selectedSubOption = $("#dayWeekMonthReq option:selected").text();
 
-            if(this.map_layer_level === 2)  {
-                smallZonePointJson1.features.push({
-                    "type":"Feature",
-                    "properties":{
-                        "kenName" : this.県名,
-                        "shiName" : this.市,
-                        "kuName": this.区,
-                        "townName" : this.町
-                    },
-                    "geometry":{
-                        "type":"Point",
-                        "coordinates":[
-                            this.latitude,
-                            this.longitude
-                        ]
-                    }
-                });
-            }
-        });
-
-        console.log(bigZonePointJson1);
-
-        Map.init();
-    });
-
+    // init events 
     $("#timeOption").change(function()  {
         timeOption = $("option:selected",this).text();
     }).change();
 
-    
+    $("#liveAndWork").change(function()  {
+        liveAndWork = $("option:selected",this).val();
+        init();
+    }).change();
+
+    // init
+    function init()  {
+        if(myMap !==null )  {
+            myMap.mapObj.eachLayer(function (layer) { 
+                myMap.mapObj.removeLayer(layer); 
+            });
+
+            myMap.mapObj.off();
+            myMap.mapObj.remove();
+        }
+
+        postData("http://192.168.120.3/webOri/users/getLocations.json",{
+            timeOption: timeOption,
+            liveAndWork: liveAndWork
+        }).then(data => {
+            smallZonePointJson1 = {
+                "type": "FeatureCollection",
+                "features": []
+            };
+
+            bigZonePointJson1 = {
+                "type": "FeatureCollection",
+                "features": []
+            };
+
+            $.each(data.locations, function(i,v)  {
+                if(this.map_layer_level === 1) {
+                    bigZonePointJson1.features.push({
+                        "type":"Feature",
+                        "properties":{
+                            "kenName" : this.県名,
+                            "shiName" : this.市,
+                            "kuName": this.区
+                        },
+                        "geometry":{
+                            "type":"Point",
+                            "coordinates":[
+                                this.latitude,
+                                this.longitude
+                            ]
+                        }
+                    });
+                }
+
+                if(this.map_layer_level === 2)  {
+                    smallZonePointJson1.features.push({
+                        "type":"Feature",
+                        "properties":{
+                            "kenName" : this.県名,
+                            "shiName" : this.市,
+                            "kuName": this.区,
+                            "townName" : this.町
+                        },
+                        "geometry":{
+                            "type":"Point",
+                            "coordinates":[
+                                this.latitude,
+                                this.longitude
+                            ]
+                        }
+                    });
+                }
+            });
+            myMap.init();
+        });
+    }
 
     document.querySelector("#chartShow").addEventListener("click", function() {
         $("#chartDisplay").show();
@@ -87,25 +110,17 @@
         $("#chartLoader").show();
         $("#myChart").hide();
 
-        console.log({ 
-            kenName: selectedKenName,
-            shiName: selectedShiName,  
-            kuName: selectedKuName,
-            townName: selectedTownName, 
-            type: type,
-            timeOption: timeOption
-        });
-
         postData(ownServerUrl, { 
             kenName: selectedKenName,
             shiName: selectedShiName,  
             kuName: selectedKuName,
             townName: selectedTownName, 
             type: type,
-            timeOption: timeOption
+            timeOption: timeOption,
+            liveAndWork: liveAndWork
+
         })
         .then(data => {
-            console.log(data);
             setTownName(getPlaceName(data['0歳'][0]));
             ChartObj.bodyDraw(data);
             $("#selectTownAllPeopleCnt cnt").text(selectedTownAllPeoplesCount);
@@ -129,6 +144,7 @@
         $("#basicDisplay").hide();
         $("#requiredDemandDisplay").show();
         $("#menuNameCombo").change();
+        $("#dayWeekMonthReq").change();
     });
 
     document.querySelector("#nutrientsShowBtn").addEventListener("click", function() {
@@ -143,7 +159,7 @@
         $("#basicDisplay").show();
     });
 
-    var Map = {
+    myMap = {
         mapObj: null,
         bigZoneMarkerLayer: null,
         smallZoneMarkerLayer: null,
@@ -173,11 +189,11 @@
                 onEachFeature: function(feature, layer)  {
                     layer.on({
                         click: function(e)  {
-                            Map.mapObj.fitBounds(e.target.getBounds());
+                            myMap.mapObj.fitBounds(e.target.getBounds());
                         }
                     });
                 }
-            }).addTo(Map.mapObj);
+            }).addTo(myMap.mapObj);
         },
         bigZoneMarkerDraw: function()  {  //big zone marker
             bigZoneMarkerLayer = L.geoJson(bigZonePointJson1, {
@@ -191,11 +207,11 @@
                         selectedKuName =  p.kuName;
                         
                         this.bindPopup("<div class='p-1'><h4>"+ p.kuName +"</h4></div>");
-                        Map.mapObj.setView(latlng, 14);
+                        myMap.mapObj.setView(latlng, 14);
                         setTownName(selectedPlaceFullName);
                     }).bindPopup();
                 }
-            }).addTo(Map.mapObj);
+            }).addTo(myMap.mapObj);
         },
 
         smallZoneMarkerDraw: function()  {
@@ -210,7 +226,7 @@
                         selectedKuName =  p.kuName;
                         selectedTownName = p.townName;
 
-                        Map.mapObj.setView(latlng, 16);
+                        myMap.mapObj.setView(latlng, 16);
                         this.bindPopup("<div class='p-1'>"+"<h6>"+ selectedPlaceFullName +"</h6>"+"</div>");
                         setTownName(selectedPlaceFullName);
                     }).bindPopup();
@@ -218,15 +234,15 @@
             });
         },
         zoom: function()  {
-            Map.mapObj.on('zoomend', function()  {
-                var currentZoom = Map.mapObj.getZoom();
+            myMap.mapObj.on('zoomend', function()  {
+                var currentZoom = myMap.mapObj.getZoom();
                 if(currentZoom >= 14)  {
-                    smallZoneMarkerLayer.addTo(Map.mapObj);
+                    smallZoneMarkerLayer.addTo(myMap.mapObj);
                     bigZoneMarkerLayer.remove();
                 }
                 else  {
                     smallZoneMarkerLayer.remove();
-                    bigZoneMarkerLayer.addTo(Map.mapObj);
+                    bigZoneMarkerLayer.addTo(myMap.mapObj);
                 }
             });
         }
@@ -253,8 +269,6 @@
             }
 
             selectedTownAllPeoplesCount  = ChartObj.countDatas.reduce((a, b) => a + b, 0);
-
-            console.log(ChartObj);
     
             if(myChart!=null)  {
                 myChart.destroy();
@@ -292,61 +306,92 @@
 
     //*** RequiredDemand event start ***/
         $("#menuNameCombo").change(function()  {
+            selectedMenuName = $("option:selected", this).text();
+            getMenu();
+        });
+
+        //header---
+        $("#SpecialAgeNameReq").change(function()  {
+            selectedSpecialAgeName = $("option:selected", this).text(), 
+            getNutrientsReqData();
+        });
+
+        $("#dayWeekMonthReq").change(function()  {
+            let subOption = $("#subOptionReq").html("");
+            let optionVal = $(this).val();
+            subOptionDraw(subOption, optionVal);
+
+            selectedDayWeekMonth = $("option:selected", this).val();
+            $("#subOptionReq").change();
+
+        });
+
+        $("#subOptionReq").change(function()  {
+            selectedSubOption = $("option:selected", this).text();
+            getMenu();
+            // getNutrientsReqData();
+        });
+
+        function getMenu() {
+
+            console.log({
+                menuName: selectedMenuName,
+                dayWeekMonth: selectedDayWeekMonth,
+                subOption: selectedSubOption,
+            });
+
             postData("http://192.168.120.3/webOri/users/getMenu.json", {
-                menuName: $("option:selected", this).text()
+                menuName: selectedMenuName,
+                dayWeekMonth: selectedDayWeekMonth,
+                subOption: selectedSubOption,
             }).then(dataMenu => {
                 $("#foodNameList").html("");
                 $("#townNameNutrientsReq").text(getPlaceName(jinkoInfo[0]));
 
-                // console.log(dataMenu);
-
                 dataMenu.getMenu.forEach(element => {
                     $("#foodNameList").append(
                         '<li class="list-group-item d-flex justify-content-between align-items-center">'
-                            + (element.foodName.replace(/\s/g, '')) +"<b>"+ (element.oneServingCoefficient)+ "</b>"+
-                            // '<span class="badge badge-primary badge-pill">asdfasd</span>'+
+                            + (element.foodName.replace(/\s/g, '')) +"<b>"+ (element.oneServingCoefficients)+ "</b>"+
                         '</li>'
                     );
                 });
 
                 getNutrientsReqData();
             });
-        });
+        }
 
-        $("#dayWeekMonthReq").change(function()  {
-            let subOption = $("#subOptionReq").html("");
-            let optionVal = $(this).val();
+        function getNutrientsReqData()  {  // getNutrientsReqData data loading fn start 
+            var param = {
+                menuName: $("#menuNameCombo option:selected").text(),
+                SpecialAgeName: selectedSpecialAgeName,
+                dayWeekMonth: selectedDayWeekMonth,
+                subOption: selectedSubOption,
+                jinkoInfo: JSON.stringify(jinkoInfo),
+            };
+
+            postData("http://192.168.120.3/webOri/users/getReqNutrientList.json", param).then(data => {
+                $("#tableBodyReq1").html("").html(data.htmlTable);
+            });
+        }
+
+        function subOptionDraw(subOption, optionVal)  {
             if(optionVal === "day") {
                 for(let i=1; i<=31; i++) {
                     subOption.append("<option>"+ i +"日</option>");
                 }
             }
-
             if(optionVal === "week")  {
                 for(let i=1; i<=20; i++)  {
                     subOption.append("<option>"+ i +"週</option>");
                 }
             }
-
             if(optionVal === "month") {
                 for(let i=1; i<=12; i++)  {
                     subOption.append("<option>"+ i +"か月</option>");
                 }
             }
-            getNutrientsReqData(); 
-        })
+        }
 
-        $("#SpecialAgeNameReq").change(function()  {
-            getNutrientsReqData();
-        });
-
-        $("#dayWeekMonthReq").change(function()  {
-            getNutrientsReqData();
-        }).change();
-
-        $("#subOptionReq").change(function()  {
-            getNutrientsReqData();
-        });
     //*** RequiredDemand event end ***/
 
     //*** Nutrients start ***/
@@ -396,30 +441,15 @@
                 subOption: $("#subOption option:selected").text(),
                 jinkoInfo: JSON.stringify(jinkoInfo),
             }).then(data => {
-                console.log(data);
                 $("#tableBody").html(data.nutrients);
-            });
-        }
-        
-        function getNutrientsReqData()  {  // getNutrientsReqData data loading fn start 
-            let param = {
-                menuName: $("#menuNameCombo option:selected").text(),
-                SpecialAgeName: $("#SpecialAgeNameReq option:selected").val(),
-                dayWeekMonth: $("#dayWeekMonthReq option:selected").val(),
-                subOption: $("#subOptionReq option:selected").text(),
-                jinkoInfo: JSON.stringify(jinkoInfo),
-            };
-
-            postData("http://192.168.120.3/webOri/users/getReqNutrientList.json", param).then(data => {
-                $("#tableBodyReq1").html("").html(data.htmlTable);
             });
         }
 
         function getPlaceName(data)  {  /** データから場所の名前をもらう。start */
             let name;
-            if(data['市'] != undefined) name = data['市'];
-            if(data['区'] != undefined) name += data['区'];
-            if(data['町'] != undefined) name += data['町'];
+            // if(data['市'] != undefined) name = data['市'];
+            // if(data['区'] != undefined) name += data['区'];
+            // if(data['町'] != undefined) name += data['町'];
             return name;
         }
     //*** functions end ***/
