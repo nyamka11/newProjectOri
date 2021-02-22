@@ -42,6 +42,10 @@
                         <button id="requiredDemandDisplayShowBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3 sysPinkColor">必要需要数（食品）</button>
                         <button type="button" class="btn btn-outline-dark float-left w-100 mt-3 sysPinkColor">必要需要数（備蓄品）</button>
                         <button type="button" class="btn btn-outline-dark float-left w-100 mt-3 sysPinkColor">必要需要数（医薬品）</button>
+
+                        <br/><br/><br/>
+                        <button id="productRequestFreeBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援品リクエストフリー指定</button>
+                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援品リクエスト自動計算</button>
                     </div>
                 </div>
             </div>
@@ -118,8 +122,8 @@
 
                 <div class="col-3">
                     <select name="" id="menuNameCombo" class="btn btn-outline-dark w-100 sysWhiteColor">
-                        <option value="">サンプル1日セット冷凍セット</option>
-                        <option value="">浜松市備蓄分セット</option>
+                        <option value="サンプル1日セット冷凍セット">サンプル1日セット冷凍セット</option>
+                        <option value="浜松市備蓄分セット">浜松市備蓄分セット</option>
                     </select>
                     <ul  id="foodNameList" class="list-group  mt-2" style="overflow: auto; height: 555px;">
                     </ul>
@@ -128,6 +132,144 @@
                     <div id="tableBodyReq1" class="border p-2" style="height: 600px; overflow: auto;">
 
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="productRequestFreeDisplay" class="container m-auto border basicBackground" style="display:none">
+            <div class="row">
+                <div class="col-6 mt-3">
+                    <div class="textBox font-weight-bold w-100">支援品リクエストフリー指定</div>
+                </div>
+                <div class="col-3 mt-3">
+                    <div class="textBox w-100">ことも支援食堂</div>
+                </div>
+                <div class="col-3 mt-3">
+                    <button id="productRequestFreeDisplayBackBtn" class="btn btn-secondary float-right sysBackBtn">初期画面に戻る</button>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <select name="" id="PRF_foodTypes" class="btn btn-outline-dark w-50 sysWhiteColor">
+                        <option value="食品・食料品">食品・食料品</option>
+                        <option value="日用品">日用品</option>
+                        <option value="薬">薬</option>
+                        <option value="非常用品">非常用品</option>
+                    </select>
+                </div>
+
+                <div class="col-3 mt-3">
+                    <div class="textBox bg-white w-50" style="padding: 2% 6% 2% 6%;">人数</div>
+                    <input id="PRF_peopleCnt" type="text" class="form-control w-50" value="30">
+                </div>
+
+                <div class="col-3 mt-3">
+                    <select id="PRF_dayWeekMonth" class="btn btn-outline-dark sysWhiteColor">
+                        <option value="day">日</option>
+                        <option value="week">週</option>
+                        <option value="month">月</option>
+                    </select>
+
+                    <select id="PRF_subOption" class="btn btn-outline-dark ml-2 sysWhiteColor">
+                    </select>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <div class="input-group mb-3 float-left">
+                        <div class="textBox bg-white"  style="padding: 1% 2% 1% 2%;">検索ワード</div>
+                        <input type="text" class="form-control" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary bg-green text-dark" style="background: #a0ffa0;" type="button">検索</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <div class="textBox w-25 bg-white"  style="padding: 1% 0% 1% 0%;">必要数</div>
+                    <input id="PRF_RequiredNumber" type="text" class="form-control w-25 float-left" value="90">
+                    <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
+                </div>
+
+                <div class="col-12" style="height:554px;">
+                    <table id="PRF_listTable" class="table table-bordered table-sm">
+                        <thead style="background-color:#dedefb">
+                            <tr>
+                                <th scope="col" width="40">CK</th>
+                                <th scope="col">物品名</th>
+                                <th scope="col" width="100">保管期限</th>
+                                <th scope="col">保管場所</th>
+
+                                <th scope="col" width="70">供出可能数量</th>
+                                <th scope="col" width="70">荷姿</th>
+                                <th scope="col" width="70">荷姿内数量</th>
+                                <th scope="col" width="70">荷姿内単位</th>
+                                <th scope="col" width="100">リクエスト数量荷姿内単位</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color:#f9f2ff; height:400px">
+                            
+                        </tbody>
+                    </table>
+                    <button id="requestCheck" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確認</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmDisplay" class="container m-auto border basicBackground" style="display:none">
+            <div class="row">
+                <div class="col-6 mt-3">
+                    <div class="textBox font-weight-bold w-100">支援品リクエストフリー確定画面</div>
+                </div>
+                <div class="col-3 mt-3">
+                    <div class="textBox w-100">ことも支援食堂</div>
+                </div>
+                <div class="col-3 mt-3">
+                    <button id="PRD_backBtn" class="btn btn-secondary float-right sysBackBtn">リクエスト画面へ</button>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <div id="CD_foodType" class="textBox w-50"></div>
+                </div>
+
+                <div class="col-3 mt-3">
+                    <div class="textBox w-50 bg-white" style="padding: 2% 6% 2% 6%;">人数</div>
+                    <div id="CD_peopleCnt" class="textBox w-50" style="padding: 2% 6% 2% 6%;">30</div>
+                </div>
+
+                <div class="col-3 mt-3">
+                    <div id="CD_selectedDate" class="textBox w-100"></div>
+                </div>
+
+                <div class="col-6 mt-3">
+                <div class="textBox w-25" style="padding: 1% 0% 1% 0%;">入荷希望日</div>
+                    <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">2021/4/10</div>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <div class="textBox w-25 bg-white"  style="padding: 1% 0% 1% 0%;">必要数</div>
+                    <div id="CD_RequiredNumber" class="textBox w-25" style="padding: 1% 0% 1% 0%;">90</div>
+                    <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
+                </div>
+
+                <div class="col-12" style="height:554px;">
+                    <table id="CD_listTable" class="table table-bordered table-sm mt-3">
+                        <thead style="background-color:#dedefb">
+                            <tr>
+                                <th scope="col" width="40">CK</th>
+                                <th scope="col">物品名</th>
+                                <th scope="col" width="100">保管期限</th>
+                                <th scope="col">保管場所</th>
+
+                                <th scope="col" width="70">供出可能数量</th>
+                                <th scope="col" width="70">荷姿</th>
+                                <th scope="col" width="70">荷姿内数量</th>
+                                <th scope="col" width="70">荷姿内単位</th>
+                                <th scope="col" width="100">リクエスト数量荷姿内単位</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color:#f9f2ff; height:384px">
+                        </tbody>
+                    </table>
+                    <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
                 </div>
             </div>
         </div>

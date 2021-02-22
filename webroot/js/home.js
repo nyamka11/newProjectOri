@@ -1,5 +1,3 @@
-
-
     var myMap = null;
     var myChart;
     var jinkoInfo = [];
@@ -14,7 +12,7 @@
         selectedShiName = null,
         selectedKuName = null,
         selectedTownName = null,
-        selectedPlaceFullName = null;
+        selectedPlaceFullName = "浜松市";
 
     var selectedTownAllPeoplesCount = 0;
     var smallZonePointJson1 = null;
@@ -103,7 +101,99 @@
         });
     }
 
-    document.querySelector("#chartShow").addEventListener("click", function() {
+    $("#productRequestFreeBtn").click(function()  {
+        $("#basicDisplay").hide();
+        $("#productRequestFreeDisplay").show();
+
+        var rowListHtml = null;
+        postData("http://192.168.120.3/webOri/users/productFree.json").then(data => {
+            $.each(data.Items, function()  {
+                rowListHtml +=
+                '<tr>'+
+                    '<th scope="row" width="40">'+
+                        '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '</th>'+
+                    '<td>'+ this.good_name +'</td>'+
+                    '<td width="100">'+ this.save_date +'</td>'+
+                    '<td>'+ this.storage_area +'</td>'+
+                    '<td width="70">'+ this.available_count +'</td>'+
+                    '<td width="70">'+ this.packing +'</td>'+
+                    '<td width="70">'+ this.in_the_package_count +'</td>'+
+                    '<td width="70">'+ this.unit_in_package +'</td>'+
+                    '<td class="bg-white" width="100">'+
+                        '<input type="text" class="form-control" value='+ this.request_package +' style="height:20px; padding:0px;">'+
+                    '</td>'+
+                '</tr>'
+            });
+
+            $("#PRF_listTable tbody").html("").html(rowListHtml);
+        });
+    });
+
+    $("#requestCheck").click(function()  { //------------------------
+        $("#CD_foodType").text($("#PRF_foodTypes option:selected").val());
+        $("#CD_selectedDate").text($("#PRF_subOption option:selected").text());
+        $("#CD_RequiredNumber").text($("#PRF_RequiredNumber").val());
+        $("#CD_peopleCnt").text($("#PRF_peopleCnt").val());
+
+        var selectedRowIds = [];
+        $("#PRF_listTable #checkBox").each(function()  {  //songogdson idiig tsugluulna
+            if($(this).is(":checked"))  {
+                selectedRowIds.push($(this).attr("rowId"));
+            }
+        });
+
+        var rowListHtml = null;
+        postData("http://192.168.120.3/webOri/users/productCheck.json", {
+            selectedRowIds: JSON.stringify(selectedRowIds)
+        }).then(data => {
+            $("#confirmDisplay").show();
+            $("#productRequestFreeDisplay").hide();
+
+            $.each(data.Items, function()  {
+                rowListHtml +=
+                '<tr>'+
+                    '<th scope="row" width="40">'+
+                        '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '</th>'+
+                    '<td>'+ this.good_name +'</td>'+
+                    '<td width="100">'+ this.save_date +'</td>'+
+                    '<td>'+ this.storage_area +'</td>'+
+                    '<td width="70">'+ this.available_count +'</td>'+
+                    '<td width="70">'+ this.packing +'</td>'+
+                    '<td width="70">'+ this.in_the_package_count +'</td>'+
+                    '<td width="70">'+ this.unit_in_package +'</td>'+
+                    '<td class="bg-white" width="100">'+ this.request_package +'</td>'+
+                '</tr>'
+            });
+            $("#CD_listTable tbody").html("").html(rowListHtml);
+        });
+
+    });
+
+    $("#PRD_backBtn").click(function()  {
+        $("#productRequestFreeDisplay").show();
+        $("#confirmDisplay").hide();
+        $("#PRF_subOption option:selected").val();
+    });
+
+    $("#requestConfirmedBtn").click(function()  {
+        alert("リクエストを受付ました");
+    });
+
+    //-------------------------------
+    $("#productRequestFreeDisplayBackBtn").click(function()  {
+        $("#basicDisplay").show();
+        $("#productRequestFreeDisplay").hide();
+    });
+
+    $("#PRF_dayWeekMonth").change(function()  {
+        let subOption = $("#PRF_subOption").html("");
+        let optionVal = $(this).val();
+        subOptionDraw(subOption, optionVal);
+    }).change();
+
+    $("#chartShow").click(function()  {
         $("#chartDisplay").show();
         $("#basicDisplay").hide();
 
@@ -118,10 +208,8 @@
             type: type,
             timeOption: timeOption,
             liveAndWork: liveAndWork
-
         })
         .then(data => {
-            setTownName(getPlaceName(data['0歳'][0]));
             ChartObj.bodyDraw(data);
             $("#selectTownAllPeopleCnt cnt").text(selectedTownAllPeoplesCount);
             $("#chartLoader").hide();
@@ -129,32 +217,32 @@
         });
     });
 
-    document.querySelector("#backBtnDisplay").addEventListener("click", function() {
+    $("#backBtnDisplay").click(function()  {
         $("#basicDisplay").show();
         $("#chartDisplay").hide();
         myChart.destroy();
     });
 
-    document.querySelector("#backBtnRequiredDemand").addEventListener("click", function() {
+    $("#backBtnRequiredDemand").click(function()  {
         $("#basicDisplay").show();
         $("#requiredDemandDisplay").hide();
     });
 
-    document.querySelector("#requiredDemandDisplayShowBtn").addEventListener("click", function() {
+    $("#requiredDemandDisplayShowBtn").click(function()  {
         $("#basicDisplay").hide();
         $("#requiredDemandDisplay").show();
         $("#menuNameCombo").change();
         $("#dayWeekMonthReq").change();
     });
 
-    document.querySelector("#nutrientsShowBtn").addEventListener("click", function() {
+    $("#nutrientsShowBtn").click(function()  {
         $("#basicDisplay").hide();
         $("#nutrientsDisplay").show();
-        $("#townNameNutrients").text(getPlaceName(jinkoInfo[0]));
+        $("#townNameNutrients").text(selectedPlaceFullName);
         $("#dayWeekMonth").change();
     });
 
-    document.querySelector("#backBtnNutrients").addEventListener("click", function() {
+    $("#backBtnNutrients").click(function()  {
         $("#nutrientsDisplay").hide();
         $("#basicDisplay").show();
     });
@@ -268,7 +356,11 @@
                 ChartObj.countDatas.push(jinkoInfo[index].gTotal);
             }
 
-            selectedTownAllPeoplesCount  = ChartObj.countDatas.reduce((a, b) => a + b, 0);
+            selectedTownAllPeoplesCount  = ChartObj.countDatas.reduce(function(total, num) { 
+                total = isNaN(total) ? 0 : total;
+                num = isNaN(num) ? 0 : num;
+                return total + num;
+            });
     
             if(myChart!=null)  {
                 myChart.destroy();
@@ -306,13 +398,13 @@
 
     //*** RequiredDemand event start ***/
         $("#menuNameCombo").change(function()  {
-            selectedMenuName = $("option:selected", this).text();
+            selectedMenuName = $("option:selected", this).val();
             getMenu();
         });
 
         //header---
         $("#SpecialAgeNameReq").change(function()  {
-            selectedSpecialAgeName = $("option:selected", this).text(), 
+            selectedSpecialAgeName = $("option:selected", this).val(), 
             getNutrientsReqData();
         });
 
@@ -333,26 +425,19 @@
         });
 
         function getMenu() {
-
-            console.log({
-                menuName: selectedMenuName,
-                dayWeekMonth: selectedDayWeekMonth,
-                subOption: selectedSubOption,
-            });
-
+            $("#townNameNutrientsReq").text(selectedPlaceFullName);
             postData("http://192.168.120.3/webOri/users/getMenu.json", {
                 menuName: selectedMenuName,
                 dayWeekMonth: selectedDayWeekMonth,
                 subOption: selectedSubOption,
             }).then(dataMenu => {
                 $("#foodNameList").html("");
-                $("#townNameNutrientsReq").text(getPlaceName(jinkoInfo[0]));
-
                 dataMenu.getMenu.forEach(element => {
                     $("#foodNameList").append(
-                        '<li class="list-group-item d-flex justify-content-between align-items-center">'
-                            + (element.foodName.replace(/\s/g, '')) +"<b>"+ (element.oneServingCoefficients)+ "</b>"+
-                        '</li>'
+                        "<div class='row' style='border:1px solid #cacaca; background-color:white; padding:5px; margin:2px;'>"+
+                            "<div class='col-8' style='font-size:14px;'>"+ (element.foodName.replace(/\s/g, '')) +"</div>"+
+                            "<div class='col-4'><b>"+ (element.oneServingCoefficients)+ "食</b></div>"+
+                        "</div>"
                     );
                 });
 
@@ -377,17 +462,17 @@
         function subOptionDraw(subOption, optionVal)  {
             if(optionVal === "day") {
                 for(let i=1; i<=31; i++) {
-                    subOption.append("<option>"+ i +"日</option>");
+                    subOption.append("<option value="+ i +">"+ i +"日</option>");
                 }
             }
             if(optionVal === "week")  {
                 for(let i=1; i<=20; i++)  {
-                    subOption.append("<option>"+ i +"週</option>");
+                    subOption.append("<option value="+ i +">"+ i +"週</option>");
                 }
             }
             if(optionVal === "month") {
                 for(let i=1; i<=12; i++)  {
-                    subOption.append("<option>"+ i +"か月</option>");
+                    subOption.append("<option value="+ i +">"+ i +"か月</option>");
                 }
             }
         }
@@ -443,13 +528,5 @@
             }).then(data => {
                 $("#tableBody").html(data.nutrients);
             });
-        }
-
-        function getPlaceName(data)  {  /** データから場所の名前をもらう。start */
-            let name;
-            // if(data['市'] != undefined) name = data['市'];
-            // if(data['区'] != undefined) name += data['区'];
-            // if(data['町'] != undefined) name += data['町'];
-            return name;
         }
     //*** functions end ***/

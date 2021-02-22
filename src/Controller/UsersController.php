@@ -1220,6 +1220,27 @@ class UsersController extends AppController  {
         ]);
     }
 
+    public function productFree()  {
+        $Table = TableRegistry::getTableLocator()->get('product_free');
+        $Items = $Table->find('all');
+
+        $this->set([
+            'Items' => $Items,
+            '_serialize' => true
+        ]);
+    }
+
+    public function productCheck()  {
+        $selectedRowIds = json_decode($this->request->getQuery("selectedRowIds"));
+        $Table = TableRegistry::getTableLocator()->get('product_free');
+        $Items = $Table->find('all')->where(['id IN' => $selectedRowIds]);
+
+        $this->set([
+            'Items' => $Items,
+            '_serialize' => true
+        ]);
+    }
+
     // ------------ tools
     public function nutrientsdata()  {
         $Table = TableRegistry::getTableLocator()->get('nutrients_data');

@@ -78,7 +78,29 @@
 .textBox {
     border: 1px solid black;
     float: left;
-    padding: 6px 67px 5px 66px;
+    /* padding: 6px 67px 5px 66px; */
+    padding: 6px 0px 5px 0px;
     text-align: center;
     /* background-color: #cacaca; */
+}
+
+.table-bordered td, .table-bordered th {
+    border: 1px solid #4950574f;
+}
+tbody {
+    display: block;
+    overflow-y: scroll;
+    font-size: 12px;
+}
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+}
+thead {
+    width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+.form-control {
+    border-radius:0px;
 }
