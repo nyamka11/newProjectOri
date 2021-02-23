@@ -5,7 +5,7 @@ $("#productRequestFreeBtn").click(function()  {
     $("#productRequestFreeDisplay").show();
 
     var rowListHtml = null;
-    postData("http://192.168.120.3/webOri/users/productFree.json").then(data => {
+    postData(SERVER_+"/webOri/users/productFree.json").then(data => {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
@@ -43,7 +43,7 @@ $("#PRF_requestCheck").click(function()  {
     });
 
     var rowListHtml = null;
-    postData("http://192.168.120.3/webOri/users/productCheck.json", {
+    postData(SERVER_+"/webOri/users/productCheck.json", {
         selectedRowIds: JSON.stringify(selectedRowIds)
     }).then(data => {
         $("#PRF_confirmDisplay").show();

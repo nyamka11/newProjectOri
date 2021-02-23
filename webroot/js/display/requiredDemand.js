@@ -39,7 +39,7 @@ $("#subOptionReq").change(function()  {
 
 function getMenu() {
     $("#townNameNutrientsReq").text(selectedPlaceFullName);
-    postData("http://192.168.120.3/webOri/users/getMenu.json", {
+    postData(SERVER_+"/webOri/users/getMenu.json", {
         menuName: selectedMenuName,
         dayWeekMonth: selectedDayWeekMonth,
         subOption: selectedSubOption,
@@ -67,7 +67,7 @@ function getNutrientsReqData()  {  // getNutrientsReqData data loading fn start
         jinkoInfo: JSON.stringify(jinkoInfo),
     };
 
-    postData("http://192.168.120.3/webOri/users/getReqNutrientList.json", param).then(data => {
+    postData(SERVER_+"/webOri/users/getReqNutrientList.json", param).then(data => {
         $("#tableBodyReq1").html("").html(data.htmlTable);
     });
 }

@@ -1,6 +1,6 @@
 
 /** ORi serverluu nutrientsdata - aag amjilttai ilgeesen tool
-    postData("http://192.168.120.3/webOri/users/nutrientsdata.json", { answer: 42 }, "GET")
+    postData(SERVER_+"/webOri/users/nutrientsdata.json", { answer: 42 }, "GET")
     .then(data => {
         console.log(data);
         data.Items.forEach(function(item)  {
@@ -72,7 +72,7 @@ async function postDataLocal(url = '', data = {}) {
 
     
     //ene shuud zvgeer ajilnna.
-    /*postData("http://192.168.120.3/webOri/users/bigdata.json", {  }, "GET")
+    /*postData(SERVER_+"/webOri/users/bigdata.json", {  }, "GET")
     .then(data => {
         // console.log(data.Items);
         data.Items.forEach(function(item)  {

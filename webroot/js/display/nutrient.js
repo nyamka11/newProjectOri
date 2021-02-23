@@ -42,7 +42,7 @@ $("#subOption").change(function()  {
 });
 
 function getNutrientsData()  {  // getNutrients data loading fn start
-    postData("http://192.168.120.3/webOri/users/getNutrients.json", 
+    postData(SERVER_+"/webOri/users/getNutrients.json", 
     {
         SpecialAgeName: $("#SpecialAgeName option:selected").val(),
         dayWeekMonth: $("#dayWeekMonth option:selected").val(),

@@ -31,7 +31,7 @@ up the built-in webserver with:
 bin/cake server -p 8765
 ```
 
-Then visit `http://localhost:8765` to see the welcome page.
+Then visit `http://192.168.120.3/webOri:8765` to see the welcome page.
 
 ## Update
 

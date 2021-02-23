@@ -1,3 +1,5 @@
+    
+
     var myMap = null;
     var myChart;
     var jinkoInfo = [];
@@ -44,7 +46,7 @@
             myMap.mapObj.remove();
         }
 
-        postData("http://192.168.120.3/webOri/users/getLocations.json",{
+        postData(SERVER_+"/webOri/users/getLocations.json",{
             timeOption: timeOption,
             liveAndWork: liveAndWork
         }).then(data => {

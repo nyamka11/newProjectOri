@@ -1,7 +1,8 @@
 
     // Database name
+    var SERVER_ ='http://192.168.120.3';
     const ownDB = "FKC"; //FKC : ORI 
-    const ownServerUrl = "http://192.168.120.3/webOri/users/getdata.json";
+    const ownServerUrl = SERVER_+"/webOri/users/getdata.json";
 
     // const ownDB = "ORI";  
     const oriUrl = "https://ori-project.smartcity-open-platform.jp/orion/v2.0/entities";

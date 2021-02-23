@@ -136,7 +136,7 @@ crossorigin=""></script>
         return response;
     }
 
-    postData('http://localhost/webOri/users/data.json')
+    postData('http://192.168.120.3/webOri/webOri/users/data.json')
     .then(data =>  {
        
         chart();

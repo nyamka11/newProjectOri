@@ -30,4 +30,4 @@ const CHART_BORDER_COLORS = [
     '#28a745'
 ];
 
-const SERVER_PATH = "http://192.168.120.3/webOri/"; 
+// const SERVER_PATH = SERVER_+"/webOri/"; 
