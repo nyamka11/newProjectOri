@@ -27,11 +27,11 @@ $("#supportListCreationBtn").click(function()  {
             '</tr>'
         });
 
-        $("#SCD_listTable tbody").html("").html(rowListHtml);
-
         if(SCD_dataTable !==null)  {
             SCD_dataTable.destroy();
         }
+
+        $("#SCD_listTable tbody").html("").html(rowListHtml);
 
         SCD_dataTable = dataTable('SCD_listTable');
         tableResize($("#SCD_listTable"));
@@ -82,11 +82,12 @@ $("#SCD_ListCreationBtn").click(function()  {
                 '</td>'+
             '</tr>'
         });
-        $("#SCD_CD_listTable tbody").html("").html(rowListHtml);
-
+        
         if(SCD_CD_listTable !==null)  {
             SCD_CD_listTable.destroy();
         }
+
+        $("#SCD_CD_listTable tbody").html("").html(rowListHtml);
 
         SCD_CD_listTable = dataTable('SCD_CD_listTable');
         tableResize($("#SCD_CD_listTable"));
@@ -105,7 +106,7 @@ $("#SCD_backBtn").click(function()  {  // omnoh tsonhruu butsah
     $("#SCD_subOption option:selected").val();
 });
 
-$("#requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
+$("#SCD_CD_requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
     alert("リクエストを受付ました");
 });
 

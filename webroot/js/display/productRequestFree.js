@@ -1,4 +1,6 @@
 
+var PRF_listTable = null;
+var PRF_CD_listTable = null;
 
 $("#productRequestFreeBtn").click(function()  {
     $("#basicDisplay").hide();
@@ -9,23 +11,30 @@ $("#productRequestFreeBtn").click(function()  {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
-                '<th scope="row" width="40">'+
+                '<th scope="row" width="2%">'+
                     '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
                 '</th>'+
-                '<td>'+ this.good_name +'</td>'+
-                '<td width="100">'+ this.save_date +'</td>'+
-                '<td>'+ this.storage_area +'</td>'+
-                '<td width="70">'+ this.available_count +'</td>'+
-                '<td width="70">'+ this.packing +'</td>'+
-                '<td width="70">'+ this.in_the_package_count +'</td>'+
-                '<td width="70">'+ this.unit_in_package +'</td>'+
-                '<td class="bg-white" width="100">'+
+                '<td width="25%">'+ this.good_name +'</td>'+
+                '<td width="10%">'+ this.save_date +'</td>'+
+                '<td width="10%">'+ this.storage_area +'</td>'+
+                '<td width="5%">'+ this.available_count +'</td>'+
+                '<td width="5%">'+ this.packing +'</td>'+
+                '<td width="5%">'+ this.in_the_package_count +'</td>'+
+                '<td width="5%">'+ this.unit_in_package +'</td>'+
+                '<td class="bg-white" width="5%">'+
                     '<input type="text" class="form-control" value='+ this.request_package +' style="height:20px; padding:0px;">'+
                 '</td>'+
             '</tr>'
         });
 
+        
+        if(PRF_listTable !==null)  {
+            PRF_listTable.destroy();
+        }
+        
         $("#PRF_listTable tbody").html("").html(rowListHtml);
+        PRF_listTable = dataTable('PRF_listTable');
+        tableResize($("#PRF_listTable"));
     });
 });
 
@@ -52,20 +61,31 @@ $("#PRF_requestCheck").click(function()  {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
-                '<th scope="row" width="40">'+
+                '<th scope="row" width="2%">'+
                     '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
                 '</th>'+
-                '<td>'+ this.good_name +'</td>'+
-                '<td width="100">'+ this.save_date +'</td>'+
-                '<td>'+ this.storage_area +'</td>'+
-                '<td width="70">'+ this.available_count +'</td>'+
-                '<td width="70">'+ this.packing +'</td>'+
-                '<td width="70">'+ this.in_the_package_count +'</td>'+
-                '<td width="70">'+ this.unit_in_package +'</td>'+
-                '<td class="bg-white" width="100">'+ this.request_package +'</td>'+
+                '<td width="25%">'+ this.good_name +'</td>'+
+                '<td width="10%">'+ this.save_date +'</td>'+
+                '<td width="10%">'+ this.storage_area +'</td>'+
+                '<td width="5%">'+ this.available_count +'</td>'+
+                '<td width="5%">'+ this.packing +'</td>'+
+                '<td width="5%">'+ this.in_the_package_count +'</td>'+
+                '<td width="5%">'+ this.unit_in_package +'</td>'+
+                '<td class="bg-white" width="5%">'+
+                    '<input type="text" class="form-control" value='+ this.request_package +' style="height:20px; padding:0px;">'+
+                '</td>'+
             '</tr>'
         });
+        
+
+        if(PRF_CD_listTable !==null)  {
+            PRF_CD_listTable.destroy();
+        }
+
         $("#PRF_CD_listTable tbody").html("").html(rowListHtml);
+
+        PRF_CD_listTable = dataTable('PRF_CD_listTable');
+        tableResize($("#PRF_CD_listTable"));
     });
 });
 

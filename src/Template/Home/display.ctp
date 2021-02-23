@@ -198,16 +198,16 @@
                     <table id="PRF_listTable" class="table table-bordered table-sm">
                         <thead style="background-color:#dedefb">
                             <tr>
-                                <th scope="col" width="40">CK</th>
+                                <th class="no-sort" scope="col">CK</th>
                                 <th scope="col">物品名</th>
-                                <th scope="col" width="100">保管期限</th>
-                                <th scope="col">保管場所</th>
+                                <th scope="col">保管期限</th>
+                                <th class="no-sort" scope="col">保管場所</th>
 
-                                <th scope="col" width="70">供出可能数量</th>
-                                <th scope="col" width="70">荷姿</th>
-                                <th scope="col" width="70">荷姿内数量</th>
-                                <th scope="col" width="70">荷姿内単位</th>
-                                <th scope="col" width="100">リクエスト数量荷姿内単位</th>
+                                <th scope="col">供出可能数量</th>
+                                <th class="no-sort" scope="col">荷姿</th>
+                                <th class="no-sort" scope="col">荷姿内数量</th>
+                                <th class="no-sort" scope="col">荷姿内単位</th>
+                                <th class="no-sort" scope="col">リクエスト数量荷姿内単位</th>
                             </tr>
                         </thead>
                         <tbody style="background-color:#f9f2ff; height:400px">
@@ -259,16 +259,16 @@
                     <table id="PRF_CD_listTable" class="table table-bordered table-sm mt-3">
                         <thead style="background-color:#dedefb">
                             <tr>
-                                <th scope="col" width="40">CK</th>
+                                <th class="no-sort" scope="col">CK</th>
                                 <th scope="col">物品名</th>
-                                <th scope="col" width="100">保管期限</th>
-                                <th scope="col">保管場所</th>
+                                <th scope="col">保管期限</th>
+                                <th class="no-sort" scope="col">保管場所</th>
 
-                                <th scope="col" width="70">供出可能数量</th>
-                                <th scope="col" width="70">荷姿</th>
-                                <th scope="col" width="70">荷姿内数量</th>
-                                <th scope="col" width="70">荷姿内単位</th>
-                                <th scope="col" width="100">リクエスト数量荷姿内単位</th>
+                                <th scope="col">供出可能数量</th>
+                                <th class="no-sort" scope="col">荷姿</th>
+                                <th class="no-sort" scope="col">荷姿内数量</th>
+                                <th class="no-sort" scope="col">荷姿内単位</th>
+                                <th class="no-sort" scope="col">リクエスト数量荷姿内単位</th>
                             </tr>
                         </thead>
                         <tbody style="background-color:#f9f2ff; height:384px">
@@ -411,7 +411,7 @@
                             
                         </tbody>
                     </table>
-                    <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
+                    <button id="SCD_CD_requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
                 </div>
             </div>
         </div>
