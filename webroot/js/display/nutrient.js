@@ -1,8 +1,23 @@
 $("#nutrientsShowBtn").click(function()  {
-    $("#basicDisplay").hide();
-    $("#nutrientsDisplay").show();
-    $("#townNameNutrients").text(selectedPlaceFullName);
-    $("#dayWeekMonth").change();
+
+    postData(ownServerUrl, {  // tur zuur gal untraaw
+        kenName: selectedKenName,
+        shiName: selectedShiName,  
+        kuName: selectedKuName,
+        townName: selectedTownName, 
+        type: type,
+        timeOption: timeOption,
+        liveAndWork: liveAndWork
+    })
+    .then(data => {
+        ChartObj.bodyDraw(data);
+            
+        $("#basicDisplay").hide();
+        $("#nutrientsDisplay").show();
+        $("#townNameNutrients").text(selectedPlaceFullName);
+        $("#dayWeekMonth").change();
+    });
+
 });
 
 $("#backBtnNutrients").click(function()  {
@@ -42,6 +57,8 @@ $("#subOption").change(function()  {
 });
 
 function getNutrientsData()  {  // getNutrients data loading fn start
+
+
     postData(SERVER_+"/webOri/users/getNutrients.json", 
     {
         SpecialAgeName: $("#SpecialAgeName option:selected").val(),

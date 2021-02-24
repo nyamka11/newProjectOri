@@ -47,12 +47,17 @@
         <!-- Vendor JS Files -->
         
         <?= $this->Html->script('main.js') ?>
+        <?= $this->Html->script('home.js') ?>
         <?= $this->Html->script('display/function.js') ?>
         <?= $this->Html->script('display/chart.js') ?>
         
         <?= $this->Html->script('display/nutrient.js') ?>
         <?= $this->Html->script('display/requiredDemand.js') ?>
+
         <?= $this->Html->script('display/productRequestFree.js') ?>
+
+        <?= $this->Html->script('display/SupportDestinationSearch.js') ?>
+        <?= $this->Html->script('display/supportRequestAutomaticCalculation.js') ?>
         <?= $this->Html->script('display/suppertListCreation.js') ?>
         
 

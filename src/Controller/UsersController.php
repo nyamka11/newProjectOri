@@ -391,7 +391,7 @@ class UsersController extends AppController  {
         $table = '
         <div class="card">
             <div class="card-body listYellowColor">
-                <table class="table table-borderless">
+                <table class="table table-borderless w-100">
                     <thead>
                         <tr>
                             <th scope="col"></th>
@@ -1222,7 +1222,17 @@ class UsersController extends AppController  {
 
     public function productFree()  {
         $Table = TableRegistry::getTableLocator()->get('product_free');
-        $Items = $Table->find('all');
+        $Items = $Table->find('all')->order(['good_name'=>'ASC','save_date'=>'ASC','available_count'=>'ASC']);
+
+        $this->set([
+            'Items' => $Items,
+            '_serialize' => true
+        ]);
+    }
+
+    public function supportDestinationSearch()  {
+        $Table = TableRegistry::getTableLocator()->get('support_destination');
+        $Items = $Table->find('all')->order(['deadline_support'=>'ASC','number_of_people_this_time'=>'DESC']);
 
         $this->set([
             'Items' => $Items,

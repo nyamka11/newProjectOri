@@ -2,8 +2,8 @@
 var SCD_dataTable =null;
 var SCD_CD_listTable =null;
 
-$("#supportListCreationBtn").click(function()  {
-    $("#basicDisplay").hide();
+$("#SDSD_ListCreationBtn").click(function()  {
+    $("#supportDestinationSearchDisplay").hide();
     $("#supportListCreationDisplay").show();
 
     var rowListHtml = null;
@@ -56,6 +56,11 @@ $("#SCD_ListCreationBtn").click(function()  {
             selectedRowIds.push($(this).attr("rowId"));
         }
     });
+
+    if(selectedRowIds.length === 0)  {
+        alert("リクエストから選択してください。");
+        return false;
+    }
 
     var rowListHtml = null;
     postData(SERVER_+"/webOri/users/productCheck.json", {
@@ -111,6 +116,6 @@ $("#SCD_CD_requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
 });
 
 $("#supportListCreationDisplayBackBtn").click(function()  { //vndsen tsonhruu butsah
-    $("#basicDisplay").show();
+    $("#supportDestinationSearchDisplay").show();
     $("#supportListCreationDisplay").hide();
 });

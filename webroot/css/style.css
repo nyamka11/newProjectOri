@@ -88,48 +88,16 @@
     border: 1px solid #4950574f;
 }
 
-thead {
+.table-sm thead {
     font-size: 14px;
 }
-thead, tbody { 
+.table-sm thead,  .table-sm tbody { 
     display: block; 
 }
-tbody {
-    overflow-y: scroll;    /* Trigger vertical scroll    */
+.table-sm tbody {
+    overflow-y: scroll;    
     font-size: 12px;
 }
-  
-
-/* tbody { */
-    /* display: block;
-    width: 100%;
-    table-layout: fixed; */
-    /* overflow-y: scroll; */
-/* } */
-
-/* thead, tbody tr { */
-    /* display: table;
-    font-size: 12px;
-    width: 100%;
-    table-layout: fixed; */
-/* } */
-
-
-
-/* tbody {
-    display: block;
-    overflow-y: scroll;
-    font-size: 12px;
-}
-thead, tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-thead {
-    width: calc( 100% - 1em )
-} */
-
 .form-control {
     border-radius:0px;
 }
@@ -145,4 +113,13 @@ table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
 bottom: .5em;
+}
+
+#SDSD_listTable tbody tr:hover  {
+    background-color: #dfdfdf;
+    cursor: pointer;
+}
+
+.selectedRow {
+    background-color: #dcfad4 !important;
 }

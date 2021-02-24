@@ -48,9 +48,8 @@
                         <button type="button" class="btn btn-outline-dark float-left w-100 mt-3 sysPinkColor">必要需要数（医薬品）</button>
 
                         <button id="productRequestFreeBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援品リクエストフリー指定</button>
-                        <button type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援品リクエスト自動計算</button>
-
-                        <button id="supportListCreationBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援先指定</button>
+                        <button id="supportRequestAutomaticCalculationBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援品リクエスト自動計算</button>
+                        <button id="supportDestinationSearchBtn" type="button" class="btn btn-outline-dark float-left w-100 mt-3">支援先検索</button>
                     </div>
                 </div>
             </div>
@@ -59,9 +58,9 @@
         <div id="chartDisplay" class="container m-auto border basicBackground" style="display:none;">
             <div class="row">
                 <div class="col-12 p-3">
-                    <div class="textBox font-weight-bold">人口構成</div>
-                    <div id="townNameChart" class="textBox font-weight-bold ml-2">浜松市</div>
-                    <div id="selectTownAllPeopleCnt" class="textBox font-weight-bold ml-2">全員数: <cnt>0</cnt></div>
+                    <div class="textBox font-weight-bold w-25">人口構成</div>
+                    <div id="townNameChart" class="textBox font-weight-bold ml-2 w-25">浜松市</div>
+                    <div id="selectTownAllPeopleCnt" class="textBox font-weight-bold ml-2 w-25">全員数: <cnt>0</cnt></div>
                 </div> 
                 <div class="col-12 sysWhiteColor" style="display: flex; align-items: center; justify-content: center;">
                     <canvas id="myChart" width="" height=""></canvas>
@@ -78,8 +77,8 @@
         <div id="nutrientsDisplay" class="container m-auto border basicBackground" style="display:none">
             <div class="row">
                 <div class="col-12 p-3">
-                    <div class="textBox font-weight-bold">必要栄養素</div>
-                    <div id="townNameNutrients" class="textBox font-weight-bold ml-2">浜松市</div>
+                    <div class="textBox font-weight-bold w-25">必要栄養素</div>
+                    <div id="townNameNutrients" class="textBox font-weight-bold ml-2 w-25">浜松市</div>
                     <select name="" id="SpecialAgeName" class="btn btn-outline-dark ml-2 sysWhiteColor">
                         <option value="乳幼児">乳幼児</option>
                         <option value="小児">小児</option>
@@ -106,8 +105,8 @@
         <div id="requiredDemandDisplay" class="container m-auto border basicBackground" style="display:none">
             <div class="row">
                 <div class="col-12 p-3">
-                    <div class="textBox font-weight-bold">必要栄養素</div>
-                    <div id="townNameNutrientsReq" class="textBox font-weight-bold ml-2">浜松市</div>
+                    <div class="textBox font-weight-bold w-25">必要栄養素</div>
+                    <div id="townNameNutrientsReq" class="textBox font-weight-bold ml-2 w-25">浜松市</div>
                     <select name="" id="SpecialAgeNameReq" class="btn btn-outline-dark ml-2 sysWhiteColor">
                         <option value="乳幼児">乳幼児</option>
                         <option value="幼児">幼児</option>
@@ -279,6 +278,67 @@
             </div>
         </div>
 
+        <div id="supportDestinationSearchDisplay" class="container m-auto border basicBackground" style="display:none">
+            <div class="row">
+                <div class="col-6 mt-3">
+                    <div class="textBox font-weight-bold w-100">支援先検索</div>
+                </div>
+                <div class="col-3 mt-3">
+                </div>
+                <div class="col-3 mt-3">
+                    <button id="SDSD_BackBtn" class="btn btn-secondary float-right bg-success">初期画面に戻る</button>
+                </div>
+
+                <div class="col-6 mt-3">
+                    <select name="" id="SDSD_foodTypes" class="btn btn-outline-dark w-50 sysWhiteColor">
+                        <option value="食品・食料品">食品・食料品</option>
+                        <option value="日用品">日用品</option>
+                        <option value="薬">薬</option>
+                        <option value="非常用品">非常用品</option>
+                    </select>
+                </div>
+
+                <div class="col-3 mt-3">
+                </div>
+
+                <div class="col-3 mt-3">
+                </div>
+
+                <div class="col-6 mt-3">
+                    <div  class="input-group mb-3 float-left">
+                        <div class="textBox bg-white"  style="padding: 1% 2% 1% 2%;">検索ワード</div>
+                        <div id="SDSD_searchInput"></div>
+                        <div class="input-group-append">
+                            <!-- <button id="SDSD_searchBtn" class="btn btn-outline-secondary bg-green text-dark" style="background: #a0ffa0;" type="button">検索</button> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 mt-3">
+                </div>
+
+                <div class="col-12" style="height:554px;">
+                    <table  id="SDSD_listTable" class="table table-striped table-bordered table-sm" cellspacing="0">
+                        <thead style="background-color:#dedefb">
+                            <tr>
+                                <th scope="col">団体名</th>
+                                <th scope="col">支援希望<br/>期限</th>
+                                <th class="no-sort" scope="col">地区</th>
+                                <th scope="col">基本人数</th>
+                                <th class="no-sort" scope="col">今回人数</th>
+                                <th class="no-sort" scope="col">申込<br/>△：リスト<br/>〇：あり<br/>：確定</th>
+                                <th class="no-sort" scope="col">支援先コメント</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color:#f9f2ff; height:385px">
+
+                        </tbody>
+                    </table>
+                    <button id="SDSD_ListCreationBtn" class="btn btn-secondary float-right text-dark sysPinkColor">支援リスト作成</button>
+                </div>
+            </div>
+        </div>
+
         <div id="supportListCreationDisplay" class="container m-auto border basicBackground" style="display:none">
             <div class="row">
                 <div class="col-6 mt-3">
@@ -360,7 +420,7 @@
         <div id="SCD_confirmDisplay" class="container m-auto border basicBackground" style="display:none">
             <div class="row">
                 <div class="col-6 mt-3">
-                    <div class="textBox font-weight-bold w-100">支援品リクエストフリー確定画面</div>
+                    <div class="textBox font-weight-bold w-100">支援品リスト 作成</div>
                 </div>
                 <div class="col-3 mt-3">
                     <div class="textBox w-100">ことも支援食堂</div>
@@ -421,4 +481,3 @@
     <?= $this->Html->script('main.js') ?> 
     <?= $this->Html->script('leaflet-search.js') ?>
     <?= $this->Html->script('cityBorderJson.js') ?>
-    <?= $this->Html->script('home.js') ?>

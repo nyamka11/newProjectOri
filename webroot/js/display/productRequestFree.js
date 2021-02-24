@@ -31,7 +31,7 @@ $("#productRequestFreeBtn").click(function()  {
         if(PRF_listTable !==null)  {
             PRF_listTable.destroy();
         }
-        
+
         $("#PRF_listTable tbody").html("").html(rowListHtml);
         PRF_listTable = dataTable('PRF_listTable');
         tableResize($("#PRF_listTable"));
@@ -50,6 +50,11 @@ $("#PRF_requestCheck").click(function()  {
             selectedRowIds.push($(this).attr("rowId"));
         }
     });
+
+    if(selectedRowIds.length === 0)  {
+        alert("リクエストから何か選択してください。");
+        return false;
+    }
 
     var rowListHtml = null;
     postData(SERVER_+"/webOri/users/productCheck.json", {
