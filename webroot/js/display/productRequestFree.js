@@ -35,6 +35,11 @@ $("#productRequestFreeBtn").click(function()  {
         $("#PRF_listTable tbody").html("").html(rowListHtml);
         PRF_listTable = dataTable('PRF_listTable');
         tableResize($("#PRF_listTable"));
+
+        $("#PRF_searchInput").html(
+            $("#PRF_listTable_filter input").clone(true)
+            .addClass("form-control")
+        );
     });
 });
 

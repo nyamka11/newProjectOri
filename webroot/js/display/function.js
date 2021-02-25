@@ -44,7 +44,8 @@ function dataTable(tableObj)  {
         "columnDefs": [ {
             "targets": 'no-sort',
             "orderable": false,
-        }]
+        }],
+        "order": [[ 2, "asc" ]]
     });
     $('.dataTables_length').addClass('bs-select');
 

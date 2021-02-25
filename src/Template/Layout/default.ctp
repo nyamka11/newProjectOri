@@ -56,9 +56,10 @@
 
         <?= $this->Html->script('display/productRequestFree.js') ?>
 
-        <?= $this->Html->script('display/SupportDestinationSearch.js') ?>
+        
         <?= $this->Html->script('display/supportRequestAutomaticCalculation.js') ?>
         <?= $this->Html->script('display/suppertListCreation.js') ?>
+        <?= $this->Html->script('display/SupportDestinationSearch.js') ?>
         
 
     </body>

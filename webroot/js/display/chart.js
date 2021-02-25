@@ -54,7 +54,7 @@ var ChartObj = {
 
         var ctx = document.getElementById('myChart').getContext('2d');
         myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'pie',
             data: {
                 labels: ChartObj.labelDatas,
                 datasets: [{

@@ -2,9 +2,12 @@
 var SCD_dataTable =null;
 var SCD_CD_listTable =null;
 
-$("#SDSD_ListCreationBtn").click(function()  {
+function supportListCreationDisplay(selRowName) {
     $("#supportDestinationSearchDisplay").hide();
     $("#supportListCreationDisplay").show();
+
+
+    $("#selRowName").text(selRowName);
 
     var rowListHtml = null;
     postData(SERVER_+"/webOri/users/productFree.json").then(data => {
@@ -36,13 +39,7 @@ $("#SDSD_ListCreationBtn").click(function()  {
         SCD_dataTable = dataTable('SCD_listTable');
         tableResize($("#SCD_listTable"));
     });
-});
-
-// $("#SCD_searchBtn").click(function()  {
-//     var searchVal = $("#SCD_searchInput").val();
-//     $("#SCD_listTable_filter input").val(searchVal).focus().click();
-// });
-
+}
 
 $("#SCD_ListCreationBtn").click(function()  {
     $("#SCD_CD_foodType").text($("#SCD_foodTypes option:selected").val());

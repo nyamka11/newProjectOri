@@ -12,7 +12,7 @@ $("#supportDestinationSearchBtn").click(function()  {
             rowListHtml +=
             '<tr rowId='+ this.id +'>'+
                 '<td width="10%">'+ this.group_name+'</td>'+
-                '<td width="5%">'+ this.deadline_support +'</td>'+
+                '<td width="5%">'+( this.deadline_support.split('T')[0]) +'</td>'+
                 '<td width="10%">'+ this.district +'</td>'+
                 '<td width="3%">'+ this.basic_number_people +'</td>'+
                 '<td width="3%">'+ this.number_of_people_this_time +'</td>'+
@@ -46,9 +46,11 @@ $("#SDSD_ListCreationBtn").click(function()  {
     $("#SDSD_CD_foodType").text($("#SDSD_foodTypes option:selected").val());
 
     var selectedRowIds = [];
+    var selRowName;
     $("#SDSD_listTable tbody tr").each(function()  {  //songogdson idiig tsugluulna
         if($(this).hasClass("selectedRow"))  {
             selectedRowIds.push($(this).attr("rowId"));
+            selRowName = $("td:first", this).text();
         }
     });
 
@@ -56,6 +58,8 @@ $("#SDSD_ListCreationBtn").click(function()  {
         alert("リクエストから何か選択してください。");
         return false;
     }
+
+    supportListCreationDisplay(selRowName);
 
     var rowListHtml = null;
     postData(SERVER_+"/webOri/users/productCheck.json", {
