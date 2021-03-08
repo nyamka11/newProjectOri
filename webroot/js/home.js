@@ -37,6 +37,13 @@
     }).change();
 
     function init()  {
+        selectedShiName = "浜松市";
+        selectedKuName = null;
+        selectedTownName = null;
+        type = "big";
+        setTownName(selectedShiName);
+        $('#timeOption').val(0).change();
+     
         if(myMap !==null )  {
             myMap.mapObj.eachLayer(function (layer) { 
                 myMap.mapObj.removeLayer(layer); 
@@ -62,6 +69,7 @@
 
             $.each(data.locations, function(i,v)  {
                 if(this.map_layer_level === 1) {
+
                     bigZonePointJson1.features.push({
                         "type":"Feature",
                         "properties":{
@@ -101,7 +109,7 @@
             myMap.init();
         });
     }
-  
+
     myMap = {
         mapObj: null,
         bigZoneMarkerLayer: null,
@@ -132,7 +140,7 @@
                 onEachFeature: function(feature, layer)  {
                     layer.on({
                         click: function(e)  {
-                            myMap.mapObj.fitBounds(e.target.getBounds());
+                            // myMap.mapObj.fitBounds(e.target.getBounds());
                         }
                     });
                 }
@@ -140,8 +148,23 @@
         },
         bigZoneMarkerDraw: function()  {  //big zone marker
             bigZoneMarkerLayer = L.geoJson(bigZonePointJson1, {
+                
                 pointToLayer: function(geoJsonPoint, latlng)  {
-                    return L.marker(latlng).on('click', function(e)  {
+                    var greenIcon = L.icon({
+                        iconUrl: 'img/marker-icon-green.png',
+                        iconSize:     [25, 41], // size of the icon
+                        popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+                    });
+
+                    var marker;
+                    if(liveAndWork == 1)  {
+                        marker = L.marker(latlng, {icon: greenIcon});
+                    }
+                    else {
+                        marker = L.marker(latlng);
+                    }
+
+                    return marker.on('click', function(e)  {
                         type = "big";
                         var p = geoJsonPoint.properties;
                         selectedPlaceFullName = p.shiName + p.kuName;
@@ -150,7 +173,7 @@
                         selectedKuName =  p.kuName;
                         
                         this.bindPopup("<div class='p-1'><h4>"+ p.kuName +"</h4></div>");
-                        myMap.mapObj.setView(latlng, 14);
+                        // myMap.mapObj.setView(latlng, 13);
                         setTownName(selectedPlaceFullName);
                     }).bindPopup();
                 }
@@ -160,7 +183,21 @@
         smallZoneMarkerDraw: function()  {
             smallZoneMarkerLayer =  L.geoJson(smallZonePointJson1,  {
                 pointToLayer: function (geoJsonPoint, latlng) {
-                    return L.marker(latlng).on('click', function(e)  {
+                    var greenIcon = L.icon({
+                        iconUrl: 'img/marker-icon-green.png',
+                        iconSize:     [25, 41], // size of the icon
+                        popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+                    });
+
+                    var marker;
+                    if(liveAndWork == 1)  {
+                        marker = L.marker(latlng, {icon: greenIcon});
+                    }
+                    else {
+                        marker = L.marker(latlng);
+                    }
+
+                    return marker.on('click', function(e)  {
                         type = "small";
                         var p = geoJsonPoint.properties;
                         selectedPlaceFullName = p.shiName + p.kuName + p.townName;
@@ -169,7 +206,7 @@
                         selectedKuName =  p.kuName;
                         selectedTownName = p.townName;
 
-                        myMap.mapObj.setView(latlng, 16);
+                        // myMap.mapObj.setView(latlng, 16);
                         this.bindPopup("<div class='p-1'>"+"<h6>"+ selectedPlaceFullName +"</h6>"+"</div>");
                         setTownName(selectedPlaceFullName);
                     }).bindPopup();

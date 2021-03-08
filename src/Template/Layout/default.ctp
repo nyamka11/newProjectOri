@@ -47,8 +47,8 @@
         <!-- Vendor JS Files -->
         
         <?= $this->Html->script('main.js') ?>
-        <?= $this->Html->script('home.js') ?>
         <?= $this->Html->script('display/function.js') ?>
+        <?= $this->Html->script('home.js') ?>
         <?= $this->Html->script('display/chart.js') ?>
         
         <?= $this->Html->script('display/nutrient.js') ?>

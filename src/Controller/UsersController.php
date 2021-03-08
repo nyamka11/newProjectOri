@@ -129,151 +129,52 @@ class UsersController extends AppController  {
         $timeOption = $this->request->getQuery("timeOption");
         $liveAndWork = $this->request->getQuery("liveAndWork");
 
-        $startTime = 0;
-        $endTime = 0;
-
-        if($timeOption !== '時間帯')  { //tsag songoson bol
-            $timeArr = explode("~", $timeOption);
-            $startTime = $timeArr[0];
-            $endTime = $timeArr[1];
-        }
-
+     
         $Table = TableRegistry::getTableLocator()->get('population');
-        if($type == "big")  {
-            if($kuName == null)  {
-                $this->set([
-                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 =' => 0]),
-                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 1, '年齢 <=' => 2]), 
-                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 3, '年齢 <=' => 5]), 
-                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 6, '年齢 <=' => 7]), 
-                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 8, '年齢 <=' => 9]), 
-                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 10, '年齢 <=' => 11]),
-                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 12, '年齢 <=' => 14]),
-                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 15, '年齢 <=' => 17]),
-                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 18, '年齢 <=' => 29]),
-                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 30, '年齢 <=' => 49]),
-                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 50, '年齢 <=' => 64]),
-                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 65, '年齢 <=' => 74]),
-                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])->where(['live_and_work'=>$liveAndWork,'年齢 >=' => 75]),
-                    '_serialize' => true
-                ]);
+
+        $data = array();
+        $mainWhere = [];
+
+        $selectFields = ['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市","区", "町"];
+        $fields = array('0','1-2','3-5','6-7','8-9','10-11','12-14','15-17','18-29','30-49','50-64','65-74','75');
+        foreach ($fields as $key => $item)  {
+            $mainWhere = [];
+
+            if($timeOption !== '時間帯')  { //tsag songoson bol gadnaas nemgdej ireh hvn
+                $timeArr = explode("~", $timeOption);
+                $mainWhere['start_time'] = $timeArr[0];
+                $mainWhere['end_time'] = $timeArr[1];
             }
-            else  {
-                $this->set([
-                    '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 =' => 0])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 =' => 0]),
 
-                    '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 1, '年齢 <=' => 2])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime,  '年齢 >=' => 1, '年齢 <=' => 2]), 
-
-                    '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 3, '年齢 <=' => 5])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 3, '年齢 <=' => 5]), 
-
-                    '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 6, '年齢 <=' => 7])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 6, '年齢 <=' => 7]), 
-
-                    '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 8, '年齢 <=' => 9])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 8, '年齢 <=' => 9]), 
-
-                    '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 10, '年齢 <=' => 11])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 10, '年齢 <=' => 11]),
-
-                    '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 12, '年齢 <=' => 14])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 12, '年齢 <=' => 14]),
-
-                    '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 15, '年齢 <=' => 17])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 15, '年齢 <=' => 17]),
-
-                    '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 18, '年齢 <=' => 29])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 18, '年齢 <=' => 29]),
-
-                    '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 30, '年齢 <=' => 49])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 30, '年齢 <=' => 49]),
-
-                    '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 50, '年齢 <=' => 64])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 50, '年齢 <=' => 64]),
-
-                    '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 65, '年齢 <=' => 74])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 65, '年齢 <=' => 74]),
-
-                    '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                    ->where(['区'=>$kuName,'live_and_work'=>$liveAndWork,'年齢 >=' => 75])
-                    ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 75]),
-                    '_serialize' => true
-                ]);
+            if(!strpos($item, "-"))  {
+                if($key == count($fields)-1) $mainWhere['年齢 >= '] = $item; //Hamgiin svvliin element
+                else                         $mainWhere['年齢 = '] = $item; //Hamgiin ehnii element
             }
+            else {
+                $itemArr = explode("-",$item);
+                $mainWhere['年齢 >= '] = $itemArr[0];
+                $mainWhere['年齢 <= '] = $itemArr[1];
+            }
+
+            if($type == "big" && $kuName != null) {
+                // tom ni dotroo 2 tvshintei bgaa
+                    // 1 ni hotiig bvheleer ni harah
+                    // 2 ni hotiig bvseer ni harah
+                $mainWhere['区'] = $kuName;
+            }
+            else if($type == "small") {
+                $mainWhere['町'] = $town;
+            }
+
+            $mainWhere['live_and_work'] = $liveAndWork;
+
+            //Databasees datagaa awch irj bgaa query
+            $data[$item."歳"] = $Table ->find()->select($selectFields)->where($mainWhere);
         }
 
-        if($type == "small")  {
+        $data['_serialize'] = true;
+        $this->set($data);
 
-            $this->set([
-                '0歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 =' => 0])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 =' => 0]),
-
-                '1-2歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 1, '年齢 <=' => 2])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 1, '年齢 <=' => 2]), 
-
-                '3-5歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 3, '年齢 <=' => 5])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 3, '年齢 <=' => 5]), 
-
-                '6-7歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 6, '年齢 <=' => 7])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 6, '年齢 <=' => 7]), 
-
-                '8-9歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 8, '年齢 <=' => 9])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 8, '年齢 <=' => 9]), 
-
-                '10-11歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 10, '年齢 <=' => 11])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 10, '年齢 <=' => 11]),
-
-                '12-14歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 12, '年齢 <=' => 14])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 12, '年齢 <=' => 14]),
-
-                '15-17歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 15, '年齢 <=' => 17])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 15, '年齢 <=' => 17]),
-
-                '18-29歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 18, '年齢 <=' => 29])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 18, '年齢 <=' => 29]),
-
-                '30-49歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 30, '年齢 <=' => 49])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 30, '年齢 <=' => 49]),
-
-                '50-64歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 50, '年齢 <=' => 64])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 50, '年齢 <=' => 64]),
-
-                '65-74歳' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市", "区", "町", "郵便番号"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 65, '年齢 <=' => 74])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 65, '年齢 <=' => 74]),
-
-                '75歳から以上' => $Table ->find()->select(['Male' => 'SUM(男)', 'Female' => 'SUM(女)',"市"])
-                ->where(['町'=>$town,'live_and_work'=>$liveAndWork,'年齢 >=' => 75])
-                ->orWhere(['start_time'=>$startTime, 'end_time'=>$endTime, '年齢 >=' => 75]),
-
-                '_serialize' => true
-            ]);
-        }
     }
 
     public function getNutrients()  {
@@ -766,7 +667,7 @@ class UsersController extends AppController  {
 
         $connect = ConnectionManager::get('default');
         $menuRows = $connect->query("
-            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients FROM menu INNER JOIN foodmaster
+            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients, box FROM menu INNER JOIN foodmaster
             ON menu.foodNumber=foodmaster.foodNumber 
             WHERE menu.name ='{$menuName}'" 
         )->fetchAll('assoc');

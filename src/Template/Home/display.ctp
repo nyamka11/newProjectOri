@@ -8,10 +8,14 @@
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
 
-   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-   <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script> -->
 
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels"></script>
+    
 
+    <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
 
    <?= $this->Html->css('leaflet-search.css') ?>
@@ -28,10 +32,10 @@
                     </select>
 
                     <select name="" id="timeOption" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
-                        <option class="p-3" value="">時間帯</option>
-                        <option class="p-3" value="">09:00~16:00</option>
-                        <option class="p-3" value="">15:00~23:00</option>
-                        <option class="p-3" value="">22:00~5:00</option>
+                        <option class="p-3" value="0">時間帯</option>
+                        <option class="p-3" value="1">09:00~16:00</option>
+                        <option class="p-3" value="2">15:00~23:00</option>
+                        <option class="p-3" value="3">22:00~5:00</option>
                     </select>
                 </div>
                 <div class="col-9" class="border">
@@ -130,9 +134,11 @@
                         <option value="浜松市備蓄分セット">浜松市備蓄分セット</option>
                     </select>
                     <ul  id="foodNameList" class="list-group  mt-2" style="overflow: auto; height: 555px;">
+
                     </ul>
                 </div>
                 <div class="col-9">
+                    <h5 class="card-title text-danger"><b>【1人分栄養素】</b></h5>
                     <div id="tableBodyReq1" class="border p-2" style="height: 600px; overflow: auto;">
 
                     </div>

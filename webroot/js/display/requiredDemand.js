@@ -46,11 +46,11 @@ function getMenu() {
     }).then(dataMenu => {
         $("#foodNameList").html("");
         dataMenu.getMenu.forEach(element => {
-            $("#foodNameList").append(
-                "<div class='row' style='border:1px solid #cacaca; background-color:white; padding:5px; margin:2px;'>"+
-                    "<div class='col-8' style='font-size:14px;'>"+ (element.foodName.replace(/\s/g, '')) +"</div>"+
-                    "<div class='col-4'><b>"+ (element.oneServingCoefficients)+ "食</b></div>"+
-                "</div>"
+                $("#foodNameList").append(
+                '<li class="list-group-item d-flex justify-content-between align-items-center" style="font-size:14px;">'+
+                    (element.foodName.replace(/\s/g, '')) +
+                    '<span class="badge badge-primary">'+ (element.oneServingCoefficients)+ "食、</td><td>"+ (element.box)+'箱</span>'+
+                '</li>'
             );
         });
 

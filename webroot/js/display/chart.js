@@ -4,6 +4,7 @@ $("#chartShow").click(function()  {
 
     $("#chartLoader").show();
     $("#myChart").hide();
+    $("#selectTownAllPeopleCnt cnt").text("0");
 
     postData(ownServerUrl, { 
         kenName: selectedKenName,
@@ -16,7 +17,6 @@ $("#chartShow").click(function()  {
     })
     .then(data => {
         ChartObj.bodyDraw(data);
-        $("#selectTownAllPeopleCnt cnt").text(selectedTownAllPeoplesCount);
         $("#chartLoader").hide();
         $("#myChart").show();
     });
@@ -36,10 +36,30 @@ var ChartObj = {
             jinkoInfo.push(data[key][0]);
         }
 
-        for(var index in jinkoInfo )  {
-            jinkoInfo[index].gTotal = parseInt(jinkoInfo[index].Male) +  parseInt(jinkoInfo[index].Female);
+        for(var index in jinkoInfo)  {
+            if(jinkoInfo[index].Male == null || jinkoInfo[index].Female == null) {
+               continue;
+            }
+
+            var ttl = parseInt(jinkoInfo[index].Male) +  parseInt(jinkoInfo[index].Female);
+            if(ttl == 0) continue;
+            jinkoInfo[index].gTotal =ttl;
             ChartObj.labelDatas.push(jinkoInfo[index].name);
             ChartObj.countDatas.push(jinkoInfo[index].gTotal);
+        }
+
+        if(myChart!=null)  {
+            myChart.destroy();
+        }
+
+        var canvas = document.getElementById('myChart')
+        var ctx = canvas.getContext("2d");
+
+        if(ChartObj.countDatas.length === 0)  {
+            ctx.font = "70px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("0人です。", canvas.width/2+30, canvas.height/2+30);
+            return false;
         }
 
         selectedTownAllPeoplesCount  = ChartObj.countDatas.reduce(function(total, num) { 
@@ -48,11 +68,8 @@ var ChartObj = {
             return total + num;
         });
 
-        if(myChart!=null)  {
-            myChart.destroy();
-        }
+        $("#selectTownAllPeopleCnt cnt").text(selectedTownAllPeoplesCount);
 
-        var ctx = document.getElementById('myChart').getContext('2d');
         myChart = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -66,17 +83,34 @@ var ChartObj = {
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                // responsive: false,
+                // maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 100,
+                        right: 100,
+                        top: 130,
+                        bottom: 100
+                    }
                 },
-                title: {
+                legend: {
                     display: true,
-                    text: '年齢'
+                    position: 'right',
+                },
+                
+                plugins: {
+                    outlabels: {
+                       text: '%l %p',
+                       color: 'black',
+                       stretch: 25,
+                       font: {
+                           resizable: true,
+                           minSize: 15,
+                           maxSize: 18
+                       }
+                    }
                 }
+
             }
         });
     }
