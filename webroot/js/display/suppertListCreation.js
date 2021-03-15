@@ -10,7 +10,11 @@ function supportListCreationDisplay(selRowName) {
     $("#selRowName").text(selRowName);
 
     var rowListHtml = null;
-    postData(SERVER_+"/webOri/users/productFree.json").then(data => {
+    postData(SERVER_+"/webOri/users/productFree.json",{
+        liveAndWork: liveAndWork,
+        selectedDepoId: selectedDepoId,
+        selectedKuName: selectedKuName
+    }).then(data => {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
@@ -55,7 +59,7 @@ $("#SCD_ListCreationBtn").click(function()  {
     });
 
     if(selectedRowIds.length === 0)  {
-        alert("リクエストから選択してください。");
+        $("#errorBtn").click();
         return false;
     }
 
@@ -70,7 +74,7 @@ $("#SCD_ListCreationBtn").click(function()  {
             rowListHtml +=
             '<tr>'+
                 '<th scope="row" width="2%">'+
-                    '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '<input id="checkBox" type="checkbox" checked="true" rowId='+ this.id +' />'+
                 '</th>'+
                 '<td width="25%">'+ this.good_name +'</td>'+
                 '<td width="10%">'+ this.save_date +'</td>'+
@@ -108,9 +112,9 @@ $("#SCD_backBtn").click(function()  {  // omnoh tsonhruu butsah
     $("#SCD_subOption option:selected").val();
 });
 
-$("#SCD_CD_requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
-    alert("リクエストを受付ました");
-});
+// $("#SCD_CD_requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
+//     alert("リクエストを受付ました");
+// });
 
 $("#supportListCreationDisplayBackBtn").click(function()  { //vndsen tsonhruu butsah
     $("#supportDestinationSearchDisplay").show();

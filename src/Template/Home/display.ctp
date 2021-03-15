@@ -29,6 +29,7 @@
                     <select name="" id="liveAndWork" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
                         <option value="0">住民</option>
                         <option value="1">大規模事業者</option>
+                        <option value="2">倉庫</option>
                     </select>
 
                     <select name="" id="timeOption" class="btn btn-outline-dark ml-2 w-25 sysWhiteColor">
@@ -193,7 +194,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table id="AF_listTable" class="table table-bordered table-sm">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -213,7 +214,7 @@
                             
                         </tbody>
                     </table>
-                    <button id="AF_requestCheck" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確認</button>
+                    <button id="AF_requestCheck" class="btn btn-secondary float-right text-white bg-info">リクエスト確認</button>
                 </div>
             </div>
         </div>
@@ -254,7 +255,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table id="AF_CD_listTable" class="table table-bordered table-sm mt-3">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -273,7 +274,11 @@
                         <tbody style="background-color:#f9f2ff; height:384px">
                         </tbody>
                     </table>
-                    <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
+                    <!-- <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark bg-info">リクエスト確定</button> -->
+
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">
+                        リクエスト確定
+                    </button>
                 </div>
             </div>
         </div>
@@ -331,7 +336,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table id="PRF_listTable" class="table table-bordered table-sm">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -351,7 +356,7 @@
                             
                         </tbody>
                     </table>
-                    <button id="PRF_requestCheck" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確認</button>
+                    <button id="PRF_requestCheck" class="btn btn-secondary float-right text-white bg-info">リクエスト確認</button>
                 </div>
             </div>
         </div>
@@ -392,7 +397,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table id="PRF_CD_listTable" class="table table-bordered table-sm mt-3">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -411,7 +416,13 @@
                         <tbody style="background-color:#f9f2ff; height:384px">
                         </tbody>
                     </table>
-                    <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
+                    <!-- <button id="requestConfirmedBtn" class="btn btn-secondary float-right text-dark bg-info">リクエスト確定</button> -->
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">
+                            リクエスト確定
+                        </button>
+
                 </div>
             </div>
         </div>
@@ -455,7 +466,7 @@
                 <div class="col-6 mt-3">
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table  id="SDSD_listTable" class="table table-striped table-bordered table-sm" cellspacing="0">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -472,7 +483,7 @@
 
                         </tbody>
                     </table>
-                    <button id="SDSD_ListCreationBtn" class="btn btn-secondary float-right text-dark sysPinkColor">支援リスト作成</button>
+                    <button id="SDSD_ListCreationBtn" class="btn btn-secondary float-right text-white bg-info">支援リスト作成</button>
                 </div>
             </div>
         </div>
@@ -530,7 +541,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table  id="SCD_listTable" class="table table-striped table-bordered table-sm" cellspacing="0">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -550,7 +561,7 @@
                             
                         </tbody>
                     </table>
-                    <button id="SCD_ListCreationBtn" class="btn btn-secondary float-right text-dark sysPinkColor">支援リスト作成</button>
+                    <button id="SCD_ListCreationBtn" class="btn btn-secondary float-right text-white bg-info">支援リスト作成</button>
                 </div>
             </div>
         </div>
@@ -589,7 +600,7 @@
                     <div class="textBox w-25 bg-white" style="padding: 1% 0% 1% 0%;">食</div>
                 </div>
 
-                <div class="col-12" style="height:554px;">
+                <div class="col-12" style="height:565px;">
                     <table  id="SCD_CD_listTable" class="table table-striped table-bordered table-sm mt-3" cellspacing="0">
                         <thead style="background-color:#dedefb">
                             <tr>
@@ -609,13 +620,50 @@
                             
                         </tbody>
                     </table>
-                    <button id="SCD_CD_requestConfirmedBtn" class="btn btn-secondary float-right text-dark sysPinkColor">リクエスト確定</button>
+                    <!-- <button id="SCD_CD_requestConfirmedBtn" class="btn btn-secondary float-right text-white bg-info">リクエスト確定</button> -->
+
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModalCenter">
+                        リクエスト確定
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <?= $this->Html->script('constant.js') ?> 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-body text-success text-center p-5">
+                <h3>リクエストを受付ました</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <button id="errorBtn" type="button" class="btn btn-primary float-right d-none" data-toggle="modal" data-target="#exampleModalCenter_error">
+        リクエスト確定
+    </button>
+
+    <div class="modal fade" id="exampleModalCenter_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-body text-danger text-center p-5">
+                <h5>リクエストから何か選択してください。</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
     <?= $this->Html->script('main.js') ?> 
     <?= $this->Html->script('leaflet-search.js') ?>
     <?= $this->Html->script('cityBorderJson.js') ?>

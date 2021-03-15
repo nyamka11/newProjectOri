@@ -5,9 +5,14 @@ var PRF_CD_listTable = null;
 $("#productRequestFreeBtn").click(function()  {
     $("#basicDisplay").hide();
     $("#productRequestFreeDisplay").show();
+    $("#PRF_listTable tbody").html("");
 
     var rowListHtml = null;
-    postData(SERVER_+"/webOri/users/productFree.json").then(data => {
+    postData(SERVER_+"/webOri/users/productFree.json",{
+        liveAndWork: liveAndWork,
+        selectedDepoId: selectedDepoId,
+        selectedKuName: selectedKuName
+    }).then(data => {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
@@ -27,7 +32,6 @@ $("#productRequestFreeBtn").click(function()  {
             '</tr>'
         });
 
-        
         if(PRF_listTable !==null)  {
             PRF_listTable.destroy();
         }
@@ -57,7 +61,7 @@ $("#PRF_requestCheck").click(function()  {
     });
 
     if(selectedRowIds.length === 0)  {
-        alert("リクエストから何か選択してください。");
+        $("#errorBtn").click();
         return false;
     }
 
@@ -72,7 +76,7 @@ $("#PRF_requestCheck").click(function()  {
             rowListHtml +=
             '<tr>'+
                 '<th scope="row" width="2%">'+
-                    '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '<input id="checkBox" type="checkbox" checked="true" rowId='+ this.id +' />'+
                 '</th>'+
                 '<td width="25%">'+ this.good_name +'</td>'+
                 '<td width="10%">'+ this.save_date +'</td>'+

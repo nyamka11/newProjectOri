@@ -16,6 +16,8 @@
         selectedTownName = null,
         selectedPlaceFullName = "浜松市";
 
+    var selectedDepoId = 0;
+
     var selectedTownAllPeoplesCount = 0;
     var smallZonePointJson1 = null;
     var bigZonePointJson1 = null;
@@ -32,7 +34,24 @@
     }).change();
 
     $("#liveAndWork").change(function()  {
-        liveAndWork = $("option:selected",this).val();
+        /** tolow solj bgaa hamgiin chuhal heseg 
+         * 0: LIVE
+         * 1: WORK
+         * 2: DEPO
+        */
+        liveAndWork = parseInt($("option:selected",this).val());
+
+        if(liveAndWork === MODE_DEPO)  {
+            $("#chartShow").hide();
+            $("#nutrientsShowBtn").hide();
+            $(".sysPinkColor").hide();
+        }
+        else {
+            $("#chartShow").show();
+            $("#nutrientsShowBtn").show();
+            $(".sysPinkColor").show();
+        }
+
         init();
     }).change();
 
@@ -69,13 +88,13 @@
 
             $.each(data.locations, function(i,v)  {
                 if(this.map_layer_level === 1) {
-
                     bigZonePointJson1.features.push({
                         "type":"Feature",
                         "properties":{
                             "kenName" : this.県名,
                             "shiName" : this.市,
-                            "kuName": this.区
+                            "kuName": this.区,
+                            "assignedName": this.場所名前
                         },
                         "geometry":{
                             "type":"Point",
@@ -91,10 +110,12 @@
                     smallZonePointJson1.features.push({
                         "type":"Feature",
                         "properties":{
+                            "id" : this.id,
                             "kenName" : this.県名,
                             "shiName" : this.市,
                             "kuName": this.区,
-                            "townName" : this.町
+                            "townName" : this.町,
+                            "assignedName": this.場所名前
                         },
                         "geometry":{
                             "type":"Point",
@@ -150,19 +171,7 @@
             bigZoneMarkerLayer = L.geoJson(bigZonePointJson1, {
                 
                 pointToLayer: function(geoJsonPoint, latlng)  {
-                    var greenIcon = L.icon({
-                        iconUrl: 'img/marker-icon-green.png',
-                        iconSize:     [25, 41], // size of the icon
-                        popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
-                    });
-
-                    var marker;
-                    if(liveAndWork == 1)  {
-                        marker = L.marker(latlng, {icon: greenIcon});
-                    }
-                    else {
-                        marker = L.marker(latlng);
-                    }
+                    var marker = markerIcon(liveAndWork, latlng);
 
                     return marker.on('click', function(e)  {
                         type = "big";
@@ -183,20 +192,7 @@
         smallZoneMarkerDraw: function()  {
             smallZoneMarkerLayer =  L.geoJson(smallZonePointJson1,  {
                 pointToLayer: function (geoJsonPoint, latlng) {
-                    var greenIcon = L.icon({
-                        iconUrl: 'img/marker-icon-green.png',
-                        iconSize:     [25, 41], // size of the icon
-                        popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
-                    });
-
-                    var marker;
-                    if(liveAndWork == 1)  {
-                        marker = L.marker(latlng, {icon: greenIcon});
-                    }
-                    else {
-                        marker = L.marker(latlng);
-                    }
-
+                    var marker = markerIcon(liveAndWork, latlng);
                     return marker.on('click', function(e)  {
                         type = "small";
                         var p = geoJsonPoint.properties;
@@ -206,8 +202,34 @@
                         selectedKuName =  p.kuName;
                         selectedTownName = p.townName;
 
+                        if(liveAndWork == 2)  { //aguulah songoson bol
+                            selectedPlaceFullName=p.kuName + p.assignedName;
+                            selectedDepoId =  p.id;
+                        }
+
                         // myMap.mapObj.setView(latlng, 16);
-                        this.bindPopup("<div class='p-1'>"+"<h6>"+ selectedPlaceFullName +"</h6>"+"</div>");
+                        this.bindPopup(
+                            "<div class='p-1'>"+
+                                "<h4>"+ selectedPlaceFullName +"</h4>"+
+                                "<h6 class='text-muted'><i class='fa fa-link'></i><a href=''> www.example.com</a></h6>"+
+                                "<h6 class='text-muted'><i class='fa fa-phone'></i> 070-8888-9999</h6>"+
+                                "<img src='https://image.minkou.jp/images/school_img/1754/750_hamamatsugakuinkoukou.jpg' width='200px' height='150px'>"+
+                            "</div>"
+                        );
+
+                        if(liveAndWork === MODE_DEPO)  {
+                            this.bindPopup(
+                                "<div class='p-1'>"+
+                                    "<h4>"+ p.id +"</h4>"+
+                                    "<h4>"+ selectedPlaceFullName +"</h4>"+
+                                    "<h6 class='text-muted'><i class='fa fa-link'></i><a href=''> www.example.com</a></h6>"+
+                                    "<h6 class='text-muted'><i class='fa fa-phone'></i> 070-8888-9999</h6>"+
+                                    "<img src='https://image.minkou.jp/images/school_img/1754/750_hamamatsugakuinkoukou.jpg' width='200px' height='150px'>"+
+                                "</div>"
+                            );
+                        }
+                        else this.bindPopup("<div class='p-1'>"+"<h4>"+ selectedPlaceFullName +"</h4>");
+
                         setTownName(selectedPlaceFullName);
                     }).bindPopup();
                 }
@@ -221,6 +243,7 @@
                     bigZoneMarkerLayer.remove();
                 }
                 else  {
+                    selectedDepoId = 0;
                     smallZoneMarkerLayer.remove();
                     bigZoneMarkerLayer.addTo(myMap.mapObj);
                 }

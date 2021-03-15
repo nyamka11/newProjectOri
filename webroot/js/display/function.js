@@ -59,3 +59,33 @@ function dataTable(tableObj)  {
 
     return dtl;
 }
+
+
+function markerIcon(liveAndWork, latlng)  {
+    var marker;
+    if(liveAndWork == MODE_LIVE)  {
+        marker = L.marker(latlng);
+    }
+
+    if(liveAndWork == MODE_WORK)  {
+        var greenIcon = L.icon({
+            iconUrl: 'img/marker-icon-green.png',
+            iconSize:     [25, 41], // size of the icon
+            iconAnchor:   [10, 41], // point of the icon which will correspond to marker's location
+            popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+        });
+        marker = L.marker(latlng, {icon: greenIcon});
+    }
+
+    if(liveAndWork == MODE_DEPO)  {
+        var redIcon = L.icon({
+            iconUrl: 'img/marker-icon-red.png',
+            iconSize:     [25, 41], // size of the icon
+            iconAnchor:   [10, 41], // point of the icon which will correspond to marker's location
+            popupAnchor:  [0, -10] // point from which the popup should open relative to the iconAnchor
+        });
+        marker = L.marker(latlng, {icon: redIcon});
+    }
+
+    return marker;
+}

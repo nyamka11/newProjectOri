@@ -55,7 +55,7 @@ $("#SDSD_ListCreationBtn").click(function()  {
     });
 
     if(selectedRowIds.length === 0)  {
-        alert("リクエストから何か選択してください。");
+        $("#errorBtn").click();
         return false;
     }
 
@@ -72,7 +72,7 @@ $("#SDSD_ListCreationBtn").click(function()  {
             rowListHtml +=
             '<tr>'+
                 '<th scope="row" width="2%">'+
-                    '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '<input id="checkBox" type="checkbox" checked="true" rowId='+ this.id +' />'+
                 '</th>'+
                 '<td width="25%">'+ this.good_name +'</td>'+
                 '<td width="10%">'+ this.save_date +'</td>'+

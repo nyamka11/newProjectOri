@@ -47,9 +47,19 @@ function getMenu() {
         $("#foodNameList").html("");
         dataMenu.getMenu.forEach(element => {
                 $("#foodNameList").append(
-                '<li class="list-group-item d-flex justify-content-between align-items-center" style="font-size:14px;">'+
+                '<li class="list-group-item d-flex justify-content-between align-items-center" style="font-size:15px;">'+
                     (element.foodName.replace(/\s/g, '')) +
-                    '<span class="badge badge-primary">'+ (element.oneServingCoefficients)+ "食、</td><td>"+ (element.box)+'箱</span>'+
+                    '<table style="width:50px;" id="badgeTable">'+
+                        '<tr>'+
+                            '<td class="text-center bg-info text-white">'+ (element.oneServingCoefficients)+ '食</td>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<td class="text-center bg-secondary text-white">'+ (element.in_one_box)+ '入数</td>'+
+                        '</tr>'+
+                        '<tr>'+
+                            '<td class="text-center bg-success text-white">'+ (element.box)+ '荷姿</td>'+
+                        '</tr>'+
+                    '</table>'+
                 '</li>'
             );
         });

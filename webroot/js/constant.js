@@ -30,4 +30,6 @@ const CHART_BORDER_COLORS = [
     'gray'
 ];
 
-// const SERVER_PATH = SERVER_+"/webOri/"; 
+const MODE_LIVE = 0;
+const MODE_WORK = 1;
+const MODE_DEPO = 2;

@@ -135,8 +135,11 @@ bottom: .5em;
     padding:20px;
 } */
 
-.badge.badge-primary {
-    border-radius: 0px;
+/* #foodNameList table th td {
+    border: 1px solid #cacaca;
+    font-size: 14px;
+} */
+
+#badgeTable  {
     font-size: 13px;
-    font-weight: 500;
 }

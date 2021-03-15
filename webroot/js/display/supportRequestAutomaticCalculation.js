@@ -5,9 +5,14 @@ var AF_CD_listTable = null;
 $("#automaticCalculationBtn").click(function()  {
     $("#basicDisplay").hide();
     $("#autoFreeDisplay").show();
+    $("#AF_listTable tbody").html("");
 
     var rowListHtml = null;
-    postData(SERVER_+"/webOri/users/productFree.json").then(data => {
+    postData(SERVER_+"/webOri/users/productFree.json",{
+        liveAndWork: liveAndWork,
+        selectedDepoId: selectedDepoId,
+        selectedKuName: selectedKuName
+    }).then(data => {
         $.each(data.Items, function()  {
             rowListHtml +=
             '<tr>'+
@@ -52,7 +57,7 @@ $("#AF_requestCheck").click(function()  {
     });
 
     if(selectedRowIds.length === 0)  {
-        alert("リクエストから何か選択してください。");
+        $("#errorBtn").click();
         return false;
     }
 
@@ -67,7 +72,7 @@ $("#AF_requestCheck").click(function()  {
             rowListHtml +=
             '<tr>'+
                 '<th scope="row" width="2%">'+
-                    '<input id="checkBox" type="checkbox" rowId='+ this.id +' />'+
+                    '<input id="checkBox" type="checkbox" checked="true" rowId='+ this.id +' />'+
                 '</th>'+
                 '<td width="25%">'+ this.good_name +'</td>'+
                 '<td width="10%">'+ this.save_date +'</td>'+
@@ -104,10 +109,6 @@ $("#AFD_backBtn").click(function()  {  // omnoh tsonhruu butsah
     $("#autoFreeDisplay").show();
     $("#AF_confirmDisplay").hide();
     $("#AF_subOption option:selected").val();
-});
-
-$("#requestConfirmedBtn").click(function()  {  //batalgaajuulah towch
-    alert("リクエストを受付ました");
 });
 
 $("#autoFreeDisplayBackBtn").click(function()  { //vndsen tsonhruu butsah

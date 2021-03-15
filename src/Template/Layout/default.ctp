@@ -37,6 +37,8 @@
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
 
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+        <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
     </head>
 
     <body>
@@ -45,7 +47,8 @@
         <?= $this->element('footer') ?>
 
         <!-- Vendor JS Files -->
-        
+
+        <?= $this->Html->script('constant.js') ?> 
         <?= $this->Html->script('main.js') ?>
         <?= $this->Html->script('display/function.js') ?>
         <?= $this->Html->script('home.js') ?>

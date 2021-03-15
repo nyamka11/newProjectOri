@@ -109,10 +109,19 @@ class UsersController extends AppController  {
         $liveAndWork = $this->request->getQuery("liveAndWork");
 
         $Table = TableRegistry::getTableLocator()->get('population');
-        $locations = $Table->find()
-        ->select(['県名','市','区','町','latitude','longitude','map_layer_level'])
-        ->where(['live_and_work'=>$liveAndWork])
-        ->group(['県名','市','区','町']);
+        $locations;
+
+        if($liveAndWork == 2)  { //aguulah ni hvn dawhardahgui bolohoor
+            $locations = $Table->find()
+            ->select(['id','県名','市','区','町','場所名前','latitude','longitude','map_layer_level'])
+            ->where(['live_and_work'=>$liveAndWork]);
+        }
+        else {
+            $locations = $Table->find()
+            ->select(['県名','市','区','町','場所名前','latitude','longitude','map_layer_level'])
+            ->where(['live_and_work'=>$liveAndWork])
+            ->group(['県名','市','区','町']);
+        }
 
         $this->set([
             'locations' => $locations,
@@ -129,7 +138,6 @@ class UsersController extends AppController  {
         $timeOption = $this->request->getQuery("timeOption");
         $liveAndWork = $this->request->getQuery("liveAndWork");
 
-     
         $Table = TableRegistry::getTableLocator()->get('population');
 
         $data = array();
@@ -667,7 +675,7 @@ class UsersController extends AppController  {
 
         $connect = ConnectionManager::get('default');
         $menuRows = $connect->query("
-            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients, box FROM menu INNER JOIN foodmaster
+            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients, box, in_one_box FROM menu INNER JOIN foodmaster
             ON menu.foodNumber=foodmaster.foodNumber 
             WHERE menu.name ='{$menuName}'" 
         )->fetchAll('assoc');
@@ -1122,8 +1130,31 @@ class UsersController extends AppController  {
     }
 
     public function productFree()  {
+        $selectedDepoId = $this->request->getQuery("selectedDepoId");
+        $selectedKuName = $this->request->getQuery("selectedKuName");
+        $liveAndWork = $this->request->getQuery("liveAndWork");
+
+        $where = [];
+        if($liveAndWork == 2)  {
+            if($selectedDepoId > 0)  {
+                $where['repo_id'] = $selectedDepoId;
+            }
+    
+            if($selectedDepoId == 0 && $selectedKuName !="")  { //herwee aguulah bish duureg songoson bol duuregeer ni
+                $where['区'] = $selectedKuName;
+            }
+        }
+
         $Table = TableRegistry::getTableLocator()->get('product_free');
-        $Items = $Table->find('all')->order(['good_name'=>'ASC','save_date'=>'ASC','available_count'=>'ASC']);
+        $Items = $Table->find('all')
+        ->join([
+            'table' => 'population',
+            'type' => 'INNER',
+            'alias' => 'pp',
+            'conditions' => 'product_free.repo_id = pp.id'
+        ])
+        ->where($where)
+        ->order(['good_name'=>'ASC','save_date'=>'ASC','available_count'=>'ASC']);
 
         $this->set([
             'Items' => $Items,
