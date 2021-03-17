@@ -54,10 +54,10 @@ function getMenu() {
                             '<td class="text-center bg-info text-white">'+ (element.oneServingCoefficients)+ '食</td>'+
                         '</tr>'+
                         '<tr>'+
-                            '<td class="text-center bg-secondary text-white">'+ (element.in_one_box)+ '袋</td>'+
+                            '<td class="text-center bg-secondary text-white">'+ (element.inOneBox)+ '袋</td>'+
                         '</tr>'+
                         '<tr>'+
-                            '<td class="text-center bg-success text-white">'+ (element.box)+ '箱</td>'+
+                            '<td class="text-center bg-success text-white">'+ (element.boxs)+ '箱</td>'+
                         '</tr>'+
                     '</table>'+
                 '</li>'

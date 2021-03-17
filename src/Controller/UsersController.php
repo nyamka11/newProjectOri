@@ -675,8 +675,11 @@ class UsersController extends AppController  {
 
         $connect = ConnectionManager::get('default');
         $menuRows = $connect->query("
-            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients, box, in_one_box FROM menu INNER JOIN foodmaster
-            ON menu.foodNumber=foodmaster.foodNumber 
+            SELECT foodName, oneServingCoefficient * {$optionPlus} as oneServingCoefficients, 
+            box * {$optionPlus} as boxs , 
+            in_one_box * {$optionPlus} as inOneBox 
+            FROM menu INNER JOIN foodmaster
+            ON menu.foodNumber = foodmaster.foodNumber 
             WHERE menu.name ='{$menuName}'" 
         )->fetchAll('assoc');
 
